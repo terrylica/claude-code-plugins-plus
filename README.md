@@ -1,6 +1,6 @@
 # Claude Code Skills & Plugins Hub
 
-[![Version](https://img.shields.io/badge/version-4.5.0-brightgreen)](000-docs/247-OD-CHNG-changelog.md)
+[![Version](https://img.shields.io/badge/version-4.6.0-brightgreen)](000-docs/247-OD-CHNG-changelog.md)
 [![CLI](https://img.shields.io/badge/CLI-ccpi-blueviolet?logo=npm)](https://www.npmjs.com/package/@intentsolutionsio/ccpi)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-739%20Skills-orange?logo=sparkles)](000-docs/247-OD-CHNG-changelog.md)
 [![Plugins](https://img.shields.io/badge/Total%20Plugins-270-blue)](https://github.com/jeremylongshore/claude-code-plugins-plus-skills)

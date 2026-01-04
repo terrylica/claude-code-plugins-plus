@@ -1,3 +1,34 @@
+## [4.6.0] - 2025-01-04
+
+### 🎯 Release Highlights
+
+**Community Plugin + Bug Fixes** - This release adds the claude-reflect self-learning plugin, fixes critical schema validation errors, and improves homepage UI.
+
+### 🙏 Contributors
+
+- **[@BayramAnnakov](https://github.com/bayramannakov)** - claude-reflect plugin (#241)
+- **[@jleonelion](https://github.com/jleonelion)** - Lab exercise fixes (#239)
+- **[@likeahoss](https://github.com/likeahoss)** - Reported schema validation error (#240)
+
+### 🔌 New Community Plugin
+
+- **claude-reflect** - Self-learning system that captures corrections during sessions and syncs them to CLAUDE.md automatically. Features 3 commands, 2 hooks, and 1 skill.
+
+### 🐛 Bug Fixes
+
+- **Schema Validation (#240)** - Fixed CLI marketplace installation failure by stripping `zcf_metadata` and `external_sync` from marketplace.json
+- **Homepage UI** - Fixed Nixtla marquee banner (SVG rendering) and What's Live Now section layout
+- **claude-reflect Skill** - Added 2025 schema compliant frontmatter (allowed-tools, version)
+
+### 📊 Statistics
+
+| Metric | v4.5.0 | v4.6.0 | Change |
+|--------|--------|--------|--------|
+| Plugins | 269 | 270 | +1 |
+| Skills | 739 | 740 | +1 |
+
+---
+
 ## [4.5.0] - 2025-01-03
 
 ### 🎯 Release Highlights
