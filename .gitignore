@@ -97,3 +97,4 @@ workspace/
 .beads/*.db-shm
 .beads/daemon.*
 .beads/.local_version
+reports/
