@@ -58,17 +58,21 @@ jobs:
         with:
           workload_identity_provider: 'projects/348333126402/locations/global/workloadIdentityPools/github-actions/providers/github'
           service_account: 'github-actions-firebase@claude-code-plugins-io.iam.gserviceaccount.com'
+          token_format: 'access_token'
 
-      - name: Setup Firebase CLI
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
       - name: Deploy to Firebase Hosting
         run: |
-          # Firebase CLI uses GOOGLE_APPLICATION_CREDENTIALS automatically
-          firebase deploy --only hosting --project claude-code-plugins-io --non-interactive
+          # Get access token from gcloud (authenticated via WIF)
+          ACCESS_TOKEN=$(gcloud auth print-access-token)
 
-      - name: Output deployment URL
-        run: |
-          echo "Deployed to:"
-          echo "  - https://claudecodeplugins.io"
-          echo "  - https://claude-code-plugins-io.web.app"
+          # Use access token with Firebase CLI
+          firebase deploy --only hosting \
+            --project claude-code-plugins-io \
+            --non-interactive \
+            --token "$ACCESS_TOKEN"
