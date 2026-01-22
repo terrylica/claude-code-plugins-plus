@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "1.0.0",
-    "generated": "2026-01-20T14:36:51.366Z",
+    "generated": "2026-01-22T05:32:47.383Z",
     "generator": "scripts/generate-unified-search.mjs"
   },
   "stats": {
-    "totalPlugins": 282,
-    "totalSkills": 549,
-    "totalItems": 831,
+    "totalPlugins": 283,
+    "totalSkills": 550,
+    "totalItems": 833,
     "categories": [
       "ai-agency",
       "ai-ml",
@@ -6253,6 +6253,28 @@
       "searchText": "gh dash github pr dashboard for claude code. view pr status, ci/cd progress, bot comments, and merge prs directly from your terminal. devops "
     },
     {
+      "type": "plugin",
+      "id": "brand-strategy-framework",
+      "slug": "brand-strategy-framework",
+      "name": "brand-strategy-framework",
+      "displayName": "brand strategy framework",
+      "description": "A 7-part brand strategy framework for building comprehensive brand foundations - the same methodology top agencies use with Fortune 500 clients.",
+      "category": "business-tools",
+      "tags": [],
+      "author": {
+        "name": "Rowan Brooks",
+        "email": "rowanbrooks100@github.com"
+      },
+      "version": "1.0.0",
+      "isFeatured": false,
+      "isNew": true,
+      "badges": [
+        "new"
+      ],
+      "skillCount": 1,
+      "searchText": "brand strategy framework a 7-part brand strategy framework for building comprehensive brand foundations - the same methodology top agencies use with fortune 500 clients. business-tools "
+    },
+    {
       "type": "skill",
       "id": "000-jeremy-content-consistency-validator",
       "slug": "000-jeremy-content-consistency-validator",
@@ -7181,6 +7203,21 @@
         "category": "crypto"
       },
       "searchText": "backtesting-trading-strategies backtest crypto and traditional trading strategies against historical data. calculates performance metrics (sharpe, sortino, max drawdown), generates equity curves, and optimizes strategy parameters. use when user wants to test a trading strategy, validate signals, or compare approaches. trigger with phrases like \"backtest strategy\", \"test trading strategy\", \"historical performance\", \"simulate trades\", \"optimize parameters\", or \"validate signals\". allowed-tools: read, write, edit, grep, glob, bash(python:*) version: 2.0.0 author: jeremy longshore <jeremy@intentsolutions.io> license: mit crypto "
+    },
+    {
+      "type": "skill",
+      "id": "brand-strategy",
+      "slug": "brand-strategy",
+      "name": "brand-strategy",
+      "description": "A 7-part brand strategy framework for building comprehensive brand foundations. Trigger with phrases like \"create brand strategy\", \"build brand brief\", \"define brand positioning\", \"brand messaging\", \"audience architecture\", \"brand truth\", or \"go-to-market brand plan\". version: 1.0.0 author: Rowan Brooks <rowanbrooks100@github.com> license: MIT allowed-tools: Read, Write, Edit, Glob, Grep",
+      "category": "business-tools",
+      "allowedTools": [],
+      "version": "1.0.0",
+      "parentPlugin": {
+        "name": "brand-strategy-framework",
+        "category": "business-tools"
+      },
+      "searchText": "brand-strategy a 7-part brand strategy framework for building comprehensive brand foundations. trigger with phrases like \"create brand strategy\", \"build brand brief\", \"define brand positioning\", \"brand messaging\", \"audience architecture\", \"brand truth\", or \"go-to-market brand plan\". version: 1.0.0 author: rowan brooks <rowanbrooks100@github.com> license: mit allowed-tools: read, write, edit, glob, grep business-tools "
     },
     {
       "type": "skill",

@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "1.0.0",
-    "generated": "2026-01-20T14:36:51.274Z",
+    "generated": "2026-01-22T05:32:47.271Z",
     "source": "marketplace.extended.json",
     "generator": "scripts/sync-catalog.mjs"
   },
   "stats": {
-    "totalPlugins": 282,
-    "totalSkills": 348,
+    "totalPlugins": 283,
+    "totalSkills": 349,
     "totalCommands": 59,
-    "pluginsWithSkills": 42,
+    "pluginsWithSkills": 43,
     "byCategory": {
       "productivity": 17,
       "security": 28,
@@ -25,7 +25,7 @@
       "database": 28,
       "design": 1,
       "ai-agency": 6,
-      "business-tools": 4,
+      "business-tools": 5,
       "fullstack": 1,
       "example": 3,
       "finance": 1,
@@ -35,12 +35,12 @@
       "development": 1
     },
     "byStatus": {
-      "active": 263,
+      "active": 264,
       "maintained": 19
     },
     "featured": 2,
-    "new": 261,
-    "generatedAt": "2026-01-20T14:36:51.274Z"
+    "new": 262,
+    "generatedAt": "2026-01-22T05:32:47.271Z"
   },
   "plugins": [
     {
@@ -9531,6 +9531,42 @@
       "author": {
         "name": "Jake Kozloski",
         "email": "jakozloski@gmail.com"
+      },
+      "type": "instruction-plugin"
+    },
+    {
+      "slug": "brand-strategy-framework",
+      "name": "brand-strategy-framework",
+      "displayName": "brand strategy framework",
+      "description": "A 7-part brand strategy framework for building comprehensive brand foundations - the same methodology top agencies use with Fortune 500 clients.",
+      "version": "1.0.0",
+      "category": "business-tools",
+      "keywords": [
+        "brand-strategy",
+        "marketing",
+        "branding",
+        "positioning",
+        "messaging",
+        "brand-guidelines",
+        "audience-architecture",
+        "brand-identity"
+      ],
+      "hasSkills": true,
+      "skillCount": 1,
+      "commandCount": 0,
+      "installCommand": "/plugin install brand-strategy-framework",
+      "sourcePath": "./plugins/business-tools/brand-strategy-framework",
+      "lastUpdatedEpoch": 1769059967,
+      "lastUpdatedDate": "2026-01-22T05:32:47.271Z",
+      "status": "active",
+      "badges": [
+        "new"
+      ],
+      "isFeatured": false,
+      "isNew": true,
+      "author": {
+        "name": "Rowan Brooks",
+        "email": "rowanbrooks100@github.com"
       },
       "type": "instruction-plugin"
     }
