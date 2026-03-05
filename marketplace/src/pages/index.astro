@@ -106,6 +106,17 @@ const totalCategories = searchIndex.stats.categories.length;
             background-clip: text;
         }
 
+        .hero-byline {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: var(--brand-mid-gray);
+            letter-spacing: 0.08em;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s var(--transition-smooth) 0.15s forwards;
+            opacity: 0;
+        }
+
         .hero-subtitle {
             font-family: 'Lora', Georgia, serif;
             font-size: clamp(1.15rem, 2.5vw, 1.5rem);
@@ -1132,12 +1143,12 @@ const totalCategories = searchIndex.stats.categories.length;
       "@type": "WebSite",
       "name": "Claude Code Plugins Marketplace",
       "description": "Search agent skills with fuzzy search. Browse plugins. Interactive tutorials and production workflows.",
-      "url": "https://claudecodeplugins.io",
+      "url": "https://tonsofskills.com",
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://claudecodeplugins.io/?stack={search_term_string}"
+          "urlTemplate": "https://tonsofskills.com/?stack={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       },
@@ -1169,7 +1180,7 @@ const totalCategories = searchIndex.stats.categories.length;
       },
       "description": "295 plugins for Claude Code with 1,537 agent skills, interactive tutorials, and production workflows. Supports 2026 schema.",
       "softwareVersion": "4.14.0",
-      "url": "https://claudecodeplugins.io",
+      "url": "https://tonsofskills.com",
       "downloadUrl": "https://github.com/jeremylongshore/claude-code-plugins",
       "applicationSuite": "Claude Code",
       "featureList": [
@@ -1188,6 +1199,7 @@ const totalCategories = searchIndex.stats.categories.length;
     <!-- Hero Section -->
     <section class="hero">
         <h1>The Ultimate<br><span>Claude Code</span> Skills Hub</h1>
+        <p class="hero-byline">by intent solutions io</p>
         <p class="hero-subtitle">
             Search {totalSkills} skills embedded in {totalPlugins} plugins. Learn with interactive tutorials. All open source and production-ready.
         </p>
