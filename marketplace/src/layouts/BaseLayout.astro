@@ -129,13 +129,13 @@ const { title, description = "Browse 244 searchable agent skills and 259 plugins
             --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
+        :global(*), :global(*::before), :global(*::after) {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html, body {
+        :global(html), :global(body) {
             overflow-x: hidden;
             max-width: 100%;
             scroll-behavior: smooth;
