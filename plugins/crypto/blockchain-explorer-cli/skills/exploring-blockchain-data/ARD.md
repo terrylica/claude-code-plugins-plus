@@ -25,7 +25,7 @@ Script Automation with Multi-Provider Fallback
 │                     chain_client.py                              │
 │  ┌─────────────────────────────────────────────────────────────┐│
 │  │ ChainClient: Multi-chain RPC + Explorer API abstraction     ││
-│  │   - Ethereum (Etherscan + RPC provider)                     ││
+│  │   - Ethereum (Etherscan + Infura)                           ││
 │  │   - Polygon (Polygonscan + RPC)                             ││
 │  │   - BSC (BSCScan + RPC)                                     ││
 │  │   - Arbitrum, Optimism, Base, Avalanche                     ││
@@ -35,7 +35,7 @@ Script Automation with Multi-Provider Fallback
               ┌───────────────┼───────────────┐
               ▼               ▼               ▼
        ┌───────────┐   ┌───────────┐   ┌───────────┐
-       │ Etherscan │   │  Provider │   │ CoinGecko │
+       │ Etherscan │   │   Infura  │   │ CoinGecko │
        │    API    │   │    RPC    │   │    API    │
        └───────────┘   └───────────┘   └───────────┘
 ```
@@ -53,11 +53,9 @@ Script Automation with Multi-Provider Fallback
 | Level | Content | Location |
 |-------|---------|----------|
 | L1: Quick Start | CLI examples, common queries | SKILL.md |
-| L2: Runtime Config | API keys, built-in chain endpoints | scripts/chain_client.py |
+| L2: Configuration | API keys, chain endpoints | config/settings.yaml |
 | L3: Implementation | Multi-chain routing, caching | references/implementation.md |
 | L4: Advanced | Custom RPC, ABI decoding | references/examples.md |
-
-Note: `config/settings.yaml` is provided as a reference template and is not auto-loaded by the current CLI scripts.
 
 ## Directory Structure
 
@@ -77,7 +75,7 @@ skills/exploring-blockchain-data/
 │   ├── examples.md             # Usage examples
 │   └── implementation.md       # Implementation details
 └── config/
-    └── settings.yaml           # Reference template (not auto-loaded)
+    └── settings.yaml           # Configuration
 ```
 
 ## API Integration Architecture
@@ -94,7 +92,7 @@ GET /api?module=contract&action=getabi&address={contract}
 GET /api?module=account&action=tokentx&address={addr}
 ```
 
-### Secondary: RPC (provider-agnostic JSON-RPC calls)
+### Secondary: RPC (Infura/Alchemy)
 ```python
 # Real-time balance
 eth_getBalance(address, 'latest')
