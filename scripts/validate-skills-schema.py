@@ -54,6 +54,7 @@ VALID_TOOLS = {
 ANTHROPIC_REQUIRED = {'name', 'description'}
 
 # Enterprise required fields (Intent Solutions marketplace)
+# Note: author, version, license can be top-level OR under metadata: per AgentSkills.io spec
 ENTERPRISE_REQUIRED = {'allowed-tools', 'version', 'author', 'license'}
 
 # All required fields (Anthropic + Enterprise)
@@ -867,9 +868,16 @@ def validate_frontmatter(path: Path, fm: dict) -> Tuple[List[str], List[str]]:
     warnings: List[str] = []
 
     # === REQUIRED FIELDS (Anthropic + Enterprise) ===
+    # Per AgentSkills.io spec, author/version/license can live under metadata:
+    # Accept both top-level and metadata.{field} locations
+
+    metadata = fm.get('metadata', {}) if isinstance(fm.get('metadata'), dict) else {}
 
     for key in REQUIRED_FIELDS:
         if key not in fm:
+            # Check metadata fallback for author, version, license
+            if key in ('author', 'version', 'license') and key in metadata:
+                continue  # Found in metadata block — valid per spec
             errors.append(f"[frontmatter] Missing required field: '{key}'")
 
     # === FIELD-SPECIFIC VALIDATION ===
