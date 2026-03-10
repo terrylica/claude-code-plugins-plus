@@ -210,10 +210,38 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
       flex: 1;
     }
 
-    .compare-toggle-btn {
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
       position: absolute;
       bottom: 1rem;
       right: 1rem;
+    }
+
+    .install-copy-btn {
+      padding: 0.4rem 0.75rem;
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--surface);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', system-ui, sans-serif;
+    }
+
+    .install-copy-btn:hover {
+      background: var(--brand-orange-dark);
+      border-color: var(--brand-orange-dark);
+    }
+
+    .install-copy-btn.copied {
+      background: #10b981;
+      border-color: #10b981;
+    }
+
+    .compare-toggle-btn {
       padding: 0.4rem 0.75rem;
       background: var(--surface-3);
       border: 1px solid var(--brand-light-gray);
@@ -224,6 +252,7 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
       cursor: pointer;
       transition: all 0.2s;
       font-family: 'DM Sans', system-ui, sans-serif;
+      position: static;
     }
 
     .compare-toggle-btn:hover {
@@ -402,6 +431,16 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
       font-family: 'DM Mono', monospace;
     }
 
+    .keyword-tag {
+      padding: 0.25rem 0.6rem;
+      background: rgba(106, 155, 204, 0.1);
+      color: var(--brand-blue);
+      font-size: 0.7rem;
+      font-weight: 600;
+      border-radius: 4px;
+      font-family: 'DM Sans', system-ui, sans-serif;
+    }
+
     .no-results {
       text-align: center;
       padding: 4rem 2rem;
@@ -539,6 +578,13 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
         ))}
       </select>
 
+      <select id="keyword-filter" class="filter-select">
+        <option value="">All Keywords</option>
+        {(searchIndex.stats.allKeywords || []).map(kw => (
+          <option value={kw}>{kw.replace(/-/g, ' ')}</option>
+        ))}
+      </select>
+
       <select id="tool-filter" class="filter-select">
         <option value="">All Tools</option>
         {searchIndex.stats.skillTools.map(tool => (
@@ -572,6 +618,7 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
           data-type={item.type}
           data-category={item.category}
           data-tools={item.type === 'skill' ? JSON.stringify(item.allowedTools) : '[]'}
+          data-keywords={JSON.stringify(item.keywords || [])}
           data-item-id={item.id || item.name}
           data-item-name={item.displayName || item.name}
           data-featured={item.isFeatured || false}
@@ -612,6 +659,17 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
               <div class="result-category">{item.category.replace(/-/g, ' ')}</div>
             </div>
 
+            {item.type === 'plugin' && item.keywords && item.keywords.length > 0 && (
+              <div class="result-tools">
+                {item.keywords.slice(0, 4).map(kw => (
+                  <span class="keyword-tag">{kw.replace(/-/g, ' ')}</span>
+                ))}
+                {item.keywords.length > 4 && (
+                  <span class="keyword-tag">+{item.keywords.length - 4} more</span>
+                )}
+              </div>
+            )}
+
             {item.type === 'skill' && item.allowedTools && item.allowedTools.length > 0 && (
               <div class="result-tools">
                 {item.allowedTools.slice(0, 4).map(tool => (
@@ -624,15 +682,24 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
             )}
           </a>
 
-          <button
-            class="compare-toggle-btn"
-            data-compare-id={item.id || item.name}
-            data-compare-name={item.displayName || item.name}
-            data-compare-type={item.type}
-            title="Add to comparison"
-          >
-            + Compare
-          </button>
+          <div class="card-actions">
+            <button
+              class="install-copy-btn"
+              data-install-cmd={`/plugin install ${item.type === 'plugin' ? item.name : (item.parentPlugin?.name || item.name)}@claude-code-plugins-plus`}
+              title="Copy install command"
+            >
+              Install
+            </button>
+            <button
+              class="compare-toggle-btn"
+              data-compare-id={item.id || item.name}
+              data-compare-name={item.displayName || item.name}
+              data-compare-type={item.type}
+              title="Add to comparison"
+            >
+              + Compare
+            </button>
+          </div>
         </div>
       ))}
     </div>
@@ -647,7 +714,7 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
     const resultsInfo = document.getElementById('results-info');
 
     const fuse = new Fuse(allItems, {
-      keys: ['name', 'description', 'category', 'searchText'],
+      keys: ['name', 'description', 'category', 'keywords', 'searchText'],
       threshold: 0.3,
       includeScore: true
     });
@@ -655,6 +722,7 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
     let activeFilters = {
       type: 'all',
       category: null,
+      keyword: null,
       tool: null,
       search: '',
       sort: 'relevance'
@@ -681,6 +749,13 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
       // Apply category filter
       if (activeFilters.category) {
         filtered = filtered.filter(item => item.category === activeFilters.category);
+      }
+
+      // Apply keyword filter (plugins only)
+      if (activeFilters.keyword) {
+        filtered = filtered.filter(item =>
+          item.keywords && item.keywords.includes(activeFilters.keyword)
+        );
       }
 
       // Apply tool filter (skills only)
@@ -720,6 +795,7 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
       if (activeFilters.search) params.set('q', activeFilters.search);
       if (activeFilters.type !== 'all') params.set('type', activeFilters.type);
       if (activeFilters.category) params.set('category', activeFilters.category);
+      if (activeFilters.keyword) params.set('keyword', activeFilters.keyword);
       if (activeFilters.sort !== 'relevance') params.set('sort', activeFilters.sort);
 
       const newURL = params.toString()
@@ -835,6 +911,15 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
         }
       });
 
+      // Keyword filter
+      document.getElementById('keyword-filter').addEventListener('change', (e) => {
+        activeFilters.keyword = e.target.value || null;
+        applyFilters();
+        if (window.trackEvent && activeFilters.keyword) {
+          window.trackEvent('filter_applied', { filter_type: 'keyword', value: activeFilters.keyword });
+        }
+      });
+
       // Tool filter
       document.getElementById('tool-filter').addEventListener('change', (e) => {
         activeFilters.tool = e.target.value || null;
@@ -860,6 +945,12 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
       if (categoryParam) {
         activeFilters.category = categoryParam;
         document.getElementById('category-filter').value = categoryParam;
+      }
+
+      const keywordParam = urlParams.get('keyword');
+      if (keywordParam) {
+        activeFilters.keyword = keywordParam;
+        document.getElementById('keyword-filter').value = keywordParam;
       }
 
       if (sortParam && ['relevance', 'a-z', 'z-a', 'category'].includes(sortParam)) {
@@ -957,9 +1048,10 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
 
       // Clear all filters function
       window.clearAllFilters = () => {
-        activeFilters = { type: 'all', category: null, tool: null, search: '', sort: 'relevance' };
+        activeFilters = { type: 'all', category: null, keyword: null, tool: null, search: '', sort: 'relevance' };
         document.getElementById('main-search').value = '';
         document.getElementById('category-filter').value = '';
+        document.getElementById('keyword-filter').value = '';
         document.getElementById('tool-filter').value = '';
         document.getElementById('sort-filter').value = 'relevance';
         document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
@@ -985,6 +1077,22 @@ const pageDescription = `Search all ${searchIndex.stats.totalPlugins} plugins an
       if (window.CompareManager) {
         window.CompareManager.updateCardStates();
       }
+
+      // Add click handlers to install buttons
+      document.querySelectorAll('.install-copy-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const cmd = btn.dataset.installCmd;
+          navigator.clipboard.writeText(cmd).then(() => {
+            const original = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+            if (window.trackEvent) window.trackEvent('install_copied', { plugin_name: cmd, source: 'explore_card' });
+          });
+        });
+      });
 
       // Add click handlers to compare buttons
       document.querySelectorAll('.compare-toggle-btn').forEach(btn => {
