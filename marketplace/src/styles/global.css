@@ -214,6 +214,19 @@ pre code {
   outline-offset: 2px;
 }
 
+/* Theme-aware scrollbar */
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: var(--surface-2);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-3);
+}
+
 /* Loading state */
 .loading {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;

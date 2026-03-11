@@ -29,6 +29,7 @@ Version: 3.0.0
 """
 
 import argparse
+import json as json_module
 import re
 import sys
 from pathlib import Path
@@ -61,7 +62,7 @@ ENTERPRISE_REQUIRED = {'allowed-tools', 'version', 'author', 'license'}
 REQUIRED_FIELDS = ANTHROPIC_REQUIRED | ENTERPRISE_REQUIRED
 
 # Optional fields per Anthropic spec
-OPTIONAL_FIELDS = {'model', 'disable-model-invocation', 'mode', 'tags', 'metadata'}
+OPTIONAL_FIELDS = {'model', 'disable-model-invocation', 'mode', 'tags', 'metadata', 'compatible-with'}
 
 # Deprecated fields (warn but don't error)
 DEPRECATED_FIELDS = {'when_to_use'}
@@ -1048,6 +1049,24 @@ def validate_frontmatter(path: Path, fm: dict) -> Tuple[List[str], List[str]]:
         elif not all(isinstance(t, str) for t in tags):
             errors.append("[frontmatter] 'tags' must contain only strings")
 
+    # === COMPATIBLE-WITH FIELD ===
+    VALID_PLATFORMS = {'claude-code', 'codex', 'openclaw', 'aider', 'continue', 'cursor', 'windsurf'}
+
+    if 'compatible-with' in fm:
+        compat = fm['compatible-with']
+        if isinstance(compat, str):
+            # CSV string
+            platforms = [p.strip().lower() for p in compat.split(',')]
+        elif isinstance(compat, list):
+            platforms = [str(p).strip().lower() for p in compat]
+        else:
+            errors.append(f"[frontmatter] 'compatible-with' must be CSV string or array, got: {type(compat).__name__}")
+            platforms = []
+
+        for p in platforms:
+            if p and p not in VALID_PLATFORMS:
+                warnings.append(f"[frontmatter] 'compatible-with' unknown platform: '{p}' (known: {', '.join(sorted(VALID_PLATFORMS))})")
+
     # === DEPRECATED FIELDS ===
 
     for field in DEPRECATED_FIELDS:
@@ -1751,6 +1770,11 @@ def main() -> int:
         action="store_true",
         help="Only validate agent files",
     )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output machine-readable JSON with per-skill scoring data",
+    )
     args, _unknown = parser.parse_known_args()
     verbose = args.verbose
 
@@ -1769,16 +1793,17 @@ def main() -> int:
         print("No files found to validate.")
         return 0
 
-    print(f"🔍 CLAUDE CODE PLUGIN VALIDATOR v3.0")
-    print(f"   Intent Solutions Standard (100-Point Grading)")
-    print(f"{'=' * 70}\n")
-    if validate_skills:
-        print(f"Found {len(skills)} SKILL.md files")
-    if validate_commands:
-        print(f"Found {len(commands)} command files")
-    if validate_agents:
-        print(f"Found {len(agents)} agent files")
-    print()
+    if not args.json:
+        print(f"🔍 CLAUDE CODE PLUGIN VALIDATOR v3.0")
+        print(f"   Intent Solutions Standard (100-Point Grading)")
+        print(f"{'=' * 70}\n")
+        if validate_skills:
+            print(f"Found {len(skills)} SKILL.md files")
+        if validate_commands:
+            print(f"Found {len(commands)} command files")
+        if validate_agents:
+            print(f"Found {len(agents)} agent files")
+        print()
 
     total_errors = 0
     total_warnings = 0
@@ -1794,15 +1819,21 @@ def main() -> int:
     below_min_grade = []  # Skills below --min-grade threshold
 
     grade_thresholds = {'A': 90, 'B': 80, 'C': 70, 'D': 60}
+    json_skill_results = []  # Collected for --json output
 
     for skill in skills:
         rel = skill.relative_to(repo_root)
         result = validate_skill(skill)
 
         if 'fatal' in result:
-            print(f"❌ {rel}: FATAL - {result['fatal']}")
+            if not args.json:
+                print(f"❌ {rel}: FATAL - {result['fatal']}")
             total_errors += 1
             files_with_errors.append(str(rel))
+            json_skill_results.append({
+                'path': str(rel),
+                'fatal': result['fatal'],
+            })
             continue
 
         has_issues = False
@@ -1813,6 +1844,14 @@ def main() -> int:
         letter = grade_info.get('grade', 'F')
         grade_counts[letter] += 1
         grade_scores.append(score)
+
+        json_skill_results.append({
+            'path': str(rel),
+            'score': score,
+            'grade': letter,
+            'errors': len(result.get('errors', [])),
+            'warnings': len(result.get('warnings', [])),
+        })
 
         # Check min-grade threshold
         if args.min_grade:
@@ -1825,30 +1864,37 @@ def main() -> int:
             low_grade_skills.append((str(rel), score, letter, grade_info.get('breakdown', {})))
 
         if result['errors']:
-            print(f"❌ {rel}:")
-            for error in result['errors']:
-                print(f"   ERROR: {error}")
+            if not args.json:
+                print(f"❌ {rel}:")
+                for error in result['errors']:
+                    print(f"   ERROR: {error}")
             total_errors += len(result['errors'])
             files_with_errors.append(str(rel))
             has_issues = True
 
         if result['warnings']:
-            if not has_issues:
-                print(f"⚠️  {rel}:")
-            for warning in result['warnings']:
-                print(f"   WARN: {warning}")
+            if not args.json:
+                if not has_issues:
+                    print(f"⚠️  {rel}:")
+                for warning in result['warnings']:
+                    print(f"   WARN: {warning}")
             total_warnings += len(result['warnings'])
             if str(rel) not in files_with_errors:
                 files_with_warnings.append(str(rel))
             has_issues = True
 
-        if verbose and not has_issues:
+        if verbose and not has_issues and not args.json:
             print(f"✅ {rel} - {letter} ({score}/100) ({result['word_count']} words, {result['line_count']} lines)")
 
         if not result['errors'] and not result['warnings']:
             files_compliant.append(str(rel))
 
         total_description_chars += int(result.get("description_length") or 0)
+
+    # JSON output mode: emit machine-readable results and exit
+    if args.json:
+        print(json_module.dumps(json_skill_results))
+        return 0
 
     # Validate commands
     for cmd in commands:

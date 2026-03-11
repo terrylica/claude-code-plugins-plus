@@ -82,7 +82,7 @@ const allPlugins = manifest?.plugins || [];
 
     /* Mega download banner */
     .mega-banner {
-      background: white;
+      background: var(--card);
       border: 3px solid var(--brand-blue, #6a9bcc);
       border-radius: 16px;
       padding: 2rem;
@@ -171,7 +171,7 @@ const allPlugins = manifest?.plugins || [];
 
     /* Security section */
     .security-banner {
-      background: #f0fdf4;
+      background: var(--surface-2);
       border: 2px solid #86efac;
       border-radius: 12px;
       padding: 1.5rem 2rem;
@@ -227,7 +227,7 @@ const allPlugins = manifest?.plugins || [];
     .setup-step {
       text-align: center;
       padding: 1.5rem;
-      background: white;
+      background: var(--card);
       border-radius: 12px;
       border: 1px solid var(--brand-light-gray, #e5e7eb);
     }
@@ -292,7 +292,7 @@ const allPlugins = manifest?.plugins || [];
       align-items: center;
       gap: 0.5rem;
       padding: 0.6rem 1.2rem;
-      background: white;
+      background: var(--card);
       color: #92400e;
       border: 2px solid #f59e0b;
       border-radius: 8px;
@@ -322,7 +322,7 @@ const allPlugins = manifest?.plugins || [];
       font-size: 1rem;
       outline: none;
       transition: border-color 0.2s;
-      background: white url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") no-repeat 0.75rem center;
+      background: var(--card) url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") no-repeat 0.75rem center;
     }
 
     .plugin-search-input:focus {
@@ -343,7 +343,7 @@ const allPlugins = manifest?.plugins || [];
       align-items: center;
       justify-content: space-between;
       padding: 0.75rem 1rem;
-      background: white;
+      background: var(--card);
       border: 1px solid var(--brand-light-gray, #e5e7eb);
       border-radius: 8px;
       gap: 0.5rem;
@@ -486,7 +486,7 @@ const allPlugins = manifest?.plugins || [];
       <ul class="security-list">
         <li>All plugins are open source (MIT licensed)</li>
         <li>SHA-256 checksums in manifest.json</li>
-        <li>No executables - text/markdown files only</li>
+        <li>No binary executables - markdown + config files only</li>
         <li>No API keys or secrets included</li>
         <li>Built from verified GitHub source</li>
         <li>Zero dependencies for AI instruction plugins</li>

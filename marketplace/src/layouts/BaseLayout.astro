@@ -20,6 +20,11 @@ const { title, description = "Browse 244 searchable agent skills and 259 plugins
     <link rel="canonical" content={`https://tonsofskills.com${Astro.url.pathname}`}>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
+    <!-- Theme: prevent FOUC by setting data-theme before first paint -->
+    <script is:inline>
+      (function(){var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();
+    </script>
+
     <!-- Security Headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
@@ -117,6 +122,10 @@ const { title, description = "Browse 244 searchable agent skills and 259 plugins
             --text-2: #8b949e;
             --text-3: #6e7681;
 
+            /* Cards */
+            --card: #ffffff;
+            --card-hover: #f6f8fa;
+
             /* Status */
             --positive: #3fb950;
             --warning:  #d29922;
@@ -138,6 +147,49 @@ const { title, description = "Browse 244 searchable agent skills and 259 plugins
             --brand-green:        #3fb950;        /* was #788c5d → positive */
 
             --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ========================================
+           LIGHT THEME OVERRIDES
+           ======================================== */
+        :global([data-theme="light"]) {
+            /* Core surface palette */
+            --surface:   #f0f2f5;
+            --surface-1: #ffffff;
+            --surface-2: #f6f8fa;
+            --surface-3: #eaeef2;
+
+            /* Brand accents (adjusted for light bg contrast) */
+            --gold:  #B8860B;
+
+            /* Borders */
+            --border:        #d0d7de;
+            --border-bright: #afb8c1;
+
+            /* Text */
+            --text:   #1f2328;
+            --text-2: #656d76;
+            --text-3: #8b949e;
+
+            /* Cards */
+            --card: #ffffff;
+            --card-hover: #f6f8fa;
+
+            /* Status */
+            --positive: #1a7f37;
+            --warning:  #9a6700;
+            --danger:   #cf222e;
+
+            /* Legacy brand-* aliases for light-native pages */
+            --brand-dark:         #1f2328;
+            --brand-light:        #ffffff;
+            --brand-mid-gray:     #656d76;
+            --brand-light-gray:   #d0d7de;
+            --brand-orange:       #d97757;
+            --brand-orange-dark:  #c45e3e;
+            --brand-orange-light: #e8937a;
+            --brand-blue:         #0969da;
+            --brand-green:        #1a7f37;
         }
 
         :global(*), :global(*::before), :global(*::after) {
@@ -263,6 +315,40 @@ const { title, description = "Browse 244 searchable agent skills and 259 plugins
             color: white !important;
             transform: translateY(-2px);
         }
+
+        /* Nav Right (toggle + hamburger) */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-2);
+            cursor: pointer;
+            transition: all 0.2s var(--transition-smooth);
+        }
+
+        .theme-toggle:hover {
+            color: var(--gold);
+            border-color: var(--gold);
+            background: rgba(234, 170, 0, 0.1);
+        }
+
+        /* Show sun in dark mode, moon in light mode */
+        .theme-icon-sun { display: block; }
+        .theme-icon-moon { display: none; }
+        :global([data-theme="light"]) .theme-icon-sun { display: none; }
+        :global([data-theme="light"]) .theme-icon-moon { display: block; }
 
         /* Mobile Menu */
         .mobile-menu-toggle {
@@ -423,6 +509,11 @@ const { title, description = "Browse 244 searchable agent skills and 259 plugins
                 <span class="logo-subtitle">by intent solutions io</span>
             </div>
         </a>
+        <div class="nav-right">
+        <button class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+            <svg class="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
         <button class="mobile-menu-toggle" aria-label="Toggle menu">
             <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -441,6 +532,7 @@ const { title, description = "Browse 244 searchable agent skills and 259 plugins
             <li><a href="/cowork">Cowork</a></li>
             <li><a href="https://github.com/jeremylongshore/claude-code-plugins" target="_blank" class="nav-cta">GitHub</a></li>
         </ul>
+        </div>
     </nav>
 
     <!-- Main Content -->
@@ -495,6 +587,43 @@ const { title, description = "Browse 244 searchable agent skills and 259 plugins
             <p style="margin-top: 0.5rem; font-size: 0.75rem;">Sponsored by <a href="https://nixtla.io" target="_blank">nixtla.io</a></p>
         </div>
     </footer>
+
+    <!-- Light theme global overrides (must be unscoped to target body/nav/footer) -->
+    <style is:global>
+        [data-theme="light"] body {
+            background-color: var(--surface-2);
+        }
+        [data-theme="light"] nav {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        [data-theme="light"] footer {
+            background: var(--surface-3);
+        }
+    </style>
+
+    <!-- Theme Toggle Script -->
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', function() {
+            var themeToggle = document.querySelector('.theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    var current = document.documentElement.getAttribute('data-theme') || 'dark';
+                    var next = current === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                    // Update meta theme-color
+                    var meta = document.querySelector('meta[name="theme-color"]');
+                    if (meta) meta.setAttribute('content', next === 'dark' ? '#5436DA' : '#0C2340');
+                });
+            }
+            // Listen for system preference changes
+            window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+                if (!localStorage.getItem('theme')) {
+                    document.documentElement.setAttribute('data-theme', e.matches ? 'light' : 'dark');
+                }
+            });
+        });
+    </script>
 
     <!-- Mobile Menu Script -->
     <script is:inline>
