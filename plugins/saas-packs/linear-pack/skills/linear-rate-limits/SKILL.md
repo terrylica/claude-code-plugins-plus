@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Linear Rate Limits
 
 ## Overview
@@ -24,11 +23,11 @@ Understand and handle Linear API rate limits for reliable integrations.
 - Familiarity with async patterns
 
 ## Instructions
-- Step 1: Basic Rate Limit Handler
-- Step 2: Exponential Backoff
-- Step 3: Request Queue
-- Step 4: Batch Operations
-- Step 5: Query Optimization
+1. Step 1: Basic Rate Limit Handler
+2. Step 2: Exponential Backoff
+3. Step 3: Request Queue
+4. Step 4: Batch Operations
+5. Step 5: Query Optimization
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -54,3 +53,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Learn security best practices with `linear-security-basics`.
+
+## Examples
+
+**Basic usage**: Apply linear rate limits to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize linear rate limits for production environments with multiple constraints and team-specific requirements.

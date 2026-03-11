@@ -4,14 +4,13 @@ description: |
   Automate database backup processes with scheduling, compression, and encryption.
   Supports PostgreSQL (pg_dump), MySQL (mysqldump), MongoDB (mongodump), and SQLite.
   Generates production-ready backup scripts with retention policies and restore procedures.
-  Trigger: "automate database backups", "schedule backups", "create backup script", "disaster recovery".
+  Trigger: "automate database backups", "schedule backups", "create backup script", "disaster recovery". Use when working with automating database backups. Trigger with 'automating', 'database', 'backups'.
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash(pg_dump:*), Bash(mysqldump:*), Bash(mongodump:*), Bash(cron:*), Bash(gpg:*)
 version: 2.0.0
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Database Backup Automation
 
 Generate production-ready backup scripts for PostgreSQL, MySQL, MongoDB, and SQLite with compression, encryption, scheduling, and retention policies.
@@ -21,6 +20,7 @@ Generate production-ready backup scripts for PostgreSQL, MySQL, MongoDB, and SQL
 ### PostgreSQL Backup
 ```bash
 #!/bin/bash
+set -euo pipefail
 BACKUP_DIR="/var/backups/postgresql"
 DB_NAME="mydb"
 DATE=$(date +%Y%m%d_%H%M%S)
@@ -53,7 +53,7 @@ mysqldump -h localhost -u root -p"${MYSQL_PASSWORD}" \
 ### MongoDB Backup
 ```bash
 #!/bin/bash
-mongodump --uri="mongodb://localhost:27017" \
+mongodump --uri="mongodb://localhost:27017" \  # 27017: MongoDB port
   --db=mydb \
   --out=/var/backups/mongodb/$(date +%Y%m%d_%H%M%S) \
   --gzip
@@ -125,7 +125,7 @@ python3 ${CLAUDE_SKILL_DIR}/scripts/restore_script_generator.py \
 
 find /var/backups -name "*.gz" -mtime +7 -delete  # Daily cleanup
 find /var/backups/weekly -mtime +28 -delete       # Weekly cleanup
-find /var/backups/monthly -mtime +365 -delete     # Monthly cleanup
+find /var/backups/monthly -mtime +365 -delete     # 365: Monthly cleanup
 ```
 
 ## Output
@@ -152,3 +152,19 @@ find /var/backups/monthly -mtime +365 -delete     # Monthly cleanup
 - `${CLAUDE_SKILL_DIR}/references/sqlite_backup_restore.md` - SQLite backup guide
 - `${CLAUDE_SKILL_DIR}/references/backup_best_practices.md` - Security and storage best practices
 - `${CLAUDE_SKILL_DIR}/references/cron_syntax.md` - Cron scheduling reference
+
+## Overview
+
+Automate database backup processes with scheduling, compression, and encryption.
+
+## Prerequisites
+
+- Access to the PostgreSQL environment or API
+- Required CLI tools installed and authenticated
+- Familiarity with PostgreSQL concepts and terminology
+
+## Examples
+
+**Basic usage**: Apply automating database backups to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize automating database backups for production environments with multiple constraints and team-specific requirements.

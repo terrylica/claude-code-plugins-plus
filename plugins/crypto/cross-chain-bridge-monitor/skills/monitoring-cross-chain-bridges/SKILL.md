@@ -12,7 +12,6 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Cross-Chain Bridge Monitor
 
 ## Overview
@@ -49,7 +48,7 @@ Shows detailed info including volume, chains, and TVL breakdown.
 
 ### compare - Compare Routes
 ```bash
-python bridge_monitor.py compare --source ethereum --dest arbitrum --amount 1000 --token USDC
+python bridge_monitor.py compare --source ethereum --dest arbitrum --amount 1000 --token USDC  # 1000: 1 second in ms
 ```
 Compares fees and transfer times across bridges for a route.
 
@@ -82,7 +81,7 @@ Shows supported bridge protocols with their chains.
 
 2. **Compare bridge routes** before transferring:
    ```bash
-   python bridge_monitor.py compare -s ethereum -d base -a 5000 -t USDC
+   python bridge_monitor.py compare -s ethereum -d base -a 5000 -t USDC  # 5000: bridge transfer amount in USD
    ```
 
 3. **Get bridge details** for research:

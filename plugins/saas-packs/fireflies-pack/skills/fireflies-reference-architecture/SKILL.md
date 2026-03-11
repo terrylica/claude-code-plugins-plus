@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Fireflies.ai Reference Architecture
 
 ## Overview
@@ -150,7 +149,7 @@ app.post('/webhooks/fireflies', express.json(), async (req, res) => {
 ```typescript
 async function weeklyMeetingReport() {
   const meetings = await getRecentMeetings(50);
-  const oneWeekAgo = Date.now() - 7 * 86400000;
+  const oneWeekAgo = Date.now() - 7 * 86400000;  # 86400000 = configured value
 
   const recent = meetings.filter(
     (m: any) => new Date(m.date).getTime() > oneWeekAgo
@@ -158,7 +157,7 @@ async function weeklyMeetingReport() {
 
   return {
     totalMeetings: recent.length,
-    totalHours: recent.reduce((s: number, m: any) => s + m.duration / 3600, 0).toFixed(1),
+    totalHours: recent.reduce((s: number, m: any) => s + m.duration / 3600, 0).toFixed(1),  # 3600: timeout: 1 hour
     topAttendees: countAttendees(recent).slice(0, 5),
     actionItemCount: recent.reduce((s: number, m: any) =>
       s + (m.summary?.action_items?.length || 0), 0),
@@ -191,3 +190,9 @@ async function searchMeetings(keyword: string) {
 - [Fireflies GraphQL API](https://docs.fireflies.ai/graphql)
 - [Fireflies Webhooks](https://docs.fireflies.ai/webhooks)
 - [Fireflies Integrations](https://fireflies.ai/integrations)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

@@ -10,12 +10,11 @@ license: MIT
 author: "Jeremy Longshore <jeremy@intentsolutions.io>"
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Cascade Onboarding
 
 ## Overview
 
-This skill enables rapid onboarding of projects to Windsurf with optimized Cascade AI configuration. It covers creating .windsurfrules, setting up project context, configuring team defaults, and establishing best practices for AI-assisted development. Teams can achieve maximum Cascade productivity within the first week of adoption.
+This skill enables rapid onboarding of projects to Windsurf with optimized Cascade AI configuration. It covers creating .windsurfrules, setting up project context, configuring team defaults, and establishing best practices for AI-assisted development.
 
 ## Prerequisites
 
@@ -32,7 +31,6 @@ This skill enables rapid onboarding of projects to Windsurf with optimized Casca
 3. **Set Up Team Defaults**
 4. **Train Team Members**
 5. **Iterate Based on Feedback**
-
 
 See `${CLAUDE_SKILL_DIR}/references/implementation.md` for detailed implementation guide.
 

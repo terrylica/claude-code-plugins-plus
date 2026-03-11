@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Lokalise Enterprise RBAC
 
 ## Overview
-Manage fine-grained access to Lokalise translation projects using its built-in role hierarchy. Lokalise distinguishes between organization-level roles (Owner, Admin, Biller) and project-level contributor roles (Manager, Developer, Translator, Reviewer) with optional language-pair restrictions, making it possible to give a French translator write access only to `fr` keys while locking them out of `de` content.
+Manage fine-grained access to Lokalise translation projects using its built-in role hierarchy.
 
 ## Prerequisites
 - Lokalise Team or Enterprise plan
@@ -45,6 +44,7 @@ await lok.contributors().create('PROJECT_ID', [{
 
 ### Step 2: Manage Team-Level Roles
 ```bash
+set -euo pipefail
 # List team members and roles
 curl -X GET "https://api.lokalise.com/api2/teams/TEAM_ID/users" \
   -H "X-Api-Token: $LOKALISE_API_TOKEN"
@@ -65,6 +65,7 @@ Enable "Enforce SSO" to block password-based login for all org members.
 
 ### Step 4: Set Up Contributor Groups for Bulk Management
 ```bash
+set -euo pipefail
 # Create a contributor group scoped to specific languages and projects
 curl -X POST "https://api.lokalise.com/api2/teams/TEAM_ID/groups" \
   -H "X-Api-Token: $LOKALISE_API_TOKEN" \
@@ -99,11 +100,19 @@ for (const proj of projects.items) {
 | Cannot remove Owner | Last owner protection | Transfer ownership before removal |
 
 ## Examples
-```bash
-# Bulk add translators from CSV (email,lang)
-while IFS=, read -r email lang; do
-  curl -s -X POST "https://api.lokalise.com/api2/projects/PROJECT_ID/contributors" \
-    -H "X-Api-Token: $LOKALISE_API_TOKEN" \
-    -d "[{\"email\":\"$email\",\"languages\":[{\"lang_iso\":\"$lang\",\"is_writable\":true}]}]"
-done < translators.csv
-```
+
+**Basic usage**: Apply lokalise enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize lokalise enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Lokalise Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

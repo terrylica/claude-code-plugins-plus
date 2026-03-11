@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Groq Deploy Integration
 
 ## Overview
-Deploy applications powered by Groq's ultra-fast LLM inference API (`api.groq.com`). Groq's sub-second latency makes it ideal for real-time applications. Covers deployment to Vercel Edge Functions, Docker, and Cloud Run with API key management and streaming configuration.
+Deploy applications powered by Groq's ultra-fast LLM inference API (`api.groq.com`). Groq's sub-second latency makes it ideal for real-time applications.
 
 ## Prerequisites
 - Groq API key stored in `GROQ_API_KEY` environment variable
@@ -88,7 +87,7 @@ COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
 RUN npm run build
-EXPOSE 3000
+EXPOSE 3000  # 3000: 3 seconds in ms
 CMD ["node", "dist/index.js"]
 ```
 
@@ -115,7 +114,7 @@ export async function GET() {
     });
     return Response.json({ status: "healthy" });
   } catch {
-    return Response.json({ status: "unhealthy" }, { status: 503 });
+    return Response.json({ status: "unhealthy" }, { status: 503 });  # HTTP 503 Service Unavailable
   }
 }
 ```
@@ -130,10 +129,9 @@ export async function GET() {
 
 ## Examples
 
-### Quick Deploy
-```bash
-vercel env add GROQ_API_KEY production && vercel --prod
-```
+**Basic usage**: Apply groq deploy integration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize groq deploy integration for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [Groq API Documentation](https://console.groq.com/docs)
@@ -141,3 +139,9 @@ vercel env add GROQ_API_KEY production && vercel --prod
 
 ## Next Steps
 For multi-environment setup, see `groq-multi-env-setup`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

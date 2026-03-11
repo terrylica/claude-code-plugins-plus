@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Instantly Enterprise RBAC
 
 ## Overview
-Manage team access to Instantly email outreach campaigns, sending accounts, and lead lists. Instantly uses per-seat pricing with workspace-level roles: Owner, Admin, and Member. Critical controls include sending account assignment (which team member can send from which email accounts), campaign visibility, and lead list access -- preventing one SDR from accidentally sending to another SDR's prospects.
+Manage team access to Instantly email outreach campaigns, sending accounts, and lead lists. Instantly uses per-seat pricing with workspace-level roles: Owner, Admin, and Member.
 
 ## Prerequisites
 - Instantly Growth or Hypergrowth plan (per-seat + sending volume pricing)
@@ -45,6 +44,7 @@ sending_accounts:
 
 ### Step 2: Invite Team Members with Role Assignment
 ```bash
+set -euo pipefail
 # Invite an SDR as a Member (limited to own campaigns)
 curl -X POST https://api.instantly.ai/api/v1/team/invite \
   -H "Authorization: Bearer $INSTANTLY_API_KEY" \
@@ -58,6 +58,7 @@ curl https://api.instantly.ai/api/v1/team/members \
 ### Step 3: Assign Sending Accounts to Specific Members
 Prevent cross-contamination of email reputation by assigning each warmed sending account to exactly one team member:
 ```bash
+set -euo pipefail
 curl -X POST https://api.instantly.ai/api/v1/account/assign \
   -H "Authorization: Bearer $INSTANTLY_API_KEY" \
   -d '{"account_email": "john@outreach.company.com", "assigned_to": "john@company.com"}'
@@ -70,6 +71,7 @@ curl -X POST https://api.instantly.ai/api/v1/account/assign \
 
 ### Step 5: Monitor Sending Limits and Deliverability
 ```bash
+set -euo pipefail
 # Check sending limits and current usage per account
 curl https://api.instantly.ai/api/v1/account/status \
   -H "Authorization: Bearer $INSTANTLY_API_KEY" | \
@@ -85,11 +87,19 @@ curl https://api.instantly.ai/api/v1/account/status \
 | Duplicate leads across SDRs | No lead deduplication | Enable workspace-level lead dedup in settings |
 
 ## Examples
-```bash
-# Bulk assign sending accounts from a CSV (account_email,member_email)
-while IFS=, read -r acct member; do
-  curl -s -X POST https://api.instantly.ai/api/v1/account/assign \
-    -H "Authorization: Bearer $INSTANTLY_API_KEY" \
-    -d "{\"account_email\": \"$acct\", \"assigned_to\": \"$member\"}"
-done < account-assignments.csv
-```
+
+**Basic usage**: Apply instantly enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize instantly enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Instantly Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

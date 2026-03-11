@@ -11,12 +11,11 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Memory
 
 ## Overview
 
-Memory provides persistent context across Claude Code sessions by storing and retrieving project decisions, user preferences, and coding conventions from a local JSON file. When a new session starts, stored memories load automatically so previously established patterns carry forward without re-explanation. Developers working on long-running projects use this skill to maintain consistency across context window boundaries.
+Memory provides persistent context across Claude Code sessions by storing and retrieving project decisions, user preferences, and coding conventions from a local JSON file. When a new session starts, stored memories load automatically so previously established patterns carry forward without re-explanation.
 
 ## Prerequisites
 
@@ -74,6 +73,7 @@ User: "Add tests for the auth module"
 
 **Tool rejection captured as correction:**
 ```
+set -euo pipefail
 User declines a suggested `npm install` action
 → Memory stored: "User prefers pnpm over npm"
 → Future sessions use pnpm automatically

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Multi-Environment Setup
 
 ## Overview
@@ -49,11 +48,11 @@ config/
 ```typescript
 // config/replit/base.ts
 export const baseConfig = {
-  timeout: 30000,
+  timeout: 30000,  # 30000: 30 seconds in ms
   maxRetries: 3,
   cache: {
     enabled: true,
-    ttlSeconds: 300,
+    ttlSeconds: 300,  # 300: timeout: 5 minutes
   },
 };
 ```
@@ -86,9 +85,9 @@ export const productionConfig = {
   ...baseConfig,
   apiKey: process.env.REPLIT_TOKEN_PROD,
   debug: false,
-  timeout: 60000,
+  timeout: 60000,  # 60000: 1 minute in ms
   maxRetries: 5,
-  cache: { enabled: true, ttlSeconds: 600 },
+  cache: { enabled: true, ttlSeconds: 600 },  # 600: timeout: 10 minutes
 };
 ```
 
@@ -194,3 +193,9 @@ const config = configSchema.parse(getReplitConfig());
 
 ## Next Steps
 For deployment, see `replit-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

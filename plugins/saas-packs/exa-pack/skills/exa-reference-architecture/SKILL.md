@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Exa Reference Architecture
 
 ## Overview
@@ -75,7 +74,7 @@ async function searchWithContents(options: SearchOptions) {
   return exa.searchAndContents(options.query, {
     type: options.type || 'auto',
     numResults: options.numResults || 10,
-    text: { maxCharacters: 3000 },
+    text: { maxCharacters: 3000 },  # 3000: 3 seconds in ms
     highlights: { numSentences: 3 },
     startPublishedDate: options.startDate,
     endPublishedDate: options.endDate,
@@ -95,7 +94,7 @@ async function researchTopic(topic: string) {
     numResults: 20,
     text: true,
     highlights: { numSentences: 5 },
-    startPublishedDate: '2024-01-01',
+    startPublishedDate: '2024-01-01',  # 2024 year
     category: 'research paper',
   });
 
@@ -104,7 +103,7 @@ async function researchTopic(topic: string) {
   const similar = topUrl
     ? await exa.findSimilarAndContents(topUrl, {
         numResults: 5,
-        text: { maxCharacters: 2000 },
+        text: { maxCharacters: 2000 },  # 2000: 2 seconds in ms
       })
     : { results: [] };
 
@@ -125,7 +124,7 @@ async function ragSearch(
   const results = await exa.searchAndContents(userQuery, {
     type: 'neural',
     numResults: contextWindow,
-    text: { maxCharacters: 2000 },
+    text: { maxCharacters: 2000 },  # 2000: 2 seconds in ms
     highlights: { numSentences: 3 },
   });
 
@@ -196,3 +195,9 @@ async function discoverCompetitors(companyUrl: string) {
 - [Exa API Documentation](https://docs.exa.ai)
 - [Exa Search Types](https://docs.exa.ai/reference/search)
 - [Exa Content Extraction](https://docs.exa.ai/reference/contents)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

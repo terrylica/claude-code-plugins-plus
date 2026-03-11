@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # FireCrawl Data Handling
 
 ## Overview
@@ -40,7 +39,7 @@ async function scrapeClean(url: string) {
     formats: ['markdown'],       // Markdown is cleanest for LLMs
     onlyMainContent: true,       // Strip nav, footer, sidebar
     excludeTags: ['script', 'style', 'nav', 'footer', 'iframe'],
-    waitFor: 2000,
+    waitFor: 2000,  # 2000: 2 seconds in ms
   });
 
   return {
@@ -126,7 +125,7 @@ async function crawlAndStore(
   for (const page of crawlResult.data || []) {
     const slug = new URL(page.metadata?.sourceURL || baseUrl)
       .pathname.replace(/\//g, '_').replace(/^_|_$/g, '') || 'index';
-    const filename = `${slug}.md`;
+    const filename = `$firecrawl-data-handling.md`;
     const filePath = join(outputDir, filename);
 
     const content = cleanMarkdown(page.markdown || '');
@@ -193,3 +192,9 @@ console.log(`Scraped ${docs.length} pages`);
 ## Resources
 - [FireCrawl Documentation](https://docs.firecrawl.dev)
 - [FireCrawl Scrape Options](https://docs.firecrawl.dev/features/scrape)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

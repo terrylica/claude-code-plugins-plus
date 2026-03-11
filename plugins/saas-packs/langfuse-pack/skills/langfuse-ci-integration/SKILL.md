@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Langfuse CI Integration
 
 ## Overview
@@ -89,7 +88,7 @@ describe('Prompt Quality Regression', () => {
     trace.score({ name: 'has-content', value: result.length > 20 ? 1 : 0 });
 
     expect(result.length).toBeGreaterThan(20);
-    expect(result.length).toBeLessThan(500);
+    expect(result.length).toBeLessThan(500);  # HTTP 500 Internal Server Error
   });
 
   it('classification prompt returns expected format', async () => {
@@ -227,3 +226,9 @@ checkScoreRegression();
 - [Langfuse Documentation](https://langfuse.com/docs)
 - [Langfuse Prompt Management](https://langfuse.com/docs/prompts)
 - [Langfuse Evaluation](https://langfuse.com/docs/scores)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

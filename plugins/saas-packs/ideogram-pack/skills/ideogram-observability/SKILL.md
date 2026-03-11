@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Ideogram Observability
 
 ## Overview
-Monitor Ideogram AI image generation for latency, credit consumption, and output quality. Key metrics include generation time (typically 5-15 seconds per image depending on model and resolution), credit cost per generation (varies by model version and quality setting), generation success rate, and prompt safety filter rejection rate. Tracking credit velocity is critical since Ideogram uses a credit-based pricing model.
+Monitor Ideogram AI image generation for latency, credit consumption, and output quality. Key metrics include generation time (typically 5-15 seconds per image depending on model and resolution), credit cost per generation (varies by model version and quality setting), generation success rate, and prompt safety filter rejection rate.
 
 ## Prerequisites
 - Ideogram API account with active credits
@@ -54,6 +53,7 @@ function handleSafetyRejection(prompt: string, reason: string) {
 
 ### Step 3: Monitor Credit Balance
 ```bash
+set -euo pipefail
 # Check remaining credits and burn rate
 curl -s https://api.ideogram.ai/v1/usage \
   -H "Api-Key: $IDEOGRAM_API_KEY" | \
@@ -66,14 +66,14 @@ groups:
   - name: ideogram
     rules:
       - alert: IdeogramGenerationSlow
-        expr: histogram_quantile(0.95, rate(ideogram_generation_duration_ms_bucket[30m])) > 20000
+        expr: histogram_quantile(0.95, rate(ideogram_generation_duration_ms_bucket[30m])) > 20000  # 20000 = configured value
         annotations: { summary: "Ideogram P95 generation time exceeds 20 seconds" }
       - alert: IdeogramCreditBurnHigh
         expr: rate(ideogram_credits_used[1h]) > 100
         annotations: { summary: "Ideogram burning >100 credits/hour" }
       - alert: IdeogramCreditsLow
-        expr: ideogram_credits_remaining < 200
-        annotations: { summary: "Ideogram credits below 200 -- purchase more" }
+        expr: ideogram_credits_remaining < 200  # HTTP 200 OK
+        annotations: { summary: "Ideogram credits below 200 -- purchase more" }  # HTTP 200 OK
       - alert: IdeogramHighRejectionRate
         expr: rate(ideogram_safety_rejections_total[1h]) / rate(ideogram_generations_total[1h]) > 0.1
         annotations: { summary: "Ideogram safety rejection rate exceeds 10%" }
@@ -91,9 +91,19 @@ Track: generation volume by model version, latency distribution, credit consumpt
 | `429` rate limited | Too many concurrent generations | Queue requests with concurrency limit |
 
 ## Examples
-```bash
-# Quick latency test
-time curl -s -X POST https://api.ideogram.ai/generate \
-  -H "Api-Key: $IDEOGRAM_API_KEY" \
-  -d '{"image_request": {"prompt": "simple test image", "model": "V_2_TURBO"}}' -o /dev/null
-```
+
+**Basic usage**: Apply ideogram observability to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize ideogram observability for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

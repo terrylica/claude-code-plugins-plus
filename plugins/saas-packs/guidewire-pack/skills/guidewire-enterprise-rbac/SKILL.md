@@ -4,14 +4,13 @@ description: |
   Implement enterprise role-based access control for Guidewire InsuranceSuite
   including API roles, user permissions, and security policies.
   Trigger with phrases like "guidewire rbac", "permissions guidewire",
-  "user roles", "api access control", "security permissions".
+  "user roles", "api access control", "security permissions". Use when working with guidewire enterprise rbac.
 allowed-tools: Read, Write, Edit, Bash(curl:*), Grep
 version: 1.0.0
 license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Guidewire Enterprise RBAC
 
 ## Overview
@@ -54,3 +53,9 @@ For detailed implementation code and configurations, load the reference guide:
 
 ## Next Steps
 For migration strategies, see `guidewire-migration-deep-dive`.
+
+## Examples
+
+**Basic usage**: Apply guidewire enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize guidewire enterprise rbac for production environments with multiple constraints and team-specific requirements.

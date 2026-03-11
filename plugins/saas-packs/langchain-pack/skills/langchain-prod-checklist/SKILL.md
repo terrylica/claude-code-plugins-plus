@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # LangChain Production Checklist
 
 ## Contents
@@ -35,37 +34,37 @@ Comprehensive checklist for deploying LangChain applications to production with 
 ## Instructions
 
 ### 1. Configuration & Secrets
-- All API keys in secrets manager (not env vars in code)
-- Environment-specific configurations separated
-- Configuration validation on startup with `pydantic_settings.BaseSettings`
+1. All API keys in secrets manager (not env vars in code)
+2. Environment-specific configurations separated
+3. Configuration validation on startup with `pydantic_settings.BaseSettings`
 
 ### 2. Error Handling & Resilience
-- Retry logic with exponential backoff
-- Fallback models: `primary.with_fallbacks([fallback])`
-- Circuit breaker for cascading failures
+4. Retry logic with exponential backoff
+5. Fallback models: `primary.with_fallbacks([fallback])`
+6. Circuit breaker for cascading failures
 
 ### 3. Observability
-- Structured logging, Prometheus metrics, LangSmith tracing
-- Alerting rules for error rate and latency
+7. Structured logging, Prometheus metrics, LangSmith tracing
+8. Alerting rules for error rate and latency
 
 ### 4. Performance
-- Redis caching for repeated queries
-- Connection pooling, timeout limits, batch processing
+9. Redis caching for repeated queries
+10. Connection pooling, timeout limits, batch processing
 
 ### 5. Security
-- Input validation (length limits, sanitization)
-- Rate limiting per user/IP, audit logging
+11. Input validation (length limits, sanitization)
+12. Rate limiting per user/IP, audit logging
 
 ### 6. Testing
-- Unit tests for all chains, integration tests with mock LLMs
-- Load tests and chaos engineering
+13. Unit tests for all chains, integration tests with mock LLMs
+14. Load tests and chaos engineering
 
 ### 7. Deployment
-- Health check endpoint, graceful shutdown, rolling deployment
-- Rollback procedure documented
+15. Health check endpoint, graceful shutdown, rolling deployment
+16. Rollback procedure documented
 
 ### 8. Cost Management
-- Token counting, usage alerts, budget limits
+17. Token counting, usage alerts, budget limits
 
 See [detailed implementation](${CLAUDE_SKILL_DIR}/references/implementation.md) for code examples and deployment validation script.
 
@@ -84,12 +83,11 @@ See [detailed implementation](${CLAUDE_SKILL_DIR}/references/implementation.md) 
 | Cache miss storm | Redis down | Graceful degradation |
 
 ## Examples
-```python
-# Fallback LLM setup
-primary = ChatOpenAI(model="gpt-4o-mini", max_retries=3)
-fallback = ChatAnthropic(model="claude-3-5-sonnet-20241022")
-robust_llm = primary.with_fallbacks([fallback])
-```
+
+
+**Basic usage**: Apply langchain prod checklist to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize langchain prod checklist for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [LangChain Production Guide](https://python.langchain.com/docs/guides/productionization/)

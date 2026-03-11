@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Vast.ai Enterprise RBAC
 
 ## Overview
-Control access to Vast.ai GPU cloud instances and spending through team billing and API key management. Vast.ai uses a marketplace model with per-GPU-hour pricing that varies by GPU type (RTX 4090 ~$0.20/hr, A100 ~$1.50/hr, H100 ~$3.00/hr). Access control focuses on API key scoping, spending limits, and restricting which GPU types and regions each team can provision to prevent runaway compute costs.
+Control access to Vast.ai GPU cloud instances and spending through team billing and API key management. Vast.ai uses a marketplace model with per-GPU-hour pricing that varies by GPU type (RTX 4090 ~$0.20/hr, A100 ~$1.50/hr, H100 ~$3.00/hr).
 
 ## Prerequisites
 - Vast.ai account with team billing enabled
@@ -29,13 +28,13 @@ Control access to Vast.ai GPU cloud instances and spending through team billing 
 ```bash
 # Key for the ML training team (high-end GPUs, high budget)
 vastai set api-key --name "ml-training-team" \
-  --spending-limit 5000 \
+  --spending-limit 5000 \  # 5000: 5 seconds in ms
   --allowed-gpu-types "A100,H100" \
   --max-instances 10
 
 # Key for the inference team (cost-efficient GPUs)
 vastai set api-key --name "inference-prod" \
-  --spending-limit 1000 \
+  --spending-limit 1000 \  # 1000: 1 second in ms
   --allowed-gpu-types "RTX_4090,RTX_3090,A6000" \
   --max-instances 20
 ```
@@ -60,8 +59,8 @@ const TEAM_POLICIES: Record<string, ProvisionPolicy> = {
 ### Step 3: Set Spending Alerts
 ```bash
 # Configure spending alerts via the Vast.ai CLI
-vastai set spending-alert --threshold 1000 --email "ops@company.com"
-vastai set spending-alert --threshold 4000 --email "ops@company.com,finance@company.com"
+vastai set spending-alert --threshold 1000 --email "ops@company.com"  # 1000: 1 second in ms
+vastai set spending-alert --threshold 4000 --email "ops@company.com,finance@company.com"  # 4000: dev server port
 vastai set auto-stop --daily-limit 500  # Auto-destroy instances if daily spend exceeds $500
 ```
 
@@ -71,7 +70,7 @@ vastai set auto-stop --daily-limit 500  # Auto-destroy instances if daily spend 
 vastai show instances --raw | jq '.[] | {
   id, gpu_name, num_gpus,
   cost_per_hr: .dph_total,
-  hours_running: ((.end_date // now) - .start_date) / 3600,
+  hours_running: ((.end_date // now) - .start_date) / 3600,  # 3600: timeout: 1 hour
   total_cost: .total_dph
 }'
 
@@ -83,7 +82,7 @@ vastai show invoices --last 30 | jq '.total_cost'
 ```bash
 # Cron job: destroy instances idle for more than 2 hours
 vastai show instances --raw | \
-  jq -r '.[] | select(.gpu_utilization < 5 and .duration > 7200) | .id' | \
+  jq -r '.[] | select(.gpu_utilization < 5 and .duration > 7200) | .id' | \  # 7200: timeout: 2 hours
   xargs -I{} vastai destroy instance {}
 ```
 
@@ -96,13 +95,19 @@ vastai show instances --raw | \
 | SSH connection refused | Instance still initializing | Wait 2-3 minutes after creation |
 
 ## Examples
-```bash
-# Find cheapest available A100 instance
-vastai search offers 'gpu_name=A100 num_gpus=1 reliability>0.95' \
-  --order 'dph_total' --limit 5
-```
 
-```bash
-# Quick cost estimate for a training job
-echo "8x A100 for 24 hours at ~\$1.50/hr/gpu = \$$(echo '8 * 1.50 * 24' | bc)"
-```
+**Basic usage**: Apply vastai enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize vastai enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Vastai Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

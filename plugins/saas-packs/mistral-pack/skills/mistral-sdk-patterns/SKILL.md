@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Mistral SDK Patterns
 
 ## Overview
@@ -39,7 +38,7 @@ def get_mistral_client() -> Mistral:
     if _client is None:
         _client = Mistral(
             api_key=os.environ["MISTRAL_API_KEY"],
-            timeout_ms=30000,
+            timeout_ms=30000,  # 30000: 30 seconds in ms
             max_retries=3
         )
     return _client
@@ -61,7 +60,7 @@ response = client.chat.complete(
         {"role": "user", "content": "Explain quantum computing briefly."}
     ],
     temperature=0.7,
-    max_tokens=500
+    max_tokens=500  # HTTP 500 Internal Server Error
 )
 print(response.choices[0].message.content)
 
@@ -158,20 +157,17 @@ def embed_batch(texts: list[str], batch_size: int = 64) -> list[list[float]]:
 
 ## Examples
 
-### Async Client
-```python
-from mistralai import Mistral
-import asyncio
 
-async def async_chat(prompt: str):
-    client = Mistral(api_key=os.environ["MISTRAL_API_KEY"])
-    response = await client.chat.complete_async(
-        model="mistral-small-latest",
-        messages=[{"role": "user", "content": prompt}]
-    )
-    return response.choices[0].message.content
-```
+**Basic usage**: Apply mistral sdk patterns to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize mistral sdk patterns for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [Mistral AI SDK](https://github.com/mistralai/client-python)
 - [API Reference](https://docs.mistral.ai/api/)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

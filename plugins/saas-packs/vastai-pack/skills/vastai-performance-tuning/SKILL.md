@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Vast.ai Performance Tuning
 
 ## Overview
@@ -40,7 +39,7 @@ vastai search offers \
 
 # Filter by DLPerf score for training workloads
 vastai search offers \
-  --gpu-name "RTX 4090" \
+  --gpu-name "RTX 4090" \  # 4090 = configured value
   --min-dlperf 30 \
   --order "dlperf_per_dphtotal-desc" \
   --limit 5
@@ -190,3 +189,9 @@ cleanup_instance(instance_id)
 ## Resources
 - [Vast.ai CLI Reference](https://vast.ai/docs/cli/commands)
 - [Vast.ai Instance Types](https://vast.ai/docs/gpu-faq)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

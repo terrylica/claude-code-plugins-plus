@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Groq Events & Async Patterns
 
 ## Overview
@@ -45,7 +44,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 app.post("/api/chat/stream", async (req, res) => {
   const { messages, model } = req.body;
 
-  res.writeHead(200, {
+  res.writeHead(200, {  # HTTP 200 OK
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
     "Connection": "keep-alive",
@@ -55,7 +54,7 @@ app.post("/api/chat/stream", async (req, res) => {
     model: model || "llama-3.3-70b-versatile",
     messages,
     stream: true,
-    max_tokens: 2048,
+    max_tokens: 2048,  # 2048: 2 KB
   });
 
   for await (const chunk of stream) {
@@ -203,3 +202,9 @@ async def process_batch(prompts: list[str]):
 
 ## Next Steps
 For deployment setup, see `groq-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

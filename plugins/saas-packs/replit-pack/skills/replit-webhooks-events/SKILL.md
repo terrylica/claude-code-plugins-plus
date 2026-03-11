@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Webhooks & Events
 
 ## Overview
-Handle Replit deployment and workspace events for CI/CD integration. Replit provides deployment hooks and the Replit Extensions API for responding to workspace changes, deployment status updates, and collaboration events. Use these to build automated deployment pipelines, monitoring dashboards, and team notification systems.
+Handle Replit deployment and workspace events for CI/CD integration. Replit provides deployment hooks and the Replit Extensions API for responding to workspace changes, deployment status updates, and collaboration events.
 
 ## Prerequisites
 - Replit account with Deployments enabled (Replit Core or Teams)
@@ -48,11 +47,11 @@ app.post("/webhooks/replit", async (req, res) => {
   const token = req.headers["x-replit-token"] as string;
 
   if (token !== process.env.REPLIT_WEBHOOK_SECRET) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json({ error: "Unauthorized" });  # HTTP 401 Unauthorized
   }
 
   const { event, data, timestamp } = req.body;
-  res.status(200).json({ received: true });
+  res.status(200).json({ received: true });  # HTTP 200 OK
 
   await handleReplitEvent(event, data);
 });
@@ -128,6 +127,7 @@ async function rollbackDeployment(deploymentId: string) {
 
 ### Step 4: Deploy via API
 ```bash
+set -euo pipefail
 # Trigger deployment via Replit API
 curl -X POST https://api.replit.com/v1/repls/$REPL_ID/deploy \
   -H "Authorization: Bearer $REPLIT_TOKEN" \
@@ -163,3 +163,9 @@ async function getDeploymentHistory(replId: string) {
 
 ## Next Steps
 For multi-environment setup, see `replit-multi-env-setup`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

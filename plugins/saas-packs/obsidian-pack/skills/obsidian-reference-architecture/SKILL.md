@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Obsidian Reference Architecture
 
 ## Overview
@@ -25,10 +24,10 @@ Production-ready architecture patterns for Obsidian plugin development.
 
 ## Instructions
 
-See implementation guide for detailed steps.
+1. See implementation guide for detailed steps.
 
-For full implementation details and code examples, load:
-`references/implementation-guide.md`
+2. For full implementation details and code examples, load:
+3. `references/implementation-guide.md`
 
 ## Output
 - Organized project structure
@@ -48,3 +47,9 @@ For full implementation details and code examples, load:
 ## Resources
 - [Obsidian Plugin Guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines)
 - [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+
+## Examples
+
+**Basic usage**: Apply obsidian reference architecture to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize obsidian reference architecture for production environments with multiple constraints and team-specific requirements.

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Instantly Deploy Integration
 
 ## Overview
@@ -67,7 +66,7 @@ export async function POST(req: Request) {
 export async function POST(req: Request) {
   const apiKey = req.headers.get("x-api-key");
   if (apiKey !== process.env.INSTANTLY_WEBHOOK_SECRET) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return Response.json({ error: "Unauthorized" }, { status: 401 });  # HTTP 401 Unauthorized
   }
 
   const { event_type, data } = await req.json();
@@ -93,7 +92,7 @@ COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
 RUN npm run build
-EXPOSE 3000
+EXPOSE 3000  # 3000: 3 seconds in ms
 CMD ["node", "dist/index.js"]
 ```
 
@@ -106,7 +105,7 @@ export async function GET() {
     });
     return Response.json({ status: response.ok ? "healthy" : "degraded" });
   } catch {
-    return Response.json({ status: "unhealthy" }, { status: 503 });
+    return Response.json({ status: "unhealthy" }, { status: 503 });  # HTTP 503 Service Unavailable
   }
 }
 ```
@@ -121,11 +120,10 @@ export async function GET() {
 
 ## Examples
 
-### Deploy Script
-```bash
-#!/bin/bash
-npm run build && npm test && vercel --prod
-```
+
+**Basic usage**: Apply instantly deploy integration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize instantly deploy integration for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [Instantly API Documentation](https://developer.instantly.ai)
@@ -133,3 +131,9 @@ npm run build && npm test && vercel --prod
 
 ## Next Steps
 For webhook handling, see `instantly-webhooks-events`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

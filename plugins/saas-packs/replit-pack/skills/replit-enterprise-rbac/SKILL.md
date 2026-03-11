@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Enterprise RBAC
 
 ## Overview
-Manage team access to Replit workspaces, deployments, and AI coding features using its Teams and Organizations model. Replit uses per-seat licensing with workspace roles: Owner, Admin, and Member. Key controls include who can create and deploy Repls, access to Replit AI (Ghostwriter), and deployment environment permissions. Organizations on the Teams for Business or Enterprise plan get SSO, centralized billing, and deployment policies.
+Manage team access to Replit workspaces, deployments, and AI coding features using its Teams and Organizations model. Replit uses per-seat licensing with workspace roles: Owner, Admin, and Member.
 
 ## Prerequisites
 - Replit Teams for Business or Enterprise plan (per-seat pricing)
@@ -41,6 +40,7 @@ roles:
 ### Step 2: Invite and Manage Team Members
 Navigate to Replit Teams > Members and invite users with assigned roles. For bulk management, use the Replit API:
 ```bash
+set -euo pipefail
 # Invite a team member
 curl -X POST https://replit.com/api/v1/teams/TEAM_ID/members \
   -H "Authorization: Bearer $REPLIT_API_KEY" \
@@ -68,6 +68,7 @@ In Organization Settings > Security > SSO:
 
 ### Step 5: Audit Activity
 ```bash
+set -euo pipefail
 # Review recent team activity
 curl "https://replit.com/api/v1/teams/TEAM_ID/audit-log?limit=50" \
   -H "Authorization: Bearer $REPLIT_API_KEY" | \
@@ -83,9 +84,19 @@ curl "https://replit.com/api/v1/teams/TEAM_ID/audit-log?limit=50" \
 | AI features disabled | Ghostwriter not enabled for team | Enable AI features in Team Settings |
 
 ## Examples
-```bash
-# Offboard a team member: remove access and transfer Repls
-curl -X DELETE "https://replit.com/api/v1/teams/TEAM_ID/members/USERNAME" \
-  -H "Authorization: Bearer $REPLIT_API_KEY"
-# Transfer critical Repls via Team Settings > Repls > Transfer Ownership
-```
+
+**Basic usage**: Apply replit enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize replit enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Replit Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

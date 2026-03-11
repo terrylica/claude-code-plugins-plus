@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Deploy Integration
 
 ## Overview
-Deploy applications on Replit's hosting platform. Covers Replit Deployments (Static, Autoscale, Reserved VM), configuring `.replit` files, managing secrets, and setting up custom domains. Replit handles infrastructure automatically, making it ideal for rapid deployment.
+Deploy applications on Replit's hosting platform. Covers Replit Deployments (Static, Autoscale, Reserved VM), configuring `.replit` files, managing secrets, and setting up custom domains.
 
 ## Prerequisites
 - Replit account with Deployments enabled (Core or Teams plan)
@@ -41,7 +40,7 @@ channel = "stable-24_05"
 
 [env]
 NODE_ENV = "production"
-PORT = "3000"
+PORT = "3000"  # 3000: 3 seconds in ms
 ```
 
 ### Step 2: Set Secrets
@@ -104,6 +103,7 @@ export async function GET() {
 
 ### Quick Deploy via CLI
 ```bash
+set -euo pipefail
 # Install Replit CLI
 npm install -g replit
 
@@ -118,3 +118,9 @@ replit deploy --type autoscale
 
 ## Next Steps
 For multi-environment setup, see `replit-multi-env-setup`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

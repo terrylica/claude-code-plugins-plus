@@ -10,12 +10,11 @@ license: MIT
 author: "Jeremy Longshore <jeremy@intentsolutions.io>"
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Custom Prompts
 
 ## Overview
 
-This skill enables creation and management of custom prompt libraries for Cascade. Teams can build reusable prompt templates for common tasks like code generation, code review, documentation, and debugging. Prompts can include project-specific context and be shared across the organization for consistent AI interactions.
+This skill enables creation and management of custom prompt libraries for Cascade. Teams can build reusable prompt templates for common tasks like code generation, code review, documentation, and debugging.
 
 ## Prerequisites
 
@@ -32,7 +31,6 @@ This skill enables creation and management of custom prompt libraries for Cascad
 3. **Configure Variables**
 4. **Organize and Index**
 5. **Enable Team Sharing**
-
 
 See `${CLAUDE_SKILL_DIR}/references/implementation.md` for detailed implementation guide.
 

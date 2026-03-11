@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Reliability Patterns
 
 ## Overview
@@ -62,6 +61,7 @@ Step 3: "Add unit tests for src/services/jwt.ts"
 Run tests and type checks after every Cascade modification.
 
 ```bash
+set -euo pipefail
 # After accepting Cascade changes
 npm run typecheck     # catch type errors from refactoring
 npm test              # verify existing behavior preserved
@@ -100,6 +100,7 @@ __pycache__/
 
 ### Safe Cascade Workflow
 ```bash
+set -euo pipefail
 git stash                          # save WIP
 git checkout -b cascade/refactor   # new branch
 # Ask Cascade to make changes
@@ -110,3 +111,9 @@ npm test && git add -A && git commit -m "cascade: refactored auth"
 ## Resources
 - [Windsurf Docs](https://docs.windsurf.com)
 - [Cascade Best Practices](https://docs.windsurf.com/cascade)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

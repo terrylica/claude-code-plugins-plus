@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Multi-Environment Setup
 
 ## Overview
@@ -24,13 +23,13 @@ Configure Clerk across development, staging, and production environments.
 - CI/CD pipeline configured
 
 ## Instructions
-- Step 1: Create Clerk Instances
-- Step 2: Environment Configuration
-- Step 3: Environment-Aware Configuration
-- Step 4: ClerkProvider Configuration
-- Step 5: Webhook Configuration Per Environment
-- Step 6: CI/CD Environment Promotion
-- Step 7: User Data Isolation
+1. Step 1: Create Clerk Instances
+2. Step 2: Environment Configuration
+3. Step 3: Environment-Aware Configuration
+4. Step 4: ClerkProvider Configuration
+5. Step 5: Webhook Configuration Per Environment
+6. Step 6: CI/CD Environment Promotion
+7. Step 7: User Data Isolation
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -55,3 +54,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-observability` for monitoring and logging.
+
+## Examples
+
+**Basic usage**: Apply clerk multi env setup to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk multi env setup for production environments with multiple constraints and team-specific requirements.

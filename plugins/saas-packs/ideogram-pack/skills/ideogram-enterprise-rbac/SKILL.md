@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Ideogram Enterprise RBAC
 
 ## Overview
-Control access to Ideogram's AI image generation API through API key management and credit-based budgets. Ideogram uses credit-based pricing where each image generation costs credits based on model quality and resolution (standard vs HD, different aspect ratios). Access control focuses on API key scoping, per-key credit limits, and content policy enforcement to prevent misuse.
+Control access to Ideogram's AI image generation API through API key management and credit-based budgets. Ideogram uses credit-based pricing where each image generation costs credits based on model quality and resolution (standard vs HD, different aspect ratios).
 
 ## Prerequisites
 - Ideogram API account with team plan
@@ -27,12 +26,13 @@ Control access to Ideogram's AI image generation API through API key management 
 
 ### Step 1: Create Purpose-Scoped API Keys
 ```bash
+set -euo pipefail
 # Key for the marketing team (standard quality, moderate budget)
 curl -X POST https://api.ideogram.ai/v1/api-keys \
   -H "Authorization: Bearer $IDEOGRAM_ADMIN_KEY" \
   -d '{
     "name": "marketing-team",
-    "monthly_credit_limit": 5000,
+    "monthly_credit_limit": 5000,  # 5000: 5 seconds in ms
     "allowed_models": ["V_2"],
     "rate_limit_rpm": 30
   }'
@@ -42,7 +42,7 @@ curl -X POST https://api.ideogram.ai/v1/api-keys \
   -H "Authorization: Bearer $IDEOGRAM_ADMIN_KEY" \
   -d '{
     "name": "product-design",
-    "monthly_credit_limit": 15000,
+    "monthly_credit_limit": 15000,  # 15000 = configured value
     "allowed_models": ["V_2", "V_2_TURBO"],
     "rate_limit_rpm": 60
   }'
@@ -74,6 +74,7 @@ const TEAM_LIMITS: Record<string, { maxResolution: string; allowedStyles: string
 
 ### Step 4: Monitor Credit Consumption
 ```bash
+set -euo pipefail
 # Check usage per API key
 curl https://api.ideogram.ai/v1/usage \
   -H "Authorization: Bearer $IDEOGRAM_ADMIN_KEY" | \
@@ -92,12 +93,19 @@ Create replacement keys with identical permissions, update consuming application
 | Content policy violation | Prompt triggers safety filter | Rephrase prompt, avoid trademarked terms |
 
 ## Examples
-```bash
-# Generate with explicit credit tracking
-BEFORE=$(curl -s https://api.ideogram.ai/v1/usage -H "Authorization: Bearer $IDEOGRAM_API_KEY" | jq '.credits_remaining')
-curl -X POST https://api.ideogram.ai/generate \
-  -H "Api-Key: $IDEOGRAM_API_KEY" \
-  -d '{"image_request": {"prompt": "modern office workspace", "model": "V_2", "magic_prompt_option": "AUTO"}}'
-AFTER=$(curl -s https://api.ideogram.ai/v1/usage -H "Authorization: Bearer $IDEOGRAM_API_KEY" | jq '.credits_remaining')
-echo "Credits consumed: $((BEFORE - AFTER))"
-```
+
+**Basic usage**: Apply ideogram enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize ideogram enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Ideogram Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Perplexity Architecture Variants
 
 ## Overview
@@ -47,7 +46,7 @@ def ask():
 
 ```python
 class CachedResearch:
-    def __init__(self, client, cache, ttl=1800):
+    def __init__(self, client, cache, ttl=1800):  # 1800: timeout: 30 minutes
         self.client = client
         self.cache = cache
         self.ttl = ttl
@@ -109,3 +108,15 @@ class ResearchPipeline:
 
 ## Resources
 - [Perplexity API Docs](https://docs.perplexity.ai)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Examples
+
+**Basic usage**: Apply perplexity architecture variants to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize perplexity architecture variants for production environments with multiple constraints and team-specific requirements.

@@ -4,14 +4,13 @@ description: |
   Deep dive into Guidewire migration strategies including self-managed to Cloud,
   legacy system migrations, data migration, and integration cutover planning.
   Trigger with phrases like "guidewire migration", "cloud migration",
-  "legacy migration", "data migration guidewire", "cutover planning".
+  "legacy migration", "data migration guidewire", "cutover planning". Use when working with guidewire migration deep dive.
 allowed-tools: Read, Write, Edit, Bash(curl:*), Bash(gradle:*), Grep
 version: 1.0.0
 license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Guidewire Migration Deep Dive
 
 ## Overview
@@ -55,3 +54,9 @@ For detailed implementation code and configurations, load the reference guide:
 
 ## Next Steps
 Review related skills for comprehensive coverage.
+
+## Examples
+
+**Basic usage**: Apply guidewire migration deep dive to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize guidewire migration deep dive for production environments with multiple constraints and team-specific requirements.

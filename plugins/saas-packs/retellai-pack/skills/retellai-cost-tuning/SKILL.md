@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Retell AI Cost Tuning
 
 ## Overview
-Reduce Retell AI voice agent costs by optimizing call duration, choosing the right voice model, and implementing conversation design patterns that resolve calls faster. Retell charges per minute of voice call with rates varying by model and voice quality. The biggest cost levers are: reducing average call duration through better conversation design (a 2-minute call costs half of a 4-minute call), using faster/cheaper LLM backends for simple tasks, and setting maximum call duration limits to prevent runaway costs.
+Reduce Retell AI voice agent costs by optimizing call duration, choosing the right voice model, and implementing conversation design patterns that resolve calls faster. Retell charges per minute of voice call with rates varying by model and voice quality.
 
 ## Prerequisites
 - Retell AI dashboard access with billing visibility
@@ -27,8 +26,9 @@ Reduce Retell AI voice agent costs by optimizing call duration, choosing the rig
 
 ### Step 1: Analyze Call Duration Distribution
 ```bash
+set -euo pipefail
 # Find agents with longest average call durations (highest cost)
-curl "https://api.retellai.com/v1/calls?limit=200&sort=-created_at" \
+curl "https://api.retellai.com/v1/calls?limit=200&sort=-created_at" \  # HTTP 200 OK
   -H "Authorization: Bearer $RETELL_API_KEY" | \
   jq 'group_by(.agent_id) | map({
     agent: .[0].agent_name,
@@ -41,11 +41,12 @@ curl "https://api.retellai.com/v1/calls?limit=200&sort=-created_at" \
 
 ### Step 2: Set Maximum Call Duration
 ```bash
+set -euo pipefail
 # Prevent runaway costs from calls that loop or get stuck
 curl -X PATCH "https://api.retellai.com/v1/agents/agt_abc123" \
   -H "Authorization: Bearer $RETELL_API_KEY" \
   -d '{
-    "max_call_duration_seconds": 300,
+    "max_call_duration_seconds": 300,  # 300: timeout: 5 minutes
     "end_call_after_silence_seconds": 15
   }'
 # 5-minute cap prevents a single call from costing more than ~$0.50
@@ -58,7 +59,7 @@ fast_resolution_patterns:
   greeting:
     bad: "Hello! Welcome to Company. How are you doing today? I hope you're having a great day."  # 8 seconds
     good: "Hi, this is Company. How can I help?"  # 3 seconds
-    savings: "5 seconds per call * 1000 calls/month = 83 minutes saved"
+    savings: "5 seconds per call * 1000 calls/month = 83 minutes saved"  # 1000: 1 second in ms
 
   confirmation:
     bad: "Let me repeat that back to you to make sure I have it right..."  # Long
@@ -89,6 +90,7 @@ complex_agents:  # Sales qualification, technical support
 
 ### Step 5: Monitor Daily Costs
 ```bash
+set -euo pipefail
 # Daily cost tracking with anomaly detection
 curl -s "https://api.retellai.com/v1/calls?created_after=$(date -I)" \
   -H "Authorization: Bearer $RETELL_API_KEY" | \
@@ -110,11 +112,19 @@ curl -s "https://api.retellai.com/v1/calls?created_after=$(date -I)" \
 | Budget exceeded | No daily spending cap | Implement daily cost monitoring with alerts |
 
 ## Examples
-```bash
-# ROI calculator: cost per successful outcome
-TOTAL_COST=$(curl -s "https://api.retellai.com/v1/calls?created_after=$(date -d '30 days ago' -I)" \
-  -H "Authorization: Bearer $RETELL_API_KEY" | jq '[.[].cost] | add')
-SUCCESSFUL=$(curl -s "https://api.retellai.com/v1/calls?created_after=$(date -d '30 days ago' -I)&status=completed" \
-  -H "Authorization: Bearer $RETELL_API_KEY" | jq 'length')
-echo "Cost per successful call: \$$(echo "$TOTAL_COST / $SUCCESSFUL" | bc -l | head -c 5)"
-```
+
+**Basic usage**: Apply retellai cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize retellai cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

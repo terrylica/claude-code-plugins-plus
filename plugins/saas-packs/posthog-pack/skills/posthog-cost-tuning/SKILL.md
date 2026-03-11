@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # PostHog Cost Tuning
 
 ## Overview
-Reduce PostHog event-based pricing costs by controlling event volume, optimizing autocapture settings, and leveraging the generous free tier. PostHog charges per event with a free tier of 1M events/month, then ~$0.00031 per event beyond that. The biggest cost levers are: disabling autocapture on high-frequency elements (a single button clicked 100K times/month = $31), filtering out bot traffic, and sampling non-critical events. Session recordings and feature flags have separate pricing tiers.
+Reduce PostHog event-based pricing costs by controlling event volume, optimizing autocapture settings, and leveraging the generous free tier. PostHog charges per event with a free tier of 1M events/month, then ~$0.00031 per event beyond that.
 
 ## Prerequisites
 - PostHog Cloud account with billing dashboard access
@@ -27,6 +26,7 @@ Reduce PostHog event-based pricing costs by controlling event volume, optimizing
 
 ### Step 1: Audit Event Volume by Type
 ```bash
+set -euo pipefail
 # Check which events consume the most quota
 curl "https://app.posthog.com/api/projects/PROJECT_ID/insights/trend/?events=[{\"id\":\"$pageview\"},{\"id\":\"$autocapture\"},{\"id\":\"$screen\"}]&date_from=-30d&interval=week" \
   -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" | \
@@ -83,6 +83,7 @@ posthog.init('phc_YOUR_KEY', {
 
 ### Step 5: Monitor Monthly Costs
 ```bash
+set -euo pipefail
 # Check current event usage vs billing tier
 curl "https://app.posthog.com/api/organizations/ORG_ID/billing/" \
   -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" | \
@@ -90,7 +91,7 @@ curl "https://app.posthog.com/api/organizations/ORG_ID/billing/" \
     events_used: .events_current_usage,
     events_limit: .events_plan_limit,
     usage_pct: (.events_current_usage / .events_plan_limit * 100),
-    estimated_cost: (if .events_current_usage > 1000000 then ((.events_current_usage - 1000000) * 0.00031) else 0 end)
+    estimated_cost: (if .events_current_usage > 1000000 then ((.events_current_usage - 1000000) * 0.00031) else 0 end)  # 1000000 = 1M limit
   }'
 ```
 
@@ -103,12 +104,19 @@ curl "https://app.posthog.com/api/organizations/ORG_ID/billing/" \
 | Free tier exceeded early | New feature launched without volume estimate | Forecast events before launch |
 
 ## Examples
-```typescript
-// Cost projection calculator
-const monthlyEvents = 5_000_000;
-const freeEvents = 1_000_000;
-const costPerEvent = 0.00031;
-const monthlyCost = (monthlyEvents - freeEvents) * costPerEvent;
-console.log(`Projected cost: $${monthlyCost.toFixed(2)}/month`);
-// $1,240/month -> with 50% sampling on non-critical: $620/month
-```
+
+**Basic usage**: Apply posthog cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize posthog cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

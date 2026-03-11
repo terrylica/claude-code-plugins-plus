@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Guidewire Debug Bundle
 
 ## Overview
@@ -39,7 +38,7 @@ Use the `DebugHelper` class for method tracing, entity state dumps, and query pr
 ### Step 3: Remote Debugging Setup
 
 ```bash
-export JAVA_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+export JAVA_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"  # 5005 = configured value
 ./gradlew runServer
 ```
 
@@ -89,3 +88,9 @@ For detailed code implementations (Log4j2 config, Gosu helpers, TypeScript traci
 ## Next Steps
 
 For rate limiting information, see `guidewire-rate-limits`.
+
+## Examples
+
+**Basic usage**: Apply guidewire debug bundle to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize guidewire debug bundle for production environments with multiple constraints and team-specific requirements.

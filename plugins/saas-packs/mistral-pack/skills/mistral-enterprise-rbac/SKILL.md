@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Mistral AI Enterprise RBAC
 
 ## Overview
-Control access to Mistral AI models and API resources at the organization level. Mistral uses API key scoping and La Plateforme workspace management to separate environments. Access is governed through organization membership, API key permissions, and model-level restrictions that determine which team members can call which endpoints.
+Control access to Mistral AI models and API resources at the organization level. Mistral uses API key scoping and La Plateforme workspace management to separate environments.
 
 ## Prerequisites
 - Mistral La Plateforme organization account
@@ -27,6 +26,7 @@ Control access to Mistral AI models and API resources at the organization level.
 
 ### Step 1: Create Scoped API Keys per Team
 ```bash
+set -euo pipefail
 # Create a key restricted to small models only (cost-safe for junior devs)
 curl -X POST https://api.mistral.ai/v1/api-keys \
   -H "Authorization: Bearer $MISTRAL_ADMIN_KEY" \
@@ -42,7 +42,7 @@ curl -X POST https://api.mistral.ai/v1/api-keys \
   -d '{
     "name": "ml-team-full-access",
     "allowed_models": ["mistral-small-latest", "mistral-large-latest", "mistral-embed"],
-    "rate_limit_rpm": 500
+    "rate_limit_rpm": 500  # HTTP 500 Internal Server Error
   }'
 ```
 
@@ -67,6 +67,7 @@ Navigate to La Plateforme > Organization > Billing and set monthly budget caps. 
 
 ### Step 4: Audit API Key Usage
 ```bash
+set -euo pipefail
 # List all API keys and their last-used timestamps
 curl https://api.mistral.ai/v1/api-keys \
   -H "Authorization: Bearer $MISTRAL_ADMIN_KEY" | \
@@ -89,17 +90,19 @@ Automate 90-day key rotation. Create the new key, update consuming services, the
 | Spending alert triggered | Monthly budget near cap | Review usage by key; restrict heavy consumers |
 
 ## Examples
-```bash
-# Quick check: which models can this key access?
-curl https://api.mistral.ai/v1/models \
-  -H "Authorization: Bearer $MISTRAL_API_KEY" | \
-  jq '.data[].id'
-```
 
-```bash
-# Rotate a key with zero-downtime overlap
-NEW_KEY=$(curl -s -X POST https://api.mistral.ai/v1/api-keys \
-  -H "Authorization: Bearer $MISTRAL_ADMIN_KEY" \
-  -d '{"name": "service-v2", "allowed_models": ["mistral-small-latest"]}' | jq -r '.key')
-echo "Deploy NEW_KEY=$NEW_KEY to services, then delete old key after 24h"
-```
+**Basic usage**: Apply mistral enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize mistral enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Mistral documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

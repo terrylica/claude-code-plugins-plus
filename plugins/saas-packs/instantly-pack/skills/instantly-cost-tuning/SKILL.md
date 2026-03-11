@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Instantly Cost Tuning
 
 ## Overview
-Optimize Instantly email outreach costs by managing sending account count, right-sizing your plan tier, and maximizing deliverability (which is the core ROI metric). Instantly pricing combines per-seat costs with sending volume tiers (Growth: 5K leads/month, Hypergrowth: 25K leads/month, Light Speed: 100K leads/month). The biggest cost lever is improving deliverability -- a well-warmed account sending 50 emails/day with 40% open rate outperforms 3 accounts sending 200 emails/day with 10% open rate, at 1/3 the cost.
+Optimize Instantly email outreach costs by managing sending account count, right-sizing your plan tier, and maximizing deliverability (which is the core ROI metric). Instantly pricing combines per-seat costs with sending volume tiers (Growth: 5K leads/month, Hypergrowth: 25K leads/month, Light Speed: 100K leads/month).
 
 ## Prerequisites
 - Instantly workspace admin access
@@ -27,6 +26,7 @@ Optimize Instantly email outreach costs by managing sending account count, right
 
 ### Step 1: Audit Account Efficiency
 ```bash
+set -euo pipefail
 # Check per-account performance
 curl "https://api.instantly.ai/api/v1/account/status" \
   -H "Authorization: Bearer $INSTANTLY_API_KEY" | \
@@ -77,12 +77,12 @@ warmup_best_practices:
 ```yaml
 # Plan selection based on actual sending needs
 growth_plan:
-  leads: 5000/month
+  leads: 5000/month  # 5000: 5 seconds in ms
   best_for: "Small team, 1-2 SDRs, testing campaigns"
   cost: "$37/month"
 
 hypergrowth_plan:
-  leads: 25000/month
+  leads: 25000/month  # 25000 = configured value
   best_for: "Active outbound team, 3-5 SDRs"
   cost: "$97/month"
   tip: "Only upgrade when Growth plan consistently hits >80% lead capacity"
@@ -118,12 +118,19 @@ optimization_priority:
 | High bounce rate | Unverified lead lists | Use email verification before import |
 
 ## Examples
-```bash
-# Quick ROI calculator
-echo "Monthly cost: \$97 (Hypergrowth)"
-echo "Leads contacted: 5000"
-echo "Reply rate: 3%"
-echo "Replies: 150"
-echo "Cost per reply: \$0.65"
-echo "If you improve reply rate to 5%: replies=250, cost/reply=\$0.39 (40% better ROI)"
-```
+
+**Basic usage**: Apply instantly cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize instantly cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

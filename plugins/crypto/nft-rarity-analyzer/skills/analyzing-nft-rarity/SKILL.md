@@ -10,7 +10,6 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Analyzing NFT Rarity
 
 ## Overview
@@ -37,22 +36,22 @@ cd ${CLAUDE_SKILL_DIR}/scripts && python3 rarity_analyzer.py collection boredape
 ```
 
 Options:
-- `--limit 500`: Fetch more tokens for analysis
-- `--top 50`: Show top 50 tokens
-- `--traits`: Include trait distribution
-- `--rarest`: Show rarest traits
-- `--algorithm [statistical|rarity_score|average|information]`
+1. `--limit 500`: Fetch more tokens for analysis
+2. `--top 50`: Show top 50 tokens
+3. `--traits`: Include trait distribution
+4. `--rarest`: Show rarest traits
+5. `--algorithm [statistical|rarity_score|average|information]`
 
 ### 2. Check Specific Token
 
 ```bash
-cd ${CLAUDE_SKILL_DIR}/scripts && python3 rarity_analyzer.py token pudgypenguins 1234
+cd ${CLAUDE_SKILL_DIR}/scripts && python3 rarity_analyzer.py token pudgypenguins 1234  # port 1234 - example/test
 ```
 
 ### 3. Compare Multiple Tokens
 
 ```bash
-cd ${CLAUDE_SKILL_DIR}/scripts && python3 rarity_analyzer.py compare azuki 1234,5678,9012
+cd ${CLAUDE_SKILL_DIR}/scripts && python3 rarity_analyzer.py compare azuki 1234,5678,9012  # 5678: 1234: 9012 = configured value
 ```
 
 ### 4. View Trait Distribution

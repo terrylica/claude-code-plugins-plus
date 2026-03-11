@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # FireCrawl Reference Architecture
 
 ## Overview
@@ -62,7 +61,7 @@ async function scrapePage(url: string) {
   return firecrawl.scrapeUrl(url, {
     formats: ['markdown', 'html'],
     onlyMainContent: true,
-    waitFor: 2000, // Wait for dynamic content
+    waitFor: 2000, // Wait for dynamic content  # 2000: 2 seconds in ms
   });
 }
 
@@ -101,14 +100,14 @@ async function crawlSite(baseUrl: string, options?: {
 // Async crawl for large sites
 async function asyncCrawl(baseUrl: string) {
   const job = await firecrawl.asyncCrawlUrl(baseUrl, {
-    limit: 500,
+    limit: 500,  # HTTP 500 Internal Server Error
     scrapeOptions: { formats: ['markdown'] },
   });
 
   // Poll for completion
   let status = await firecrawl.checkCrawlStatus(job.id);
   while (status.status === 'scraping') {
-    await new Promise(r => setTimeout(r, 5000));
+    await new Promise(r => setTimeout(r, 5000));  # 5000: 5 seconds in ms
     status = await firecrawl.checkCrawlStatus(job.id);
   }
 
@@ -194,3 +193,9 @@ async function scrapeDocumentation(docsUrl: string) {
 - [FireCrawl Documentation](https://docs.firecrawl.dev)
 - [FireCrawl Scraping Guide](https://docs.firecrawl.dev/features/scrape)
 - [FireCrawl Extraction](https://docs.firecrawl.dev/features/extract)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

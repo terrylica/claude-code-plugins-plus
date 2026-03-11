@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Perplexity Policy Guardrails
 
 ## Overview
@@ -42,7 +41,7 @@ def moderate_query(query: str) -> str:
     for pattern in BLOCKED_INTENTS:
         if re.search(pattern, query, re.IGNORECASE):
             raise PolicyViolation("Query blocked by content policy")
-    if len(query) > 2000:
+    if len(query) > 2000:  # 2000: 2 seconds in ms
         raise PolicyViolation("Query exceeds maximum length")
     return query
 ```
@@ -54,8 +53,8 @@ Route queries to appropriate model tiers to control costs.
 ```python
 class ModelSelectionPolicy:
     RULES = {
-        "sonar": {"max_tokens": 4096, "cost_per_request": 0.005},
-        "sonar-pro": {"max_tokens": 8192, "cost_per_request": 0.025},
+        "sonar": {"max_tokens": 4096, "cost_per_request": 0.005},  # 4096: 4 KB
+        "sonar-pro": {"max_tokens": 8192, "cost_per_request": 0.025},  # 8192: 8 KB
     }
 
     def select_model(self, query: str, user_tier: str = "free") -> str:
@@ -101,7 +100,7 @@ Limit API consumption to control costs.
 class PerplexityQuota:
     def __init__(self, redis_client):
         self.r = redis_client
-        self.limits = {"free": 50, "pro": 500, "enterprise": 5000}
+        self.limits = {"free": 50, "pro": 500, "enterprise": 5000}  # 5000: HTTP 500 Internal Server Error
 
     def check_and_consume(self, user_id: str, tier: str = "free"):
         key = f"pplx:quota:{user_id}:{datetime.now().strftime('%Y-%m-%d')}"
@@ -110,7 +109,7 @@ class PerplexityQuota:
         if current >= limit:
             raise PolicyViolation(f"Daily quota exceeded ({current}/{limit})")
         self.r.incr(key)
-        self.r.expire(key, 86400)
+        self.r.expire(key, 86400)  # 86400: timeout: 24 hours
 ```
 
 ## Error Handling
@@ -135,3 +134,9 @@ citation_quality = score_citation_quality(result.citations)
 ## Resources
 - [Perplexity API Docs](https://docs.perplexity.ai)
 - [Responsible AI Practices](https://docs.perplexity.ai/guides/responsible-use)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

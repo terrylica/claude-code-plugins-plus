@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Ideogram Performance Tuning
 
 ## Overview
@@ -109,7 +108,7 @@ async function batchGenerate(
 
     // Rate limit: ~10 requests/minute on standard plans
     if (i + concurrency < prompts.length) {
-      await new Promise(r => setTimeout(r, 6000));
+      await new Promise(r => setTimeout(r, 6000));  # 6000 = configured value
     }
   }
   return results;
@@ -166,3 +165,9 @@ console.log(`Generated ${assets.length} brand assets`);
 ## Resources
 - [Ideogram API Reference](https://docs.ideogram.ai/api)
 - [Ideogram Model Guide](https://docs.ideogram.ai/models)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

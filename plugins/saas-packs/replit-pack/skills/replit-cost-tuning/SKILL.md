@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Cost Tuning
 
 ## Overview
-Optimize Replit costs by right-sizing deployment tiers, managing compute resources, and controlling AI feature (Ghostwriter) consumption. Replit pricing combines per-seat subscription (Teams: ~$25/seat/month) with deployment compute costs (billed by CPU/memory/egress). The biggest cost levers are: using Reserved VMs for predictable workloads instead of on-demand (40% savings), configuring auto-sleep for development Repls, and right-sizing deployment resources to actual usage.
+Optimize Replit costs by right-sizing deployment tiers, managing compute resources, and controlling AI feature (Ghostwriter) consumption. Replit pricing combines per-seat subscription (Teams: ~$25/seat/month) with deployment compute costs (billed by CPU/memory/egress).
 
 ## Prerequisites
 - Replit Teams account with billing access
@@ -27,6 +26,7 @@ Optimize Replit costs by right-sizing deployment tiers, managing compute resourc
 
 ### Step 1: Audit Compute Costs by Repl
 ```bash
+set -euo pipefail
 # Check resource consumption across team Repls
 curl "https://replit.com/api/v1/teams/TEAM_ID/usage?period=last_30d" \
   -H "Authorization: Bearer $REPLIT_API_KEY" | \
@@ -38,7 +38,7 @@ curl "https://replit.com/api/v1/teams/TEAM_ID/usage?period=last_30d" \
 # Match resources to actual workload needs
 undersized:  # Causes crashes, bad UX
   cpu: 0.25 vCPU
-  memory: 512 MB
+  memory: 512 MB  # 512 bytes
   cost: "$5/month"
 
 right_sized:  # Handles normal traffic
@@ -98,12 +98,19 @@ audit:
 | Seat costs growing | Team expanding without audit | Quarterly seat utilization review |
 
 ## Examples
-```bash
-# Quick cost check: which Repls cost the most?
-curl -s "https://replit.com/api/v1/teams/TEAM_ID/usage?period=last_30d" \
-  -H "Authorization: Bearer $REPLIT_API_KEY" | \
-  jq '{
-    total_cost: ([.usage[].cost_usd] | add),
-    top_3: [.usage | sort_by(-.cost_usd) | .[0:3] | .[] | {repl: .repl_name, cost: .cost_usd}]
-  }'
-```
+
+**Basic usage**: Apply replit cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize replit cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Firecrawl Deploy Integration
 
 ## Overview
@@ -66,9 +65,9 @@ services:
   firecrawl:
     image: mendableai/firecrawl:latest
     ports:
-      - "3002:3002"
+      - "3002:3002"  # 3002 = configured value
     environment:
-      - REDIS_URL=redis://redis:6379
+      - REDIS_URL=redis://redis:6379  # 6379: Redis port
       - PLAYWRIGHT_BROWSERS_PATH=/browsers
     depends_on:
       - redis
@@ -76,12 +75,12 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - "6379:6379"  # Redis port
 
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "3000:3000"  # 3000: 3 seconds in ms
     environment:
       - FIRECRAWL_API_URL=http://firecrawl:3002
     depends_on:
@@ -111,7 +110,7 @@ export async function GET() {
     });
     return Response.json({ status: result ? "healthy" : "degraded" });
   } catch {
-    return Response.json({ status: "unhealthy" }, { status: 503 });
+    return Response.json({ status: "unhealthy" }, { status: 503 });  # HTTP 503 Service Unavailable
   }
 }
 ```
@@ -126,10 +125,10 @@ export async function GET() {
 
 ## Examples
 
-### Quick Deploy
-```bash
-vercel env add FIRECRAWL_API_KEY production && vercel --prod
-```
+
+**Basic usage**: Apply firecrawl deploy integration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize firecrawl deploy integration for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [Firecrawl Documentation](https://docs.firecrawl.dev)
@@ -137,3 +136,9 @@ vercel env add FIRECRAWL_API_KEY production && vercel --prod
 
 ## Next Steps
 For webhook handling, see `firecrawl-webhooks-events`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

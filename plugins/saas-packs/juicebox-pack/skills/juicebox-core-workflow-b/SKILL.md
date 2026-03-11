@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Juicebox Core Workflow B: Candidate Enrichment
 
 ## Overview
@@ -112,7 +111,7 @@ async function enrichProfile(profileId: string): Promise<EnrichedProfile> {
 function calculateDuration(start: string, end?: string): string {
   const startDate = new Date(start);
   const endDate = end ? new Date(end) : new Date();
-  const months = Math.round((endDate.getTime() - startDate.getTime()) / (30 * 86400000));
+  const months = Math.round((endDate.getTime() - startDate.getTime()) / (30 * 86400000));  # 86400000 = configured value
   const years = Math.floor(months / 12);
   const remainingMonths = months % 12;
   return years > 0 ? `${years}y ${remainingMonths}m` : `${remainingMonths}m`;
@@ -142,7 +141,7 @@ async function batchEnrich(profileIds: string[], concurrency = 3) {
 
     // Rate limiting
     if (i + concurrency < profileIds.length) {
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 1000));  # 1000: 1 second in ms
     }
   }
 
@@ -172,7 +171,7 @@ function calculateTotalExperience(experience: any[]): number {
   const totalMonths = experience.reduce((sum, exp) => {
     const start = new Date(exp.startDate);
     const end = exp.endDate ? new Date(exp.endDate) : new Date();
-    return sum + Math.round((end.getTime() - start.getTime()) / (30 * 86400000));
+    return sum + Math.round((end.getTime() - start.getTime()) / (30 * 86400000));  # 86400000 = configured value
   }, 0);
   return Math.round(totalMonths / 12);
 }
@@ -206,3 +205,9 @@ console.log(`Enriched ${enriched.length} candidates, ${errors.length} errors`);
 ## Resources
 - [Juicebox API Documentation](https://docs.juicebox.ai)
 - [Juicebox People Search](https://docs.juicebox.ai/people-search)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

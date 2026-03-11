@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Speak CI Integration
 
 ## Overview
@@ -26,7 +25,7 @@ Integrate Speak language learning API validation into CI/CD pipelines. Covers pr
 
 ## Instructions
 
-For full implementation details, load: `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
+1. For full implementation details, load: `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
 
 ## Error Handling
 | Issue | Cause | Solution |
@@ -50,3 +49,11 @@ For full implementation details, load: `Read(${CLAUDE_SKILL_DIR}/references/impl
 ## Resources
 - [Speak API Documentation](https://docs.speak.com)
 - [Speak Developer Guide](https://speak.com/developers)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+See [CI/CD implementation details](${CLAUDE_SKILL_DIR}/references/implementation.md) for output format specifications.

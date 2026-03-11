@@ -4,14 +4,13 @@ description: |
   Configure multi-environment setup for Guidewire InsuranceSuite including development,
   staging, and production environments with proper isolation and promotion workflows.
   Trigger with phrases like "guidewire environments", "multi-environment",
-  "dev staging production", "environment configuration", "environment promotion".
+  "dev staging production", "environment configuration", "environment promotion". Use when working with guidewire multi env setup.
 allowed-tools: Read, Write, Edit, Bash(curl:*), Bash(gradle:*), Grep
 version: 1.0.0
 license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Guidewire Multi-Environment Setup
 
 ## Overview
@@ -97,3 +96,9 @@ For detailed code implementations (properties files, Gradle config, TypeScript m
 ## Next Steps
 
 For monitoring and observability, see `guidewire-observability`.
+
+## Examples
+
+**Basic usage**: Apply guidewire multi env setup to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize guidewire multi env setup for production environments with multiple constraints and team-specific requirements.

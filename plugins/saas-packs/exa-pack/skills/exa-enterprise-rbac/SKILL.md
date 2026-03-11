@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Exa Enterprise RBAC
 
 ## Overview
-Manage access to Exa AI search API through API key scoping and team-level controls. Exa is an API-first product with per-search pricing, so access control centers on API key management, rate limiting, and domain restrictions rather than traditional user roles. Each key can be scoped to specific search types (neural, keyword, auto) and rate-limited independently.
+Manage access to Exa AI search API through API key scoping and team-level controls. Exa is an API-first product with per-search pricing, so access control centers on API key management, rate limiting, and domain restrictions rather than traditional user roles.
 
 ## Prerequisites
 - Exa API account with team plan
@@ -27,14 +26,15 @@ Manage access to Exa AI search API through API key scoping and team-level contro
 
 ### Step 1: Create Scoped API Keys per Use Case
 ```bash
+set -euo pipefail
 # Create a key for the RAG pipeline (high volume, neural search only)
 curl -X POST https://api.exa.ai/v1/api-keys \
   -H "Authorization: Bearer $EXA_ADMIN_KEY" \
   -d '{
     "name": "rag-pipeline-prod",
     "allowed_endpoints": ["search", "get-contents"],
-    "rate_limit_rpm": 300,
-    "monthly_search_limit": 50000
+    "rate_limit_rpm": 300,  # 300: timeout: 5 minutes
+    "monthly_search_limit": 50000  # 50000ms = 50 seconds
   }'
 
 # Create a restricted key for the internal tool (low volume)
@@ -43,7 +43,7 @@ curl -X POST https://api.exa.ai/v1/api-keys \
   -d '{
     "name": "internal-research-tool",
     "rate_limit_rpm": 30,
-    "monthly_search_limit": 5000
+    "monthly_search_limit": 5000  # 5000: 5 seconds in ms
   }'
 ```
 
@@ -66,6 +66,7 @@ function validateRequest(keyName: string, searchType: string, numResults: number
 ### Step 3: Set Domain Restrictions
 Restrict search results to approved domains for compliance-sensitive teams:
 ```bash
+set -euo pipefail
 # Only allow searches from vetted sources
 curl -X POST https://api.exa.ai/search \
   -H "x-api-key: $EXA_API_KEY" \
@@ -78,6 +79,7 @@ curl -X POST https://api.exa.ai/search \
 
 ### Step 4: Monitor Usage and Rotate Keys
 ```bash
+set -euo pipefail
 # Check usage per API key
 curl https://api.exa.ai/v1/usage \
   -H "Authorization: Bearer $EXA_ADMIN_KEY" | \
@@ -99,8 +101,19 @@ echo "Update services with new key, then delete old key"
 | Empty results | Domain filter too restrictive | Widen `includeDomains` or remove filter |
 
 ## Examples
-```bash
-# Quick test: verify API key works and check remaining quota
-curl -s https://api.exa.ai/v1/usage \
-  -H "x-api-key: $EXA_API_KEY" | jq '{searches_remaining, plan, rate_limit}'
-```
+
+**Basic usage**: Apply exa enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize exa enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Exa Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

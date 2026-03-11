@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Known Pitfalls
 
 ## Overview
@@ -72,11 +71,11 @@ Replit assigns ports dynamically. Hardcoding causes binding failures.
 
 ```python
 # BAD: hardcoded port
-app.run(host='0.0.0.0', port=3000)  # may conflict
+app.run(host='0.0.0.0', port=3000)  # 3000: may conflict
 
 # GOOD: use environment variable
 import os
-port = int(os.environ.get('PORT', 3000))
+port = int(os.environ.get('PORT', 3000))  # 3 seconds in ms
 app.run(host='0.0.0.0', port=port)
 ```
 
@@ -146,3 +145,9 @@ deploymentTarget = "cloudrun"
 - [Replit Docs](https://docs.replit.com)
 - [Replit DB Guide](https://docs.replit.com/hosting/databases/replit-database)
 - [Nix on Replit](https://docs.replit.com/programming-ide/nix-on-replit)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Databricks Cost Tuning
 
 ## Overview
-Reduce Databricks spending by optimizing cluster configurations, leveraging spot instances, right-sizing SQL warehouses, and implementing cost governance policies. Databricks charges per DBU (Databricks Unit) with rates varying by workload type: Jobs Compute (~$0.15/DBU), All-Purpose Compute (~$0.40/DBU), SQL Compute (~$0.22/DBU), and Serverless (~$0.07/DBU). The biggest cost levers are cluster auto-termination, spot instances, and moving interactive workloads to serverless.
+Reduce Databricks spending by optimizing cluster configurations, leveraging spot instances, right-sizing SQL warehouses, and implementing cost governance policies. Databricks charges per DBU (Databricks Unit) with rates varying by workload type: Jobs Compute (~$0.15/DBU), All-Purpose Compute (~$0.40/DBU), SQL Compute (~$0.22/DBU), and Serverless (~$0.07/DBU).
 
 ## Prerequisites
 - Databricks Premium or Enterprise workspace
@@ -82,7 +81,7 @@ FROM system.query.history
 WHERE start_time > current_timestamp() - INTERVAL 7 DAYS
 GROUP BY warehouse_id, warehouse_name;
 -- If max_queue_ms is near 0, warehouse is oversized. Reduce cluster size.
--- If max_queue_ms > 30000, warehouse needs more capacity or auto-scaling.
+-- If max_queue_ms > 30000, warehouse needs more capacity or auto-scaling.  # 30000: 30 seconds in ms
 ```
 
 ### Step 5: Schedule Auto-Stop for Development Clusters
@@ -102,19 +101,19 @@ databricks clusters list --output JSON | \
 | Billing data not available | System tables not enabled | Enable system table access in account settings |
 
 ## Examples
-```sql
--- Monthly cost forecast based on current week's usage
-SELECT sku_name,
-       SUM(usage_quantity * list_price) * 4.3 AS projected_monthly_cost
-FROM system.billing.usage
-WHERE usage_date >= current_date() - INTERVAL 7 DAYS
-GROUP BY sku_name
-ORDER BY projected_monthly_cost DESC;
-```
 
-```bash
-# Kill all running interactive clusters older than 4 hours
-databricks clusters list --output JSON | \
-  jq -r '.[] | select(.state=="RUNNING" and .cluster_source=="UI" and (now - (.start_time/1000)) > 14400) | .cluster_id' | \
-  xargs -I{} databricks clusters delete {}
-```
+**Basic usage**: Apply databricks cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize databricks cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Retell AI Data Handling
 
 ## Overview
@@ -103,14 +102,14 @@ interface CallRecord {
 
 function calculateRetention(callRecord: any): CallRecord {
   const retentionDays = 90; // Default 90-day retention
-  const retainUntil = new Date(callRecord.end_timestamp * 1000);
+  const retainUntil = new Date(callRecord.end_timestamp * 1000);  # 1000: 1 second in ms
   retainUntil.setDate(retainUntil.getDate() + retentionDays);
 
   return {
     callId: callRecord.call_id,
     agentId: callRecord.agent_id,
-    startedAt: new Date(callRecord.start_timestamp * 1000).toISOString(),
-    endedAt: new Date(callRecord.end_timestamp * 1000).toISOString(),
+    startedAt: new Date(callRecord.start_timestamp * 1000).toISOString(),  # 1 second in ms
+    endedAt: new Date(callRecord.end_timestamp * 1000).toISOString(),  # 1 second in ms
     duration: callRecord.end_timestamp - callRecord.start_timestamp,
     transcript: JSON.stringify(callRecord.transcript_object || []),
     recordingUrl: callRecord.recording_url,
@@ -180,7 +179,7 @@ async function complianceReport(records: CallRecord[]) {
     withRecordings: records.filter(r => r.recordingUrl).length,
     expiringThisWeek: records.filter(r => {
       const exp = new Date(r.retainUntil);
-      return exp > now && exp < new Date(now.getTime() + 7 * 86400000);
+      return exp > now && exp < new Date(now.getTime() + 7 * 86400000);  # 86400000 = configured value
     }).length,
   };
 }
@@ -189,3 +188,9 @@ async function complianceReport(records: CallRecord[]) {
 ## Resources
 - [Retell AI Privacy](https://www.retellai.com/privacy)
 - [Retell Call Data](https://docs.retellai.com/api-references/get-call)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

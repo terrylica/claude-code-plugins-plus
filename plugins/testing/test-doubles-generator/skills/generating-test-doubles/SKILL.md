@@ -15,7 +15,7 @@ compatible-with: claude-code, codex, openclaw
 
 ## Overview
 
-Generate mocks, stubs, spies, and fakes to isolate units under test from external dependencies. Supports Jest mocks, Sinon.js stubs, Python unittest.mock, Go interfaces, and testdouble.js patterns. Produces type-safe test doubles that mirror production interfaces while providing full control over return values, call tracking, and side effects.
+Generate mocks, stubs, spies, and fakes to isolate units under test from external dependencies. Supports Jest mocks, Sinon.js stubs, Python unittest.mock, Go interfaces, and testdouble.js patterns.
 
 ## Prerequisites
 
@@ -78,7 +78,7 @@ from unittest.mock import patch, MagicMock
 
 @patch('myapp.client.requests.get')
 def test_fetch_data(mock_get):
-    mock_get.return_value = MagicMock(status_code=200, json=lambda: {"key": "value"})
+    mock_get.return_value = MagicMock(status_code=200, json=lambda: {"key": "value"})  # HTTP 200 OK
     result = fetch_data("https://api.example.com/data")
     assert result == {"key": "value"}
     mock_get.assert_called_once()

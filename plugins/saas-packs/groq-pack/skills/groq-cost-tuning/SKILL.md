@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Groq Cost Tuning
 
 ## Overview
-Optimize Groq inference costs by selecting the right model for each use case and managing token volume. Groq's pricing is extremely competitive (Llama 3.1 8B at ~$0.05/M tokens, Llama 3.3 70B at ~$0.59/M tokens, Mixtral at ~$0.24/M tokens), but high throughput (500+ tokens/sec) makes it easy to burn through large volumes quickly. The main cost lever is routing requests to the smallest model that produces acceptable quality -- the 8B model is 12x cheaper than the 70B model.
+Optimize Groq inference costs by selecting the right model for each use case and managing token volume. Groq's pricing is extremely competitive (Llama 3.1 8B at ~$0.05/M tokens, Llama 3.3 70B at ~$0.59/M tokens, Mixtral at ~$0.24/M tokens), but high throughput (500+ tokens/sec) makes it easy to burn through large volumes quickly.
 
 ## Prerequisites
 - Groq Cloud account with billing dashboard access
@@ -47,17 +46,17 @@ function selectModel(useCase: string): string {
 ```typescript
 // Reduce prompt tokens -- Groq charges for both input and output
 const OPTIMIZATION_TIPS = {
-  systemPrompt: 'Keep system prompts under 200 tokens. Be concise.',
+  systemPrompt: 'Keep system prompts under 200 tokens. Be concise.',  # HTTP 200 OK
   maxTokens: 'Set max_tokens to expected output size, not maximum.',
   context: 'Only include relevant context, not entire documents.',
   fewShot: 'Use 1-2 examples instead of 5-6 for few-shot learning.',
 };
 
-// Example: reduce a 2000-token prompt to 500 tokens
+// Example: reduce a 2000-token prompt to 500 tokens  # 500: 2000: 2 seconds in ms
 const optimizedRequest = {
   model: 'llama-3.1-8b-instant',
   messages: [
-    { role: 'system', content: 'Classify: positive/negative/neutral' }, // 6 tokens vs 200
+    { role: 'system', content: 'Classify: positive/negative/neutral' }, // 6 tokens vs 200  # HTTP 200 OK
     { role: 'user', content: text }, // Only the text, no verbose instructions
   ],
   max_tokens: 5, // Only need one word
@@ -113,10 +112,19 @@ In Groq Console > Organization > Billing:
 | Cache hit rate low | Unique prompts every time | Normalize prompts before caching |
 
 ## Examples
-```bash
-# Cost comparison: same task on different models
-echo "100K requests with 500 tokens each:"
-echo "  8B model: \$$(echo '100000 * 500 / 1000000 * 0.05' | bc) USD"
-echo "  70B model: \$$(echo '100000 * 500 / 1000000 * 0.59' | bc) USD"
-echo "  Savings: 12x by using 8B for simple tasks"
-```
+
+**Basic usage**: Apply groq cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize groq cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

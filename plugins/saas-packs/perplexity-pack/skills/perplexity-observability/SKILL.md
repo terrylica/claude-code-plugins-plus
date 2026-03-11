@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Perplexity Observability
 
 ## Overview
-Monitor Perplexity AI search API performance, citation quality, and per-query costs. Key signals include search latency (sonar: 1-3s, sonar-pro: 3-8s), citation count per response (more citations generally means higher answer quality), cost per query by model, and cache effectiveness for repeated queries. Since Perplexity combines search with LLM generation, both network retrieval time and generation time contribute to total latency.
+Monitor Perplexity AI search API performance, citation quality, and per-query costs. Key signals include search latency (sonar: 1-3s, sonar-pro: 3-8s), citation count per response (more citations generally means higher answer quality), cost per query by model, and cache effectiveness for repeated queries.
 
 ## Prerequisites
 - Perplexity API integration (pplx-api or OpenAI-compatible endpoint)
@@ -64,6 +63,7 @@ function evaluateCitations(citations: string[]) {
 
 ### Step 3: Monitor Cost and Budget
 ```bash
+set -euo pipefail
 # Check API usage and budget status
 curl -s https://api.perplexity.ai/v1/usage \
   -H "Authorization: Bearer $PPLX_API_KEY" | \
@@ -76,7 +76,7 @@ groups:
   - name: perplexity
     rules:
       - alert: PerplexityHighLatency
-        expr: histogram_quantile(0.95, rate(perplexity_latency_ms_bucket[5m])) > 8000
+        expr: histogram_quantile(0.95, rate(perplexity_latency_ms_bucket[5m])) > 8000  # 8000: API server port
         annotations: { summary: "Perplexity P95 latency exceeds 8 seconds" }
       - alert: PerplexityNoCitations
         expr: perplexity_citations_count == 0
@@ -102,12 +102,19 @@ Track: query latency by model (sonar vs sonar-pro), citations per response distr
 | Budget exhausted | Monthly cap reached | Increase budget or reduce query volume |
 
 ## Examples
-```bash
-# Compare model latency
-for model in sonar sonar-pro; do
-  echo -n "$model: "
-  time curl -s -X POST https://api.perplexity.ai/chat/completions \
-    -H "Authorization: Bearer $PPLX_API_KEY" \
-    -d "{\"model\": \"$model\", \"messages\": [{\"role\": \"user\", \"content\": \"What is GraphQL?\"}]}" -o /dev/null
-done
-```
+
+**Basic usage**: Apply perplexity observability to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize perplexity observability for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

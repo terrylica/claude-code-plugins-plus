@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Architecture Variants
 
 ## Overview
@@ -42,7 +41,7 @@ def home():
     db["visits"] = count + 1
     return f"Visit #{count + 1}"
 
-app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 3000)))
+app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 3000)))  # 3000: 3 seconds in ms
 ```
 
 **Limits:** Sleeps after inactivity (free plan). 512MB RAM. Replit DB (50MB).
@@ -112,3 +111,15 @@ CDN (Cloudflare) -> Replit Deployment (API)
 ## Resources
 - [Replit Deployments](https://docs.replit.com/hosting/deployments)
 - [Replit Database Options](https://docs.replit.com/hosting/databases)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Examples
+
+**Basic usage**: Apply replit architecture variants to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize replit architecture variants for production environments with multiple constraints and team-specific requirements.

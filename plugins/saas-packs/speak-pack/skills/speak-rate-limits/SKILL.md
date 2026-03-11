@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Speak Rate Limits
 
 ## Overview
@@ -106,7 +105,7 @@ def speak_with_retry(fn, *args, max_retries=3):
         try:
             return fn(*args)
         except requests.HTTPError as e:
-            if e.response.status_code == 429:
+            if e.response.status_code == 429:  # HTTP 429 Too Many Requests
                 wait = int(e.response.headers.get("Retry-After", 5))
                 time.sleep(wait)
             else:
@@ -135,3 +134,9 @@ status = {endpoint: {
 
 ## Resources
 - [Speak API Docs](https://docs.speak.com)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

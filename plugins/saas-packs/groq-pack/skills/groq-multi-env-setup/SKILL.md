@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Groq Multi-Environment Setup
 
 ## Overview
-Configure Groq across environments with the right balance of cost, speed, and capability per tier. Groq's key differentiator is inference speed (100-300 tokens/second), but rate limits differ dramatically by plan: free tier is 30 RPM / 14,400 RPD for llama-3.1-70b, while paid tier removes most limits. Development typically uses smaller/faster models (llama-3.1-8b) to minimize cost; production uses appropriately-sized models with retry logic for rate limits.
+Configure Groq across environments with the right balance of cost, speed, and capability per tier. Groq's key differentiator is inference speed (100-300 tokens/second), but rate limits differ dramatically by plan: free tier is 30 RPM / 14,400 RPD for llama-3.1-70b, while paid tier removes most limits.
 
 ## Prerequisites
 - Groq API key(s) per environment from console.groq.com
@@ -51,7 +50,7 @@ import Groq from "groq-sdk";
 
 export const BASE_GROQ_CONFIG = {
   maxRetries: 3,
-  timeout: 30000,
+  timeout: 30000,  # 30000: 30 seconds in ms
 };
 ```
 
@@ -62,7 +61,7 @@ export const devConfig = {
   ...BASE_GROQ_CONFIG,
   apiKey: process.env.GROQ_API_KEY,
   model: "llama-3.1-8b-instant",      // fastest, cheapest for dev iteration
-  maxTokens: 1024,
+  maxTokens: 1024,  # 1024: 1 KB
   temperature: 0.7,
   logRequests: true,                   // verbose logging in dev
 };
@@ -72,7 +71,7 @@ export const stagingConfig = {
   ...BASE_GROQ_CONFIG,
   apiKey: process.env.GROQ_API_KEY_STAGING,
   model: "llama-3.1-70b-versatile",   // match production model
-  maxTokens: 4096,
+  maxTokens: 4096,  # 4096: 4 KB
   temperature: 0.3,
   logRequests: false,
 };
@@ -82,7 +81,7 @@ export const productionConfig = {
   ...BASE_GROQ_CONFIG,
   apiKey: process.env.GROQ_API_KEY_PROD,
   model: "llama-3.1-70b-versatile",   // or llama-3.3-70b-specdec for faster
-  maxTokens: 4096,
+  maxTokens: 4096,  # 4 KB
   temperature: 0.3,
   maxRetries: 5,                       // more retries for production reliability
   logRequests: false,
@@ -150,7 +149,7 @@ export async function complete(prompt: string): Promise<string> {
     });
     return completion.choices[0].message.content || "";
   } catch (err: any) {
-    if (err.status === 429) {
+    if (err.status === 429) {  # HTTP 429 Too Many Requests
       const retryAfter = parseInt(err.headers?.["retry-after"] || "10");
       console.warn(`Groq rate limited. Retry after ${retryAfter}s`);
       throw new Error(`Rate limited on model ${model}. Retry after ${retryAfter}s`);
@@ -180,6 +179,7 @@ console.log(`Model: ${cfg.model}, max_tokens: ${cfg.maxTokens}`);
 
 ### Test Rate Limits Per Environment
 ```bash
+set -euo pipefail
 # Quick check: what's my current rate limit status?
 curl -s "https://api.groq.com/openai/v1/models" \
   -H "Authorization: Bearer $GROQ_API_KEY" | jq '.data[].id'
@@ -192,3 +192,9 @@ curl -s "https://api.groq.com/openai/v1/models" \
 
 ## Next Steps
 For deployment configuration, see `groq-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

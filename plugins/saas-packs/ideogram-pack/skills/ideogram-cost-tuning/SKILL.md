@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Ideogram Cost Tuning
 
 ## Overview
-Reduce Ideogram AI image generation costs by optimizing credit usage per generation, choosing appropriate model quality, and implementing generation caching. Ideogram uses credit-based pricing where each generation costs credits based on model version (V_2 vs V_2_TURBO) and quality settings. The key cost levers are: using V_2_TURBO for drafts and iteration (faster, fewer credits), reserving V_2 for final outputs, and caching generated images for repeated similar prompts.
+Reduce Ideogram AI image generation costs by optimizing credit usage per generation, choosing appropriate model quality, and implementing generation caching. Ideogram uses credit-based pricing where each generation costs credits based on model version (V_2 vs V_2_TURBO) and quality settings.
 
 ## Prerequisites
 - Ideogram API account with credit balance visibility
@@ -69,7 +68,7 @@ const imageCache = new Map<string, { url: string; timestamp: number }>();
 async function cachedGeneration(prompt: string, options: any) {
   const key = createHash('md5').update(`${prompt}:${JSON.stringify(options)}`).digest('hex');
   const cached = imageCache.get(key);
-  if (cached && Date.now() - cached.timestamp < 7 * 24 * 3600 * 1000) {
+  if (cached && Date.now() - cached.timestamp < 7 * 24 * 3600 * 1000) {  # 1000: 3600: timeout: 1 hour
     return cached.url; // Reuse for 7 days
   }
   const result = await ideogram.generate({ image_request: { prompt, ...options } });
@@ -97,6 +96,7 @@ async function generateVariations(prompt: string, count: number = 4) {
 
 ### Step 5: Monitor Credit Burn Rate
 ```bash
+set -euo pipefail
 # Track credit consumption and forecast depletion
 curl -s https://api.ideogram.ai/v1/usage \
   -H "Api-Key: $IDEOGRAM_API_KEY" | \
@@ -118,9 +118,19 @@ curl -s https://api.ideogram.ai/v1/usage \
 | Unexpected credit drain | High-res generations for small uses | Match resolution to actual display size needed |
 
 ## Examples
-```bash
-# Cost comparison: draft vs production workflow
-echo "5 iterations all on V_2: ~15 credits"
-echo "4 drafts on V_2_TURBO + 1 final V_2: ~7 credits"
-echo "Savings: 53%"
-```
+
+**Basic usage**: Apply ideogram cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize ideogram cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

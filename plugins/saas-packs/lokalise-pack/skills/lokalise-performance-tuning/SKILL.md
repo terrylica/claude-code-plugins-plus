@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Lokalise Performance Tuning
 
 ## Overview
-Optimize Lokalise API throughput and response times for translation pipeline integrations. Lokalise enforces a global rate limit of 6 requests per second across most endpoints, making request efficiency critical for projects with thousands of keys. Key bottlenecks include: key listing pagination (default page size is 100, max is 500), file download generation (async, can take seconds for large projects), and bulk key creation (500 keys per batch max).
+Optimize Lokalise API throughput and response times for translation pipeline integrations. Lokalise enforces a global rate limit of 6 requests per second across most endpoints, making request efficiency critical for projects with thousands of keys.
 
 ## Prerequisites
 - Lokalise SDK (`@lokalise/node-api`) or REST API access
@@ -36,7 +35,7 @@ async function* getAllKeys(projectId: string) {
   do {
     const result = await lok.keys().list({
       project_id: projectId,
-      limit: 500,           // Maximum allowed
+      limit: 500,           // Maximum allowed  # HTTP 500 Internal Server Error
       pagination: 'cursor',
       cursor,
     });
@@ -44,7 +43,7 @@ async function* getAllKeys(projectId: string) {
     cursor = result.hasNextCursor() ? result.nextCursor : undefined;
   } while (cursor);
 }
-// 10,000 keys: 20 API calls instead of 100 (at limit=500 vs default limit=100)
+// 10,000 keys: 20 API calls instead of 100 (at limit=500 vs default limit=100)  # HTTP 500 Internal Server Error
 ```
 
 ### Step 2: Cache Translation Downloads
@@ -68,15 +67,15 @@ async function cachedDownload(projectId: string, format: string, langIso: string
 
 ### Step 3: Batch Key Operations
 ```typescript
-// Bulk create keys (up to 500 per request)
+// Bulk create keys (up to 500 per request)  # HTTP 500 Internal Server Error
 async function createKeysBatched(projectId: string, keys: any[]) {
-  const BATCH_SIZE = 500;
+  const BATCH_SIZE = 500;  # HTTP 500 Internal Server Error
   const results = [];
   for (let i = 0; i < keys.length; i += BATCH_SIZE) {
     const batch = keys.slice(i, i + BATCH_SIZE);
     const result = await lok.keys().create({ project_id: projectId, keys: batch });
     results.push(...result.items);
-    await new Promise(r => setTimeout(r, 200)); // Respect rate limit
+    await new Promise(r => setTimeout(r, 200)); // Respect rate limit  # HTTP 200 OK
   }
   return results;
 }
@@ -88,7 +87,7 @@ async function createKeysBatched(projectId: string, keys: any[]) {
 import PQueue from 'p-queue';
 
 // Lokalise rate limit: 6 requests/second
-const queue = new PQueue({ concurrency: 5, interval: 1000, intervalCap: 5 });
+const queue = new PQueue({ concurrency: 5, interval: 1000, intervalCap: 5 });  # 1000: 1 second in ms
 
 async function throttledRequest<T>(fn: () => Promise<T>): Promise<T> {
   return queue.add(fn) as Promise<T>;
@@ -100,6 +99,7 @@ const project = await throttledRequest(() => lok.projects().get(projectId));
 
 ### Step 5: Use Webhooks Instead of Polling
 ```bash
+set -euo pipefail
 # Replace polling for translation status with webhooks
 curl -X POST "https://api.lokalise.com/api2/projects/PROJECT_ID/webhooks" \
   -H "X-Api-Token: $LOKALISE_API_TOKEN" \
@@ -119,17 +119,19 @@ curl -X POST "https://api.lokalise.com/api2/projects/PROJECT_ID/webhooks" \
 | Bulk create fails partially | Network timeout on large batch | Reduce batch size to 200, add retry logic |
 
 ## Examples
-```bash
-# Benchmark: time a full key export
-time curl -s "https://api.lokalise.com/api2/projects/PROJECT_ID/keys?limit=500" \
-  -H "X-Api-Token: $LOKALISE_API_TOKEN" | jq '.keys | length'
-# Compare with limit=100 to see pagination impact
-```
 
-```typescript
-// Parallel download of all locales (respecting rate limit)
-const locales = ['en', 'fr', 'de', 'ja', 'ko'];
-const translations = await Promise.all(
-  locales.map(lang => throttledRequest(() => cachedDownload(projectId, 'json', lang)))
-);
-```
+**Basic usage**: Apply lokalise performance tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize lokalise performance tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official ORM documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Retell AI Known Pitfalls
 
 ## Overview
@@ -77,12 +76,12 @@ retell.on('call_ended', async (event) => {
 // Periodic cleanup for missed end events
 setInterval(() => {
   for (const [id, call] of activeCalls) {
-    if (Date.now() - call.started > 3600000) {  // 1 hour max
+    if (Date.now() - call.started > 3600000) {  // 1 hour max  # 3600000 = configured value
       cleanupResources(id);
       activeCalls.delete(id);
     }
   }
-}, 60000);
+}, 60000);  # 60000: 1 minute in ms
 ```
 
 ### Step 3: Don't Ignore Audio Quality Issues
@@ -125,7 +124,7 @@ const MAX_CONCURRENT = 10;  // check your plan limit
 
 app.post('/initiate-call', async (req, res) => {
   if (activeConcurrent >= MAX_CONCURRENT) {
-    return res.status(429).json({ error: "Call capacity reached" });
+    return res.status(429).json({ error: "Call capacity reached" });  # HTTP 429 Too Many Requests
   }
   activeConcurrent++;
   try {
@@ -155,7 +154,7 @@ app.post('/retell-webhook', async (req, res) => {
   const start = Date.now();
   const response = await handleTurn(req.body);
   const latency = Date.now() - start;
-  if (latency > 500) console.warn(`Slow response: ${latency}ms`);
+  if (latency > 500) console.warn(`Slow response: ${latency}ms`);  # HTTP 500 Internal Server Error
   res.json(response);
 });
 ```
@@ -163,3 +162,9 @@ app.post('/retell-webhook', async (req, res) => {
 ## Resources
 - [Retell AI Docs](https://docs.retellai.com)
 - [Voice Agent Best Practices](https://docs.retellai.com/guide/best-practices)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

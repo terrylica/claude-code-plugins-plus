@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Data Handling
 
 ## Overview
@@ -24,12 +23,12 @@ Manage user data, implement privacy features, and ensure compliance with regulat
 - Database with user-related data
 
 ## Instructions
-- Step 1: User Data Export
-- Step 2: User Deletion (Right to be Forgotten)
-- Step 3: Data Retention Policies
-- Step 4: Consent Management
-- Step 5: GDPR API Endpoints
-- Step 6: Audit Logging
+1. Step 1: User Data Export
+2. Step 2: User Deletion (Right to be Forgotten)
+3. Step 3: Data Retention Policies
+4. Step 4: Consent Management
+5. Step 5: GDPR API Endpoints
+6. Step 6: Audit Logging
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -54,3 +53,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-enterprise-rbac` for enterprise SSO and RBAC.
+
+## Examples
+
+**Basic usage**: Apply clerk data handling to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk data handling for production environments with multiple constraints and team-specific requirements.

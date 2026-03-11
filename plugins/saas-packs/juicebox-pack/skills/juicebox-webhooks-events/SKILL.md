@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Juicebox Webhooks & Events
 
 ## Overview
@@ -24,10 +23,10 @@ Implement webhook handlers for real-time Juicebox events and notifications.
 - Request signature verification capability
 
 ## Instructions
-- Step 1: Register Webhook Endpoint
-- Step 2: Implement Webhook Handler
-- Step 3: Process Different Event Types
-- Step 4: Implement Retry Logic
+1. Step 1: Register Webhook Endpoint
+2. Step 2: Implement Webhook Handler
+3. Step 3: Process Different Event Types
+4. Step 4: Implement Retry Logic
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -51,3 +50,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 After webhooks, see `juicebox-performance-tuning` for optimization.
+
+## Examples
+
+**Basic usage**: Apply juicebox webhooks events to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize juicebox webhooks events for production environments with multiple constraints and team-specific requirements.

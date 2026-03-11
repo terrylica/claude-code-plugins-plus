@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Firecrawl Known Pitfalls
 
 ## Overview
@@ -45,7 +44,7 @@ const crawl = await firecrawl.asyncCrawlUrl('https://example.com', {
 // Poll with backoff
 let status;
 do {
-  await new Promise(r => setTimeout(r, 5000));
+  await new Promise(r => setTimeout(r, 5000));  # 5000: 5 seconds in ms
   status = await firecrawl.checkCrawlStatus(crawl.id);
 } while (status.status === 'scraping');
 ```
@@ -95,7 +94,7 @@ const result = await firecrawl.scrapeUrl('https://app.example.com/dashboard');
 
 // GOOD: configure wait time for JS rendering
 const result = await firecrawl.scrapeUrl('https://app.example.com/dashboard', {
-  waitFor: 5000,  // wait 5s for JS to render
+  waitFor: 5000,  // wait 5s for JS to render  # 5000: 5 seconds in ms
   formats: ['markdown'],
   onlyMainContent: true
 });
@@ -108,13 +107,13 @@ Firecrawl honors robots.txt by default. Disabling it risks IP bans and legal iss
 ```typescript
 // BAD: aggressive crawling that ignores site limits
 await firecrawl.crawlUrl('https://example.com', {
-  limit: 10000,
+  limit: 10000,  # 10000: 10 seconds in ms
   // No delay between requests = potential IP ban
 });
 
 // GOOD: respect site constraints
 await firecrawl.crawlUrl('https://example.com', {
-  limit: 200,
+  limit: 200,  # HTTP 200 OK
   maxDepth: 3,
   // Firecrawl handles rate limiting internally
 });
@@ -143,3 +142,9 @@ const results = await firecrawl.batchScrapeUrls(urls, {
 ## Resources
 - [Firecrawl Docs](https://docs.firecrawl.dev)
 - [Crawl vs Scrape](https://docs.firecrawl.dev/features/crawl)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

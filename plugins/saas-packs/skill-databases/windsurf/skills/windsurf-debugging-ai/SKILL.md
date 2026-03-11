@@ -10,12 +10,11 @@ license: MIT
 author: "Jeremy Longshore <jeremy@intentsolutions.io>"
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Debugging Ai
 
 ## Overview
 
-This skill enables AI-assisted debugging within Windsurf. Cascade analyzes error messages, stack traces, and code context to identify root causes and suggest fixes. It learns from your codebase patterns to provide contextually relevant debugging assistance, reducing time spent on common errors and helping identify subtle bugs that might otherwise be missed.
+This skill enables AI-assisted debugging within Windsurf. Cascade analyzes error messages, stack traces, and code context to identify root causes and suggest fixes.
 
 ## Prerequisites
 
@@ -32,7 +31,6 @@ This skill enables AI-assisted debugging within Windsurf. Cascade analyzes error
 3. **Investigate Root Cause**
 4. **Apply Fix**
 5. **Document for Prevention**
-
 
 See `${CLAUDE_SKILL_DIR}/references/implementation.md` for detailed implementation guide.
 

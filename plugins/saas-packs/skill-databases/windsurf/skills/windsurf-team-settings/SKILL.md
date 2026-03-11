@@ -10,12 +10,11 @@ license: MIT
 author: "Jeremy Longshore <jeremy@intentsolutions.io>"
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Team Settings
 
 ## Overview
 
-This skill enables centralized management of Windsurf settings across teams and organizations. It covers editor preferences, AI behavior policies, tool approvals, and compliance requirements. Administrators can define organization-wide defaults with team-specific overrides, ensuring consistency while accommodating specialized team needs.
+This skill enables centralized management of Windsurf settings across teams and organizations. It covers editor preferences, AI behavior policies, tool approvals, and compliance requirements.
 
 ## Prerequisites
 
@@ -32,7 +31,6 @@ This skill enables centralized management of Windsurf settings across teams and 
 3. **Set Up Policies**
 4. **Deploy Settings**
 5. **Monitor and Iterate**
-
 
 See `${CLAUDE_SKILL_DIR}/references/implementation.md` for detailed implementation guide.
 

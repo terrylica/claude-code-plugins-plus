@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Mistral Rate Limits
 
 ## Overview
@@ -42,14 +41,14 @@ Mistral limits both requests and tokens per minute. Track both.
 import time, threading
 
 class MistralRateLimiter:
-    def __init__(self, rpm: int = 60, tpm: int = 200000):
+    def __init__(self, rpm: int = 60, tpm: int = 200000):  # 200000 = 200K limit
         self.rpm = rpm
         self.tpm = tpm
         self.request_times = []
         self.token_usage = []
         self.lock = threading.Lock()
 
-    def wait_if_needed(self, estimated_tokens: int = 1000):
+    def wait_if_needed(self, estimated_tokens: int = 1000):  # 1000: 1 second in ms
         with self.lock:
             now = time.time()
             cutoff = now - 60
@@ -94,7 +93,7 @@ def chat_with_retry(client, messages, model, max_retries=5):
         try:
             return client.chat.complete(model=model, messages=messages)
         except Exception as e:
-            if hasattr(e, 'status_code') and e.status_code == 429:
+            if hasattr(e, 'status_code') and e.status_code == 429:  # HTTP 429 Too Many Requests
                 wait = min(2 ** attempt + 1, 60)
                 print(f"Rate limited, waiting {wait}s (attempt {attempt+1})")
                 time.sleep(wait)
@@ -111,8 +110,8 @@ Route requests to cheaper models when premium capacity is exhausted.
 class ModelRouter:
     def __init__(self):
         self.limiters = {
-            "mistral-large-latest": MistralRateLimiter(rpm=30, tpm=200000),
-            "mistral-small-latest": MistralRateLimiter(rpm=120, tpm=500000),
+            "mistral-large-latest": MistralRateLimiter(rpm=30, tpm=200000),  # 200000 = 200K limit
+            "mistral-small-latest": MistralRateLimiter(rpm=120, tpm=500000),  # 500000 = configured value
         }
 
     def get_available_model(self, preferred: str = "mistral-large-latest") -> str:
@@ -127,7 +126,7 @@ class ModelRouter:
 
 ```python
 def batch_embed(client, texts: list[str], batch_size: int = 32):
-    limiter = MistralRateLimiter(rpm=300, tpm=1000000)
+    limiter = MistralRateLimiter(rpm=300, tpm=1000000)  # 1000000: 300: timeout: 5 minutes
     all_embeddings = []
     for i in range(0, len(texts), batch_size):
         batch = texts[i:i+batch_size]
@@ -163,3 +162,9 @@ status = {
 ## Resources
 - [Mistral Rate Limits](https://docs.mistral.ai/capabilities/rate-limiting/)
 - [Mistral API Reference](https://docs.mistral.ai/api/)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

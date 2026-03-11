@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Fireflies Observability
 
 ## Overview
-Monitor Fireflies.ai meeting transcription quality, bot join reliability, and transcript processing latency. Key metrics include bot join success rate (does the Fireflies bot successfully join scheduled meetings), transcription accuracy signals (silence detection, speaker diarization quality), transcript processing time (minutes from meeting end to transcript availability), and per-seat utilization (meetings recorded per seat to optimize licensing costs).
+Monitor Fireflies.ai meeting transcription quality, bot join reliability, and transcript processing latency.
 
 ## Prerequisites
 - Fireflies Business or Enterprise plan
@@ -27,6 +26,7 @@ Monitor Fireflies.ai meeting transcription quality, bot join reliability, and tr
 
 ### Step 1: Monitor Bot Join Reliability
 ```bash
+set -euo pipefail
 # Query recent meetings and check bot join status
 curl -X POST https://api.fireflies.ai/graphql \
   -H "Authorization: Bearer $FIREFLIES_API_KEY" \
@@ -41,9 +41,9 @@ async function monitorProcessing() {
   const res = await firefliesGQL(`{ transcripts(limit: 20) { id date duration processing_status processed_at } }`);
   for (const t of res.data.transcripts) {
     if (t.processing_status === 'completed' && t.processed_at) {
-      const meetingEnd = new Date(t.date).getTime() + t.duration * 60000;
+      const meetingEnd = new Date(t.date).getTime() + t.duration * 60000;  # 60000: 1 minute in ms
       const processedAt = new Date(t.processed_at).getTime();
-      const processingMinutes = (processedAt - meetingEnd) / 60000;
+      const processingMinutes = (processedAt - meetingEnd) / 60000;  # 1 minute in ms
       emitHistogram('fireflies_processing_time_min', processingMinutes);
     }
     emitCounter('fireflies_transcripts_total', 1, { status: t.processing_status });
@@ -93,10 +93,19 @@ Track: bot join success rate (pie chart), transcript processing latency distribu
 | High seat cost per transcript | Too many inactive seats | Remove members with <2 transcripts/month |
 
 ## Examples
-```bash
-# Quick health check: recent transcript success rate
-curl -s -X POST https://api.fireflies.ai/graphql \
-  -H "Authorization: Bearer $FIREFLIES_API_KEY" \
-  -d '{"query": "{ transcripts(limit: 20) { processing_status } }"}' | \
-  jq '.data.transcripts | group_by(.processing_status) | map({status: .[0].processing_status, count: length})'
-```
+
+**Basic usage**: Apply fireflies observability to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize fireflies observability for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

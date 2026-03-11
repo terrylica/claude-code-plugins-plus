@@ -10,12 +10,11 @@ license: MIT
 author: "Jeremy Longshore <jeremy@intentsolutions.io>"
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Dependency Management
 
 ## Overview
 
-This skill enables comprehensive dependency management within Windsurf projects. Cascade analyzes your dependency tree, identifies security vulnerabilities, suggests safe updates, and helps plan migration paths for major version upgrades. It integrates with npm, yarn, pnpm, pip, and other package managers to provide actionable security insights and update recommendations.
+This skill enables comprehensive dependency management within Windsurf projects. Cascade analyzes your dependency tree, identifies security vulnerabilities, suggests safe updates, and helps plan migration paths for major version upgrades.
 
 ## Prerequisites
 
@@ -32,7 +31,6 @@ This skill enables comprehensive dependency management within Windsurf projects.
 3. **Plan Updates**
 4. **Apply and Verify**
 5. **Establish Monitoring**
-
 
 See `${CLAUDE_SKILL_DIR}/references/implementation.md` for detailed implementation guide.
 

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Exa Known Pitfalls
 
 ## Overview
@@ -34,7 +33,7 @@ from exa_py import Exa
 exa = Exa(api_key=os.environ["EXA_API_KEY"])
 
 # BAD: keyword-style query returns poor results
-results = exa.search("python AND machine learning OR deep learning 2024")
+results = exa.search("python AND machine learning OR deep learning 2024")  # 2024 year
 
 # GOOD: natural language query
 results = exa.search(
@@ -72,7 +71,7 @@ text = results.results[0].text  # None! Content not requested
 # GOOD: use search_and_contents or get_contents
 results = exa.search_and_contents(
     "AI safety research papers",
-    text={"max_characters": 3000},
+    text={"max_characters": 3000},  # 3000: 3 seconds in ms
     highlights=True
 )
 print(results.results[0].text)       # full text
@@ -87,7 +86,7 @@ Date filters silently exclude results. Overly narrow windows return empty result
 # BAD: too narrow, may return nothing
 results = exa.search(
     "breaking news in AI",
-    start_published_date="2024-03-10",
+    start_published_date="2024-03-10",  # 2024 year
     end_published_date="2024-03-10"  # single day = few results
 )
 
@@ -144,3 +143,9 @@ results = exa.find_similar(
 ## Resources
 - [Exa API Docs](https://docs.exa.ai)
 - [Search Types Guide](https://docs.exa.ai/reference/search)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

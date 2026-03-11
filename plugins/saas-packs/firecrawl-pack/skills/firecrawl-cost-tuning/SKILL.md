@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Firecrawl Cost Tuning
 
 ## Overview
-Reduce Firecrawl web scraping costs by limiting crawl depth, caching scraped content, and choosing the right scrape mode. Firecrawl charges credits per page: 1 credit for single-page scrape, variable credits for crawl jobs (each discovered page costs credits). The biggest cost levers are: setting `limit` and `maxDepth` on every crawl job (unbounded crawls can consume thousands of credits), caching previously scraped URLs, and using `scrape` instead of `crawl` when you only need specific pages.
+Reduce Firecrawl web scraping costs by limiting crawl depth, caching scraped content, and choosing the right scrape mode. Firecrawl charges credits per page: 1 credit for single-page scrape, variable credits for crawl jobs (each discovered page costs credits).
 
 ## Prerequisites
 - Firecrawl account with credit balance visibility
@@ -27,6 +26,7 @@ Reduce Firecrawl web scraping costs by limiting crawl depth, caching scraped con
 
 ### Step 1: Always Set Crawl Limits
 ```bash
+set -euo pipefail
 # BAD: Unbounded crawl (could consume thousands of credits)
 curl -X POST https://api.firecrawl.dev/v1/crawl \
   -d '{"url": "https://docs.example.com"}'
@@ -56,7 +56,7 @@ const targetUrls = [
 for (const url of targetUrls) {
   await firecrawl.scrapeUrl(url, { formats: ['markdown'] });
 }
-// vs. Crawl entire docs site: potentially 500+ credits
+// vs. Crawl entire docs site: potentially 500+ credits  # HTTP 500 Internal Server Error
 ```
 
 ### Step 3: Cache Scraped Content
@@ -64,7 +64,7 @@ for (const url of targetUrls) {
 import { createHash } from 'crypto';
 
 const scrapeCache = new Map<string, { content: string; timestamp: number }>();
-const CACHE_TTL = 24 * 3600 * 1000; // 24 hours
+const CACHE_TTL = 24 * 3600 * 1000; // 24 hours  # 1000: 3600: timeout: 1 hour
 
 async function cachedScrape(url: string): Promise<string> {
   const key = createHash('md5').update(url).digest('hex');
@@ -80,6 +80,7 @@ async function cachedScrape(url: string): Promise<string> {
 
 ### Step 4: Choose Minimal Scrape Options
 ```bash
+set -euo pipefail
 # Only request what you need -- each format option has cost implications
 # Minimal (cheapest): markdown only
 curl -X POST https://api.firecrawl.dev/v1/scrape \
@@ -92,6 +93,7 @@ curl -X POST https://api.firecrawl.dev/v1/scrape \
 
 ### Step 5: Monitor Credit Efficiency
 ```bash
+set -euo pipefail
 # Find which crawl jobs consumed the most credits
 curl -s https://api.firecrawl.dev/v1/usage \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" | \
@@ -112,10 +114,19 @@ curl -s https://api.firecrawl.dev/v1/usage \
 | Budget overrun | Automated crawls without caps | Set per-job credit limits and daily caps |
 
 ## Examples
-```bash
-# Compare crawl vs scrape costs for same content
-echo "Scrape 5 known pages: 5 credits"
-echo "Crawl entire site: $(curl -s -X POST https://api.firecrawl.dev/v1/map \
-  -H 'Authorization: Bearer $FIRECRAWL_API_KEY' \
-  -d '{"url": "https://docs.example.com"}' | jq '.links | length') pages = same number of credits"
-```
+
+**Basic usage**: Apply firecrawl cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize firecrawl cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

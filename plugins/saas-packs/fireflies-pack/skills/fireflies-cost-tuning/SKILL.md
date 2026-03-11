@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Fireflies Cost Tuning
 
 ## Overview
-Optimize Fireflies.ai per-seat subscription costs by right-sizing seat count, configuring selective recording, and managing transcript storage. Fireflies charges per seat per month (Pro: ~$18/seat/month, Business: ~$29/seat/month, Enterprise: custom). The biggest cost levers are: removing underutilized seats (members with <2 recordings/month), configuring auto-record to only capture valuable meetings, and managing storage to avoid hitting plan limits that force tier upgrades.
+Optimize Fireflies.ai per-seat subscription costs by right-sizing seat count, configuring selective recording, and managing transcript storage. Fireflies charges per seat per month (Pro: ~$18/seat/month, Business: ~$29/seat/month, Enterprise: custom).
 
 ## Prerequisites
 - Fireflies workspace admin access
@@ -27,6 +26,7 @@ Optimize Fireflies.ai per-seat subscription costs by right-sizing seat count, co
 
 ### Step 1: Audit Seat Utilization
 ```bash
+set -euo pipefail
 # Identify members who aren't using their seats
 curl -X POST https://api.fireflies.ai/graphql \
   -H "Authorization: Bearer $FIREFLIES_API_KEY" \
@@ -67,6 +67,7 @@ Configure in Fireflies Settings > Auto-Join > Selective Recording.
 
 ### Step 4: Manage Storage to Avoid Tier Upgrades
 ```bash
+set -euo pipefail
 # Check storage usage
 curl -X POST https://api.fireflies.ai/graphql \
   -H "Authorization: Bearer $FIREFLIES_API_KEY" \
@@ -81,7 +82,7 @@ curl -X POST https://api.fireflies.ai/graphql \
 ```yaml
 # Decision matrix for plan selection
 pro_18_per_seat:
-  storage: 8000 min transcription/seat
+  storage: 8000 min transcription/seat  # 8000: API server port
   best_for: Teams that record <15 meetings/week per person
   features: [transcription, search, basic AI summaries]
 
@@ -103,13 +104,19 @@ business_29_per_seat:
 | Invoice higher than expected | New members auto-added | Set member invitation to admin-only |
 
 ## Examples
-```bash
-# Quick cost audit: cost per transcript
-SEATS=$(curl -s -X POST https://api.fireflies.ai/graphql \
-  -H "Authorization: Bearer $FIREFLIES_API_KEY" \
-  -d '{"query": "{ teamMembers { email } }"}' | jq '.data.teamMembers | length')
-TRANSCRIPTS=$(curl -s -X POST https://api.fireflies.ai/graphql \
-  -H "Authorization: Bearer $FIREFLIES_API_KEY" \
-  -d '{"query": "{ transcripts(limit: 1000) { id } }"}' | jq '.data.transcripts | length')
-echo "Seats: $SEATS, Transcripts/month: $TRANSCRIPTS, Cost/transcript: \$$(echo "$SEATS * 29 / $TRANSCRIPTS" | bc -l | head -c 5)"
-```
+
+**Basic usage**: Apply fireflies cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize fireflies cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

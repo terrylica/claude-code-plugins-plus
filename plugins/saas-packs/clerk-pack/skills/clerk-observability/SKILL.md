@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Observability
 
 ## Overview
@@ -24,12 +23,12 @@ Implement comprehensive monitoring, logging, and observability for Clerk authent
 - Logging infrastructure
 
 ## Instructions
-- Step 1: Authentication Event Logging
-- Step 2: Middleware Monitoring
-- Step 3: Session Analytics
-- Step 4: Webhook Event Tracking
-- Step 5: Error Tracking with Sentry
-- Step 6: Health Check Endpoint
+1. Step 1: Authentication Event Logging
+2. Step 2: Middleware Monitoring
+3. Step 3: Session Analytics
+4. Step 4: Webhook Event Tracking
+5. Step 5: Error Tracking with Sentry
+6. Step 6: Health Check Endpoint
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -55,3 +54,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-incident-runbook` for incident response procedures.
+
+## Examples
+
+**Basic usage**: Apply clerk observability to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk observability for production environments with multiple constraints and team-specific requirements.

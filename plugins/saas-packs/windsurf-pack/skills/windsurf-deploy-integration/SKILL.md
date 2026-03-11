@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Deploy Integration
 
 ## Overview
-Deploy Windsurf extensions and configurations to teams. Windsurf, as a VS Code-based IDE, uses the standard extension deployment model. Covers packaging extensions with `vsce`, publishing to marketplaces, and distributing team-wide Windsurf configurations via shared settings and extension packs.
+Deploy Windsurf extensions and configurations to teams. Windsurf, as a VS Code-based IDE, uses the standard extension deployment model.
 
 ## Prerequisites
 - Node.js and npm installed
@@ -28,6 +27,7 @@ Deploy Windsurf extensions and configurations to teams. Windsurf, as a VS Code-b
 
 ### Step 1: Package Extension
 ```bash
+set -euo pipefail
 # Install vsce
 npm install -g @vscode/vsce
 
@@ -135,6 +135,7 @@ jobs:
 
 ### Quick Package and Install
 ```bash
+set -euo pipefail
 npm run build && vsce package && code --install-extension *.vsix
 ```
 
@@ -144,3 +145,9 @@ npm run build && vsce package && code --install-extension *.vsix
 
 ## Next Steps
 For multi-environment setup, see `windsurf-multi-env-setup`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

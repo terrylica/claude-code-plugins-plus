@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Linear Upgrade Migration
 
 ## Contents
@@ -36,6 +35,7 @@ Safely upgrade Linear SDK versions and handle breaking changes with compatibilit
 
 ### Step 1: Check Current and Latest Versions
 ```bash
+set -euo pipefail
 npm list @linear/sdk          # Current version
 npm view @linear/sdk version  # Latest available
 ```
@@ -45,6 +45,7 @@ Check GitHub releases and changelog for migration guides between your current an
 
 ### Step 3: Create Upgrade Branch
 ```bash
+set -euo pipefail
 git checkout -b upgrade/linear-sdk-vX.Y.Z
 npm install @linear/sdk@latest
 npx tsc --noEmit  # Check for type errors
@@ -58,6 +59,7 @@ Wrap breaking changes in a compat client to normalize behavior across versions.
 
 ### Step 6: Test and Deploy
 ```bash
+set -euo pipefail
 npm test && npx tsc --noEmit && npm run lint
 npm run deploy:staging && npm run test:integration
 ```
@@ -91,12 +93,10 @@ See [detailed implementation](${CLAUDE_SKILL_DIR}/references/implementation.md) 
 
 ## Examples
 
-### Quick Rollback
-```bash
-git checkout main
-npm install @linear/sdk@PREVIOUS_VERSION
-npm test
-```
+
+**Basic usage**: Apply linear upgrade migration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize linear upgrade migration for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [Linear SDK Changelog](https://github.com/linear/linear/blob/master/packages/sdk/CHANGELOG.md)

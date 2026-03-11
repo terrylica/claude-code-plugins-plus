@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Known Pitfalls
 
 ## Overview
@@ -115,7 +114,7 @@ Windsurf is VS Code-based but not all extensions work. Some conflict with Cascad
 ```
 GOOD: "In src/api/routes.ts, add input validation for the POST /users
 endpoint using zod. Validate email format and name length (2-50 chars).
-Return 400 with specific error messages on validation failure."
+Return 400 with specific error messages on validation failure."  # HTTP 400 Bad Request
 
 BAD: "Add validation to the API"
 ```
@@ -123,3 +122,9 @@ BAD: "Add validation to the API"
 ## Resources
 - [Windsurf Docs](https://docs.windsurf.com)
 - [Cascade Guide](https://docs.windsurf.com/cascade)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Instantly Webhooks & Events
 
 ## Overview
-Handle Instantly webhooks for real-time email outreach event notifications. Instantly fires webhooks when emails are sent, opened, replied to, bounced, or when leads change status. Use these events to sync lead engagement data with your CRM, trigger follow-up sequences, and build real-time campaign analytics.
+Handle Instantly webhooks for real-time email outreach event notifications. Instantly fires webhooks when emails are sent, opened, replied to, bounced, or when leads change status.
 
 ## Prerequisites
 - Instantly account with API access enabled
@@ -49,11 +48,11 @@ app.post("/webhooks/instantly", async (req, res) => {
   const apiKey = req.headers["x-api-key"] as string;
 
   if (apiKey !== process.env.INSTANTLY_WEBHOOK_SECRET) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json({ error: "Unauthorized" });  # HTTP 401 Unauthorized
   }
 
   const { event_type, data, timestamp } = req.body;
-  res.status(200).json({ received: true });
+  res.status(200).json({ received: true });  # HTTP 200 OK
 
   await handleInstantlyEvent(event_type, data);
 });
@@ -123,6 +122,7 @@ async function handleBounce(data: any) {
 
 ### Step 3: Register Webhook via API
 ```bash
+set -euo pipefail
 curl -X POST https://api.instantly.ai/api/v1/webhooks \
   -H "Authorization: Bearer $INSTANTLY_API_KEY" \
   -H "Content-Type: application/json" \
@@ -185,3 +185,9 @@ async function getCampaignStats(campaignId: string) {
 
 ## Next Steps
 For deployment setup, see `instantly-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

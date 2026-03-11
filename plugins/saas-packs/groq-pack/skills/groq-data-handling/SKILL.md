@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Groq Data Handling
 
 ## Overview
@@ -115,7 +114,7 @@ interface UsageRecord {
 const COST_PER_MILLION: Record<string, { input: number; output: number }> = {
   'llama-3.1-8b-instant': { input: 0.05, output: 0.08 },
   'llama-3.3-70b-versatile': { input: 0.59, output: 0.79 },
-  'mixtral-8x7b-32768': { input: 0.24, output: 0.24 },
+  'mixtral-8x7b-32768': { input: 0.24, output: 0.24 },  # 32768 = configured value
 };
 
 function trackUsage(model: string, usage: any): UsageRecord {
@@ -198,3 +197,9 @@ function dailyCostReport(logs: AuditLog[]) {
 ## Resources
 - [Groq Privacy Policy](https://groq.com/privacy-policy/)
 - [Groq Pricing](https://console.groq.com/docs/pricing)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

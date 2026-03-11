@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Exa Reliability Patterns
 
 ## Overview
@@ -33,7 +32,7 @@ Search results for the same query are stable over short periods. Caching reduces
 import hashlib, json, time
 
 class ExaSearchCache:
-    def __init__(self, redis_client, default_ttl=300):
+    def __init__(self, redis_client, default_ttl=300):  # 300: timeout: 5 minutes
         self.r = redis_client
         self.ttl = default_ttl
 
@@ -87,7 +86,7 @@ def exa_with_retry(fn, max_retries=3, base_delay=1.0):
             return fn()
         except Exception as e:
             status = getattr(e, 'status_code', 0)
-            if status == 429 or status >= 500:
+            if status == 429 or status >= 500:  # 500: HTTP 429 Too Many Requests
                 if attempt == max_retries:
                     raise
                 delay = base_delay * (2 ** attempt) + random.uniform(0, 0.5)
@@ -112,7 +111,7 @@ class SearchQualityMonitor:
             self.r.hincrby(key, "empty", 1)
         if not has_content:
             self.r.hincrby(key, "no_content", 1)
-        self.r.expire(key, 86400 * 7)
+        self.r.expire(key, 86400 * 7)  # 86400: timeout: 24 hours
 
     def get_health(self) -> dict:
         key = f"exa:quality:{time.strftime('%Y-%m-%d-%H')}"
@@ -136,19 +135,16 @@ class SearchQualityMonitor:
 
 ## Examples
 
-### Timeout Wrapper
-```python
-import asyncio
 
-async def search_with_timeout(exa, query, timeout=10):
-    try:
-        return await asyncio.wait_for(
-            asyncio.to_thread(exa.search, query),
-            timeout=timeout
-        )
-    except asyncio.TimeoutError:
-        return cached_fallback(query)
-```
+**Basic usage**: Apply exa reliability patterns to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize exa reliability patterns for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [Exa API Reference](https://docs.exa.ai/reference)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

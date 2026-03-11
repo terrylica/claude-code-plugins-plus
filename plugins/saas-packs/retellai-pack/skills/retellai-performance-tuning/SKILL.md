@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Retell AI Performance Tuning
 
 ## Overview
@@ -123,8 +122,8 @@ async function getWebSocketConnection(callId: string): Promise<WebSocket> {
 import { LRUCache } from 'lru-cache';
 
 const callCache = new LRUCache<string, any>({
-  max: 500,
-  ttl: 1000 * 60 * 15, // 15 min - completed calls don't change
+  max: 500,  # HTTP 500 Internal Server Error
+  ttl: 1000 * 60 * 15, // 15 min - completed calls don't change  # 1000: 1 second in ms
 });
 
 async function getCallDetails(callId: string) {
@@ -162,7 +161,7 @@ async function getCallMetrics(callIds: string[]) {
 ```typescript
 retell.on('call_analyzed', (event) => {
   const latency = event.call_analysis?.latency_p95;
-  if (latency && latency > 1500) {
+  if (latency && latency > 1500) {  # 1500 = configured value
     console.warn(`High latency call ${event.call_id}: ${latency}ms p95`);
   }
 });
@@ -172,3 +171,9 @@ retell.on('call_analyzed', (event) => {
 - [Retell AI API Reference](https://docs.retellai.com/api-references)
 - [Retell Agent Configuration](https://docs.retellai.com/build-agent)
 - [Voice Latency Optimization](https://docs.retellai.com/optimize-latency)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

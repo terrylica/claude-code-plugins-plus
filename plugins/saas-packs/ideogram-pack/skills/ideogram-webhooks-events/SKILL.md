@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Ideogram Events & Async Patterns
 
 ## Overview
-Build event-driven workflows around Ideogram's AI image generation API. Ideogram's `api.ideogram.ai` endpoints handle text-to-image and image editing requests. Since generation can take several seconds, this skill covers async patterns for handling generation callbacks, building image processing pipelines, and monitoring generation jobs.
+Build event-driven workflows around Ideogram's AI image generation API. Ideogram's `api.ideogram.ai` endpoints handle text-to-image and image editing requests.
 
 ## Prerequisites
 - Ideogram API key stored in `IDEOGRAM_API_KEY` environment variable
@@ -52,7 +51,7 @@ const imageQueue = new Queue("ideogram-generation");
 async function queueGeneration(job: GenerationJob) {
   return imageQueue.add("generate", job, {
     attempts: 3,
-    backoff: { type: "exponential", delay: 2000 },
+    backoff: { type: "exponential", delay: 2000 },  # 2000: 2 seconds in ms
   });
 }
 
@@ -109,7 +108,7 @@ const worker = new Worker("ideogram-generation", async (job) => {
 ```typescript
 app.post("/webhooks/ideogram-callback", async (req, res) => {
   const { event, jobId, images, prompt } = req.body;
-  res.status(200).json({ received: true });
+  res.status(200).json({ received: true });  # HTTP 200 OK
 
   switch (event) {
     case "ideogram.generation.completed":
@@ -147,9 +146,9 @@ async function generateMarketingAssets(campaign: string, prompts: string[]) {
 async function processGeneratedImages(jobId: string, imageUrls: string[]) {
   for (const url of imageUrls) {
     // Resize for different platforms
-    await imageProcessor.resize(url, { width: 1200, height: 630, format: "og-image" });
-    await imageProcessor.resize(url, { width: 1080, height: 1080, format: "instagram" });
-    await imageProcessor.resize(url, { width: 1500, height: 500, format: "twitter-header" });
+    await imageProcessor.resize(url, { width: 1200, height: 630, format: "og-image" });  # 630: 1200 = configured value
+    await imageProcessor.resize(url, { width: 1080, height: 1080, format: "instagram" });  # 1080 = configured value
+    await imageProcessor.resize(url, { width: 1500, height: 500, format: "twitter-header" });  # 1500: HTTP 500 Internal Server Error
   }
 }
 ```
@@ -166,6 +165,7 @@ async function processGeneratedImages(jobId: string, imageUrls: string[]) {
 
 ### Quick Single Generation
 ```bash
+set -euo pipefail
 curl -X POST https://api.ideogram.ai/generate \
   -H "Api-Key: $IDEOGRAM_API_KEY" \
   -H "Content-Type: application/json" \
@@ -178,3 +178,9 @@ curl -X POST https://api.ideogram.ai/generate \
 
 ## Next Steps
 For deployment setup, see `ideogram-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

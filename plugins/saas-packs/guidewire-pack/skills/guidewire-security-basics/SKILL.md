@@ -4,14 +4,13 @@ description: |
   Implement security best practices for Guidewire InsuranceSuite including OAuth2,
   JWT handling, API roles, secure Gosu coding, and data protection.
   Trigger with phrases like "guidewire security", "oauth2 guidewire",
-  "jwt token", "api roles", "secure gosu code", "guidewire authentication".
+  "jwt token", "api roles", "secure gosu code", "guidewire authentication". Use when working with guidewire security basics.
 allowed-tools: Read, Write, Edit, Bash(curl:*), Grep
 version: 1.0.0
 license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Guidewire Security Basics
 
 ## Overview
@@ -51,3 +50,9 @@ For detailed implementation code and configurations, load the reference guide:
 
 ## Next Steps
 For production readiness, see `guidewire-prod-checklist`.
+
+## Examples
+
+**Basic usage**: Apply guidewire security basics to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize guidewire security basics for production environments with multiple constraints and team-specific requirements.

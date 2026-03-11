@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # CodeRabbit Cost Tuning
 
 ## Overview
-Optimize CodeRabbit per-seat licensing costs by right-sizing seat allocation, focusing reviews on high-value repositories, and configuring review scope to minimize unnecessary AI processing. CodeRabbit charges per seat based on active committers. The key cost levers are: limiting which repositories have CodeRabbit enabled (focus on high-risk codebases), setting seat policy to "active committers only" (excludes bots and inactive users), and configuring path exclusions to skip low-value file reviews.
+Optimize CodeRabbit per-seat licensing costs by right-sizing seat allocation, focusing reviews on high-value repositories, and configuring review scope to minimize unnecessary AI processing. CodeRabbit charges per seat based on active committers.
 
 ## Prerequisites
 - CodeRabbit Pro or Enterprise plan
@@ -96,13 +95,19 @@ gh api repos/ORG/REPO/pulls?state=closed\&per_page=100 --jq '.[].number' | \
 | Cannot reduce seats | Active committers in all repos | Disable CodeRabbit on low-value repos |
 
 ## Examples
-```yaml
-# Minimal .coderabbit.yaml for cost-conscious setup
-reviews:
-  auto_review:
-    enabled: true
-    drafts: false
-    base_branches: [main]  # Only review PRs to main (skip feature-to-feature)
-    ignore_paths: ["**/*.md", "**/*.lock", "vendor/**"]
-  profile: "assertive"    # Balanced signal-to-noise
-```
+
+**Basic usage**: Apply coderabbit cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize coderabbit cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

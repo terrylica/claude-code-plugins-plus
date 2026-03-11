@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Groq Observability
 
 ## Overview
-Monitor Groq LPU inference API for latency, token throughput, and cost. Groq's defining characteristic is extreme speed -- responses arrive in 50-200ms for small completions, with token generation rates of 500-800 tokens/second. Key metrics to track include time-to-first-token (TTFT), tokens-per-second throughput, per-model cost (Groq is very cheap but volume adds up), rate limit utilization (RPM and TPM), and error rates by model.
+Monitor Groq LPU inference API for latency, token throughput, and cost. Groq's defining characteristic is extreme speed -- responses arrive in 50-200ms for small completions, with token generation rates of 500-800 tokens/second.
 
 ## Prerequisites
 - Groq API integration at api.groq.com
@@ -33,7 +32,7 @@ async function trackedCompletion(groq: Groq, model: string, messages: any[]) {
   const start = performance.now();
   const res = await groq.chat.completions.create({ model, messages });
   const duration = performance.now() - start;
-  const tps = (res.usage?.completion_tokens || 0) / (duration / 1000);
+  const tps = (res.usage?.completion_tokens || 0) / (duration / 1000);  # 1000: 1 second in ms
 
   emitHistogram('groq_latency_ms', duration, { model });
   emitGauge('groq_tokens_per_second', tps, { model });
@@ -42,7 +41,7 @@ async function trackedCompletion(groq: Groq, model: string, messages: any[]) {
   emitCounter('groq_tokens_total', res.usage?.completion_tokens || 0, { model, direction: 'output' });
 
   // Groq pricing is very low -- track for volume visibility
-  const pricing: Record<string, number> = { 'llama-3.3-70b-versatile': 0.59, 'llama-3.1-8b-instant': 0.05, 'mixtral-8x7b-32768': 0.24 };
+  const pricing: Record<string, number> = { 'llama-3.3-70b-versatile': 0.59, 'llama-3.1-8b-instant': 0.05, 'mixtral-8x7b-32768': 0.24 };  # 32768 = configured value
   const costPer1M = pricing[model] || 0.10;
   emitCounter('groq_cost_usd', (res.usage?.total_tokens || 0) / 1e6 * costPer1M, { model });
 
@@ -67,7 +66,7 @@ groups:
   - name: groq
     rules:
       - alert: GroqLatencyHigh
-        expr: histogram_quantile(0.95, rate(groq_latency_ms_bucket[5m])) > 1000
+        expr: histogram_quantile(0.95, rate(groq_latency_ms_bucket[5m])) > 1000  # 1000: 1 second in ms
         annotations: { summary: "Groq P95 latency exceeds 1 second (normally <200ms)" }
       - alert: GroqRateLimitNear
         expr: groq_rate_limit_remaining_requests < 10
@@ -75,7 +74,7 @@ groups:
       - alert: GroqThroughputDrop
         expr: groq_tokens_per_second < 100
         for: 5m
-        annotations: { summary: "Groq tokens/sec dropped below 100 (expected 500+)" }
+        annotations: { summary: "Groq tokens/sec dropped below 100 (expected 500+)" }  # HTTP 500 Internal Server Error
       - alert: GroqErrors
         expr: rate(groq_errors_total[5m]) > 0.05
         annotations: { summary: "Groq API error rate elevated" }
@@ -86,7 +85,7 @@ Key panels: time-to-first-token distribution (Groq's USP), tokens/second by mode
 
 ### Step 5: Log Request Metadata
 ```json
-{"ts":"2026-03-10T14:30:00Z","model":"llama-3.3-70b-versatile","latency_ms":142,"ttft_ms":48,"tokens_per_sec":623,"prompt_tokens":256,"completion_tokens":89,"cost_usd":0.00002,"rate_limit_remaining":45}
+{"ts":"2026-03-10T14:30:00Z","model":"llama-3.3-70b-versatile","latency_ms":142,"ttft_ms":48,"tokens_per_sec":623,"prompt_tokens":256,"completion_tokens":89,"cost_usd":0.00002,"rate_limit_remaining":45}  # 2026: 256: 623 = configured value
 ```
 
 ## Error Handling
@@ -98,10 +97,19 @@ Key panels: time-to-first-token distribution (Groq's USP), tokens/second by mode
 | Tokens/sec drop | Streaming disabled | Enable streaming for better perceived performance |
 
 ## Examples
-```bash
-# Benchmark Groq speed with a quick test
-time curl -s -X POST https://api.groq.com/openai/v1/chat/completions \
-  -H "Authorization: Bearer $GROQ_API_KEY" \
-  -d '{"model": "llama-3.1-8b-instant", "messages": [{"role": "user", "content": "Say hello"}], "max_tokens": 10}' | \
-  jq '{model: .model, tokens: .usage.total_tokens, latency: "see shell timing"}'
-```
+
+**Basic usage**: Apply groq observability to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize groq observability for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # OpenEvidence Install & Auth
 
 ## Overview
@@ -29,6 +28,7 @@ Set up OpenEvidence API access and configure authentication for clinical decisio
 
 ### Step 1: Install SDK
 ```bash
+set -euo pipefail
 # Node.js
 npm install @openevidence/sdk
 
@@ -106,7 +106,7 @@ import { OpenEvidenceClient } from '@openevidence/sdk';
 const client = new OpenEvidenceClient({
   apiKey: process.env.OPENEVIDENCE_API_KEY,
   orgId: process.env.OPENEVIDENCE_ORG_ID,
-  timeout: 30000, // 30 second timeout for clinical queries
+  timeout: 30000, // 30 second timeout for clinical queries  # 30000: 30 seconds in ms
   retries: 3,
 });
 
@@ -131,15 +131,15 @@ client = OpenEvidenceClient(
 const environments = {
   development: {
     baseUrl: 'https://api.sandbox.openevidence.com',
-    timeout: 60000,
+    timeout: 60000,  # 60000: 1 minute in ms
   },
   staging: {
     baseUrl: 'https://api.staging.openevidence.com',
-    timeout: 45000,
+    timeout: 45000,  # 45000 = configured value
   },
   production: {
     baseUrl: 'https://api.openevidence.com',
-    timeout: 30000,
+    timeout: 30000,  # 30000: 30 seconds in ms
   },
 };
 

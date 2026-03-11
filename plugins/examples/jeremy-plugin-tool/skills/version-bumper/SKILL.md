@@ -8,12 +8,11 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Version Bumper
 
 ## Overview
 
-Automates semantic version bumps across all version-bearing files in a Claude Code plugin. Ensures consistency between `plugin.json`, `marketplace.extended.json`, and the generated `marketplace.json` catalog. Targets plugin maintainers who need reliable, error-free version management during release cycles.
+Automates semantic version bumps across all version-bearing files in a Claude Code plugin. Ensures consistency between `plugin.json`, `marketplace.extended.json`, and the generated `marketplace.json` catalog.
 
 ## Prerequisites
 

@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clay Cost Tuning
 
 ## Overview
-Reduce Clay data enrichment spending by optimizing credit usage per enrichment, limiting waterfall depth, and improving input data quality. Clay uses credit-based pricing where each enrichment provider costs different credits (email finder: ~1 credit, company enrichment: ~5 credits, waterfall enrichment: 3-15 credits depending on fallback depth). The biggest cost lever is improving input data quality so enrichments have higher hit rates, and limiting waterfall fallback chains to prevent credit waste on unenrichable records.
+Reduce Clay data enrichment spending by optimizing credit usage per enrichment, limiting waterfall depth, and improving input data quality. Clay uses credit-based pricing where each enrichment provider costs different credits (email finder: ~1 credit, company enrichment: ~5 credits, waterfall enrichment: 3-15 credits depending on fallback depth).
 
 ## Prerequisites
 - Clay account with visibility into credit consumption
@@ -27,6 +26,7 @@ Reduce Clay data enrichment spending by optimizing credit usage per enrichment, 
 
 ### Step 1: Audit Credit Consumption by Enrichment Type
 ```bash
+set -euo pipefail
 # Break down credits by enrichment provider/type
 curl "https://api.clay.com/v1/workspace/usage?group_by=enrichment&period=last_30d" \
   -H "Authorization: Bearer $CLAY_API_KEY" | \
@@ -77,7 +77,7 @@ function shouldEnrich(row: any): boolean {
 # 4. If hit rate <40%, clean input data first
 
 sample_workflow:
-  step1: "Import 500-row sample into test table"
+  step1: "Import 500-row sample into test table"  # HTTP 500 Internal Server Error
   step2: "Run enrichments, check hit rate"
   step3: "If good, import full list into production table"
   step4: "Set max_rows limit as safety cap"
@@ -85,10 +85,11 @@ sample_workflow:
 
 ### Step 5: Set Table-Level Credit Caps
 ```bash
+set -euo pipefail
 # Configure maximum credits per table to prevent runaway costs
 curl -X PATCH "https://api.clay.com/v1/tables/tbl_abc123" \
   -H "Authorization: Bearer $CLAY_API_KEY" \
-  -d '{"max_rows": 1000, "auto_enrich": false}'
+  -d '{"max_rows": 1000, "auto_enrich": false}'  # 1000: 1 second in ms
 # Disable auto_enrich and trigger manually after data review
 ```
 
@@ -101,9 +102,19 @@ curl -X PATCH "https://api.clay.com/v1/tables/tbl_abc123" \
 | Unexpected charge | New enrichment column added without cap | Always set credit limits per table |
 
 ## Examples
-```bash
-# Quick optimization check: find tables with worst credit efficiency
-curl -s "https://api.clay.com/v1/workspace/usage?group_by=table&period=last_30d" \
-  -H "Authorization: Bearer $CLAY_API_KEY" | \
-  jq '[.usage[] | {table: .table_name, credits: .total_credits, hits: .rows_with_data, efficiency: (.rows_with_data / (.total_credits + 0.01))}] | sort_by(.efficiency) | .[0:5]'
-```
+
+**Basic usage**: Apply clay cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clay cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

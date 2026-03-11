@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Security Basics
 
 ## Overview
@@ -24,11 +23,11 @@ Implement security best practices for Clerk authentication in your application.
 - Production deployment planned or active
 
 ## Instructions
-- Step 1: Secure Environment Variables
-- Step 2: Secure Middleware Configuration
-- Step 3: Secure API Routes
-- Step 4: Secure Webhook Handling
-- Step 5: Session Security
+1. Step 1: Secure Environment Variables
+2. Step 2: Secure Middleware Configuration
+3. Step 3: Secure API Routes
+4. Step 4: Secure Webhook Handling
+5. Step 5: Session Security
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -46,3 +45,17 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-prod-checklist` for production readiness.
+
+## Error Handling
+
+| Error | Cause | Resolution |
+|-------|-------|------------|
+| Authentication failure | Invalid or expired credentials | Refresh tokens or re-authenticate with security |
+| Configuration conflict | Incompatible settings detected | Review and resolve conflicting parameters |
+| Resource not found | Referenced resource missing | Verify resource exists and permissions are correct |
+
+## Examples
+
+**Basic usage**: Apply clerk security basics to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk security basics for production environments with multiple constraints and team-specific requirements.

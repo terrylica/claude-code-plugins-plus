@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Observability
 
 ## Overview
-Monitor Windsurf AI IDE adoption, feature usage, and productivity impact across your team. Key metrics include AI completion acceptance rate (how often developers accept Supercomplete suggestions), Cascade flow completion rate (agentic tasks that succeed vs fail), per-developer usage patterns, and seat utilization for license optimization. Unlike server-side APIs, Windsurf observability focuses on developer productivity signals from the IDE.
+Monitor Windsurf AI IDE adoption, feature usage, and productivity impact across your team. Key metrics include AI completion acceptance rate (how often developers accept Supercomplete suggestions), Cascade flow completion rate (agentic tasks that succeed vs fail), per-developer usage patterns, and seat utilization for license optimization.
 
 ## Prerequisites
 - Windsurf Pro or Enterprise plan
@@ -98,9 +97,19 @@ Track: daily active users vs total seats, acceptance rate trend (higher is bette
 | Analytics data missing | Enterprise API not enabled | Contact Windsurf support to enable admin API |
 
 ## Examples
-```bash
-# Quick adoption check: how many team members used Windsurf today?
-curl -s "https://api.windsurf.com/v1/admin/analytics?period=today" \
-  -H "Authorization: Bearer $WINDSURF_ADMIN_KEY" | \
-  jq '{active_users, total_seats, utilization_pct: (.active_users / .total_seats * 100)}'
-```
+
+**Basic usage**: Apply windsurf observability to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize windsurf observability for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

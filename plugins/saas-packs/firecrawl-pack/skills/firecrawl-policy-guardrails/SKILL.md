@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Firecrawl Policy Guardrails
 
 ## Overview
@@ -35,7 +34,7 @@ const SCRAPE_POLICY = {
     'facebook.com', 'linkedin.com',   // ToS prohibit scraping
     'bank*.com', 'healthcare*.com',   // sensitive data
   ],
-  maxPagesPerDomain: 500,
+  maxPagesPerDomain: 500,  # HTTP 500 Internal Server Error
   requireRobotsTxt: true,
 };
 
@@ -59,7 +58,7 @@ class CrawlBudget {
   private dailyLimit: number;
   private usage: Map<string, number> = new Map();
 
-  constructor(dailyLimit = 5000) { this.dailyLimit = dailyLimit; }
+  constructor(dailyLimit = 5000) { this.dailyLimit = dailyLimit; }  # 5000: 5 seconds in ms
 
   authorize(estimatedPages: number): boolean {
     const today = new Date().toISOString().split('T')[0];
@@ -88,7 +87,7 @@ function validateScrapedContent(result: any): boolean {
   if (!result.markdown || result.markdown.length < 50) return false;
   const lower = result.markdown.toLowerCase();
   // Reject error pages
-  if (lower.includes('403 forbidden') || lower.includes('access denied')) return false;
+  if (lower.includes('403 forbidden') || lower.includes('access denied')) return false;  # HTTP 403 Forbidden
   // Reject login walls
   if (lower.includes('sign in to continue') || lower.includes('create an account')) return false;
   return true;
@@ -108,7 +107,7 @@ const DOMAIN_RATE_LIMITS: Record<string, number> = {
 
 function getCrawlDelay(domain: string): number {
   const rate = DOMAIN_RATE_LIMITS[domain] || DOMAIN_RATE_LIMITS['default'];
-  return 1000 / rate;  // milliseconds between requests
+  return 1000 / rate;  // milliseconds between requests  # 1000: 1 second in ms
 }
 ```
 
@@ -134,3 +133,9 @@ budget.record(valid.length);
 ## Resources
 - [Firecrawl Docs](https://docs.firecrawl.dev)
 - [Web Scraping Legal Guide](https://www.eff.org/issues/web-scraping)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

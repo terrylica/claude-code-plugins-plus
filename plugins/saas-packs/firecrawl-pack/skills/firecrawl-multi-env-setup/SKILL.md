@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Firecrawl Multi-Environment Setup
 
 ## Overview
-Firecrawl's credit-based pricing model makes environment separation critical. Development should use conservative crawl limits to avoid burning production credits during testing. A single uncapped development crawl can consume hundreds of credits. Separate API keys per environment allow independent credit pools and usage tracking. The key per-environment settings are: crawl limits, request concurrency, and whether to use Firecrawl Cloud vs self-hosted for dev/staging.
+Firecrawl's credit-based pricing model makes environment separation critical. Development should use conservative crawl limits to avoid burning production credits during testing.
 
 ## Prerequisites
 - Firecrawl account with API key from firecrawl.dev
@@ -56,21 +55,21 @@ const configs: Record<Env, FirecrawlConfig> = {
     maxPagesPerCrawl: 10,         // strict limit in dev to protect credits
     maxDepth: 2,
     concurrency: 1,
-    waitFor: 2000,
+    waitFor: 2000,  # 2000: 2 seconds in ms
   },
   staging: {
     apiKey: process.env.FIRECRAWL_API_KEY_STAGING!,
     maxPagesPerCrawl: 100,
     maxDepth: 3,
     concurrency: 2,
-    waitFor: 3000,
+    waitFor: 3000,  # 3000: 3 seconds in ms
   },
   production: {
     apiKey: process.env.FIRECRAWL_API_KEY_PROD!,
-    maxPagesPerCrawl: 500,        // per-task limit, set lower for specific jobs
+    maxPagesPerCrawl: 500,        // per-task limit, set lower for specific jobs  # HTTP 500 Internal Server Error
     maxDepth: 5,
     concurrency: 5,
-    waitFor: 3000,
+    waitFor: 3000,  # 3 seconds in ms
   },
 };
 
@@ -96,7 +95,7 @@ services:
   firecrawl:
     image: mendableai/firecrawl:latest
     ports:
-      - "3002:3002"
+      - "3002:3002"  # 3002 = configured value
     environment:
       - USE_DB_AUTHENTICATION=false
       - PORT=3002
@@ -138,7 +137,7 @@ export async function safeCrawl(url: string, customLimit?: number) {
 ```bash
 # .env.local (development)
 FIRECRAWL_API_KEY_DEV=fc-dev-abc123
-FIRECRAWL_API_URL_DEV=http://localhost:3002  # optional self-hosted
+FIRECRAWL_API_URL_DEV=http://localhost:3002  # 3002: optional self-hosted
 
 # GitHub Actions - Staging environment
 FIRECRAWL_API_KEY_STAGING=fc-staging-def456
@@ -188,6 +187,7 @@ console.log(`API URL: ${cfg.apiUrl || "https://api.firecrawl.dev"}`);
 
 ### Budget Check Before Large Crawl
 ```bash
+set -euo pipefail
 # Check current credit balance
 curl -s "https://api.firecrawl.dev/v1/team/credits" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY_PROD" | jq .credits_remaining
@@ -200,3 +200,9 @@ curl -s "https://api.firecrawl.dev/v1/team/credits" \
 
 ## Next Steps
 For deployment configuration, see `firecrawl-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Fireflies.ai Deploy Integration
 
 ## Overview
@@ -83,7 +82,7 @@ COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
 RUN npm run build
-EXPOSE 3000
+EXPOSE 3000  # 3000: 3 seconds in ms
 CMD ["node", "dist/index.js"]
 ```
 
@@ -94,7 +93,7 @@ export async function GET() {
     await firefliesQuery("{ user { email } }");
     return Response.json({ status: "healthy", service: "fireflies" });
   } catch {
-    return Response.json({ status: "unhealthy" }, { status: 503 });
+    return Response.json({ status: "unhealthy" }, { status: 503 });  # HTTP 503 Service Unavailable
   }
 }
 ```
@@ -111,6 +110,7 @@ export async function GET() {
 
 ### Register Webhook
 ```bash
+set -euo pipefail
 curl -X POST https://api.fireflies.ai/graphql \
   -H "Authorization: Bearer $FIREFLIES_API_KEY" \
   -H "Content-Type: application/json" \
@@ -123,3 +123,9 @@ curl -X POST https://api.fireflies.ai/graphql \
 
 ## Next Steps
 For webhook handling, see `fireflies-webhooks-events`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Mistral Security Basics
 
 ## Overview
@@ -64,7 +63,7 @@ def sanitize_user_input(user_input: str) -> str:
     for pattern in dangerous_patterns:
         sanitized = sanitized.replace(pattern, "[FILTERED]")
     # Limit length to prevent context stuffing
-    return sanitized[:4000]
+    return sanitized[:4000]  # 4000: dev server port
 
 def build_safe_prompt(system: str, user_input: str) -> list:
     clean_input = sanitize_user_input(user_input)
@@ -124,7 +123,7 @@ class KeyRotator:
 
     def get_key(self) -> str:
         # Rotate every hour or on error
-        if time.time() - self.last_rotated > 3600:
+        if time.time() - self.last_rotated > 3600:  # 3600: timeout: 1 hour
             self.rotate()
         return self.keys[self.current]
 
@@ -161,3 +160,9 @@ def audit_security():
 ## Resources
 - [Mistral AI Security](https://docs.mistral.ai/capabilities/guardrailing/)
 - [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

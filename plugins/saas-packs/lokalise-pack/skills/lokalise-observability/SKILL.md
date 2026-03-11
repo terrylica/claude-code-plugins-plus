@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Lokalise Observability
 
 ## Overview
-Monitor Lokalise translation pipeline health including API response times, key completion rates, webhook delivery reliability, and translation throughput. Key signals include per-project translation progress (percentage of keys translated per locale), file download latency, rate limit consumption (Lokalise enforces 6 requests/second on most endpoints), and webhook delivery success rates for CI/CD integration triggers.
+Monitor Lokalise translation pipeline health including API response times, key completion rates, webhook delivery reliability, and translation throughput.
 
 ## Prerequisites
 - Lokalise API integration with `@lokalise/node-api` SDK
@@ -45,7 +44,7 @@ async function trackedApiCall<T>(operation: string, fn: () => Promise<T>): Promi
 }
 
 // Usage
-const keys = await trackedApiCall('keys.list', () => lok.keys().list({ project_id: projectId, limit: 500 }));
+const keys = await trackedApiCall('keys.list', () => lok.keys().list({ project_id: projectId, limit: 500 }));  # HTTP 500 Internal Server Error
 ```
 
 ### Step 2: Monitor Translation Completion
@@ -64,6 +63,7 @@ async function checkTranslationProgress(projectId: string) {
 
 ### Step 3: Configure Webhooks for Real-Time Events
 ```bash
+set -euo pipefail
 # Register a webhook for project completion events
 curl -X POST "https://api.lokalise.com/api2/projects/PROJECT_ID/webhooks" \
   -H "X-Api-Token: $LOKALISE_API_TOKEN" \
@@ -80,10 +80,10 @@ groups:
   - name: lokalise
     rules:
       - alert: LokaliseApiRateLimited
-        expr: rate(lokalise_api_requests_total{status="error", code="429"}[5m]) > 0
+        expr: rate(lokalise_api_requests_total{status="error", code="429"}[5m]) > 0  # HTTP 429 Too Many Requests
         annotations: { summary: "Lokalise API rate limit hit (6 req/s cap)" }
       - alert: TranslationStalled
-        expr: lokalise_translation_progress_pct < 50 and time() - lokalise_last_translation_activity > 86400
+        expr: lokalise_translation_progress_pct < 50 and time() - lokalise_last_translation_activity > 86400  # 86400: timeout: 24 hours
         annotations: { summary: "Translation progress stalled for 24+ hours" }
       - alert: WebhookDeliveryFailing
         expr: rate(lokalise_webhook_failures_total[1h]) > 3
@@ -102,8 +102,19 @@ Key panels: API request rate and latency, translation completion % by locale (ba
 | Stale cache data | Long TTL on translation cache | Invalidate on webhook event receipt |
 
 ## Examples
-```bash
-# Quick health check: API response time and rate limit headers
-curl -s -w "\n%{time_total}s" "https://api.lokalise.com/api2/projects" \
-  -H "X-Api-Token: $LOKALISE_API_TOKEN" -o /dev/null -D - | grep -E "(X-Rate-Limit|time_total)"
-```
+
+**Basic usage**: Apply lokalise observability to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize lokalise observability for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

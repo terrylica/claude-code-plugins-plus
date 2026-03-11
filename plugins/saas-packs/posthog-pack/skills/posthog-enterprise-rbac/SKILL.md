@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # PostHog Enterprise RBAC
 
 ## Overview
-Control access to PostHog analytics data, feature flags, and experiments using its organization and project-level permission model. PostHog has three hierarchy levels: Organization > Project > Resource. Roles (Admin, Member) are set per organization, while project-level access controls which dashboards, feature flags, and session recordings each team can see. Feature flag permissions are critical -- an unauthorized flag change can break production.
+Control access to PostHog analytics data, feature flags, and experiments using its organization and project-level permission model. PostHog has three hierarchy levels: Organization > Project > Resource.
 
 ## Prerequisites
 - PostHog Cloud or self-hosted with Enterprise license
@@ -27,6 +26,7 @@ Control access to PostHog analytics data, feature flags, and experiments using i
 
 ### Step 1: Set Up Project-Level Access
 ```bash
+set -euo pipefail
 # Create separate projects for prod and staging environments
 curl -X POST https://app.posthog.com/api/organizations/ORG_ID/projects/ \
   -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" \
@@ -64,6 +64,7 @@ In PostHog Organization Settings > Authentication:
 
 ### Step 4: Create Scoped API Keys
 ```bash
+set -euo pipefail
 # Read-only key for the BI dashboard (no write access)
 curl -X POST https://app.posthog.com/api/personal_api_keys/ \
   -H "Authorization: Bearer $POSTHOG_ADMIN_KEY" \
@@ -77,6 +78,7 @@ curl -X POST https://app.posthog.com/api/personal_api_keys/ \
 
 ### Step 5: Audit Access and Changes
 ```bash
+set -euo pipefail
 # Query the activity log for permission changes
 curl "https://app.posthog.com/api/projects/PROJECT_ID/activity_log/?scope=Organization" \
   -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" | \
@@ -92,9 +94,19 @@ curl "https://app.posthog.com/api/projects/PROJECT_ID/activity_log/?scope=Organi
 | Activity log gaps | Self-hosted log rotation | Increase retention in `posthog-config` |
 
 ## Examples
-```bash
-# List all members and their access levels across projects
-curl -s "https://app.posthog.com/api/organizations/ORG_ID/members/" \
-  -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" | \
-  jq '.results[] | {email: .user.email, org_level: .level, joined: .joined_at}'
-```
+
+**Basic usage**: Apply posthog enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize posthog enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official PostHog documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

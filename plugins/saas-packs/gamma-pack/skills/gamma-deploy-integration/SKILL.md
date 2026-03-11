@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Gamma Deploy Integration
 
 ## Overview
@@ -29,6 +28,7 @@ Deploy Gamma-integrated applications to various cloud platforms with proper conf
 
 #### Step 1: Configure Vercel Project
 ```bash
+set -euo pipefail
 # Install Vercel CLI
 npm i -g vercel
 
@@ -99,15 +99,15 @@ export async function handler(event: any) {
     title: event.title,
     prompt: event.prompt,
   });
-  return { statusCode: 200, body: JSON.stringify(result) };
+  return { statusCode: 200, body: JSON.stringify(result) };  # HTTP 200 OK
 }
 ```
 
 #### Step 3: SAM Template
 ```yaml
 # template.yaml
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
+AWSTemplateFormatVersion: '2010-09-09'  # 2010 = configured value
+Transform: AWS::Serverless-2016-10-31  # 2016 = configured value
 
 Resources:
   GammaFunction:
@@ -116,7 +116,7 @@ Resources:
       Handler: dist/gamma-handler.handler
       Runtime: nodejs20.x
       Timeout: 30
-      MemorySize: 256
+      MemorySize: 256  # 256 bytes
       Policies:
         - SecretsManagerReadWrite
       Environment:
@@ -144,6 +144,7 @@ CMD ["node", "dist/server.js"]
 
 #### Step 3: Deploy
 ```bash
+set -euo pipefail
 gcloud run deploy gamma-service \
   --image gcr.io/$PROJECT_ID/gamma-service \
   --platform managed \
@@ -200,3 +201,9 @@ jobs:
 
 ## Next Steps
 Proceed to `gamma-webhooks-events` for event handling.
+
+## Examples
+
+**Basic usage**: Apply gamma deploy integration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize gamma deploy integration for production environments with multiple constraints and team-specific requirements.

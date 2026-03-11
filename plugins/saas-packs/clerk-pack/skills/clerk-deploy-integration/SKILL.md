@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Deploy Integration
 
 ## Overview
@@ -24,13 +23,13 @@ Deploy Clerk-authenticated applications to various hosting platforms.
 - Hosting platform account
 
 ## Instructions
-- Step 1: Configure Environment Variables
-- Step 2: Configure Clerk Dashboard
-- Step 3: Deploy
-- Step 1: Configure Environment Variables
-- Step 2: Create Netlify Functions for API
-- Step 1: Configure Railway
-- Step 2: Set Environment Variables
+1. Step 1: Configure Environment Variables
+2. Step 2: Configure Clerk Dashboard
+3. Step 3: Deploy
+4. Step 1: Configure Environment Variables
+5. Step 2: Create Netlify Functions for API
+6. Step 1: Configure Railway
+7. Step 2: Set Environment Variables
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -56,3 +55,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-webhooks-events` for webhook configuration.
+
+## Examples
+
+**Basic usage**: Apply clerk deploy integration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk deploy integration for production environments with multiple constraints and team-specific requirements.

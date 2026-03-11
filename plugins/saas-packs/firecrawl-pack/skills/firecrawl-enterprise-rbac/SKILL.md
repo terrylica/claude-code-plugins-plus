@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # FireCrawl Enterprise RBAC
 
 ## Overview
-Control access to Firecrawl web scraping and crawling resources through API key management and team credit allocation. Firecrawl uses credit-based pricing where each page scraped costs credits (1 credit for scrape, 5+ for full crawl). Access control focuses on API key scoping, credit budgets per key, and restricting which endpoints each consumer can call.
+Control access to Firecrawl web scraping and crawling resources through API key management and team credit allocation. Firecrawl uses credit-based pricing where each page scraped costs credits (1 credit for scrape, 5+ for full crawl).
 
 ## Prerequisites
 - Firecrawl account with Team or Scale plan
@@ -27,13 +26,14 @@ Control access to Firecrawl web scraping and crawling resources through API key 
 
 ### Step 1: Create Separate API Keys per Consumer
 ```bash
+set -euo pipefail
 # Key for the content indexing pipeline (high volume, crawl access)
 curl -X POST https://api.firecrawl.dev/v1/api-keys \
   -H "Authorization: Bearer $FIRECRAWL_ADMIN_KEY" \
   -d '{
     "name": "content-indexer-prod",
     "allowed_endpoints": ["scrape", "crawl", "map"],
-    "monthly_credit_limit": 50000
+    "monthly_credit_limit": 50000  # 50000ms = 50 seconds
   }'
 
 # Key for the sales team (scrape only, limited)
@@ -42,7 +42,7 @@ curl -X POST https://api.firecrawl.dev/v1/api-keys \
   -d '{
     "name": "sales-prospect-research",
     "allowed_endpoints": ["scrape"],
-    "monthly_credit_limit": 5000
+    "monthly_credit_limit": 5000  # 5000: 5 seconds in ms
   }'
 ```
 
@@ -67,6 +67,7 @@ Configure webhook alerts in the Firecrawl dashboard at 50%, 80%, and 95% of mont
 
 ### Step 4: Restrict Crawl Depth per Key
 ```bash
+set -euo pipefail
 # For the research team, limit crawl depth to prevent multi-thousand page crawls
 curl -X POST https://api.firecrawl.dev/v1/crawl \
   -H "Authorization: Bearer $FIRECRAWL_RESEARCH_KEY" \
@@ -80,6 +81,7 @@ curl -X POST https://api.firecrawl.dev/v1/crawl \
 
 ### Step 5: Audit and Rotate Keys
 ```bash
+set -euo pipefail
 # Check credit usage per key
 curl https://api.firecrawl.dev/v1/usage \
   -H "Authorization: Bearer $FIRECRAWL_ADMIN_KEY" | \
@@ -96,9 +98,19 @@ Rotate keys quarterly. Create new key, update consumers, delete old key after 48
 | Unexpected credit burn | No `limit` set on crawl | Always set `limit` and `maxDepth` |
 
 ## Examples
-```bash
-# Verify key permissions before deploying
-curl -s https://api.firecrawl.dev/v1/api-keys/current \
-  -H "Authorization: Bearer $FIRECRAWL_API_KEY" | \
-  jq '{name, allowed_endpoints, credits_remaining}'
-```
+
+**Basic usage**: Apply firecrawl enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize firecrawl enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Firecrawl Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

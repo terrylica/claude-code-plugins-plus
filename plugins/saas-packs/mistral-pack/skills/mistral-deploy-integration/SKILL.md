@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Mistral AI Deploy Integration
 
 ## Overview
@@ -55,7 +54,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 
 ENV NODE_ENV=production
-EXPOSE 3000
+EXPOSE 3000  # 3000: 3 seconds in ms
 CMD ["node", "dist/index.js"]
 ```
 
@@ -94,6 +93,7 @@ export default async function handler(req: Request) {
 
 ### Step 4: Cloud Run Deployment
 ```bash
+set -euo pipefail
 gcloud run deploy mistral-service \
   --image gcr.io/$PROJECT_ID/mistral-app \
   --region us-central1 \
@@ -114,7 +114,7 @@ export async function GET() {
     await client.models.list();
     return Response.json({ status: "healthy", provider: "mistral" });
   } catch (error) {
-    return Response.json({ status: "unhealthy", error: error.message }, { status: 503 });
+    return Response.json({ status: "unhealthy", error: error.message }, { status: 503 });  # HTTP 503 Service Unavailable
   }
 }
 ```
@@ -133,7 +133,7 @@ export async function GET() {
 ```typescript
 const client = new Mistral({
   apiKey: process.env.MISTRAL_API_KEY!,
-  timeout: 60000,
+  timeout: 60000,  # 60000: 1 minute in ms
   maxRetries: 3,
 });
 ```
@@ -144,3 +144,9 @@ const client = new Mistral({
 
 ## Next Steps
 For multi-environment setup, see `mistral-multi-env-setup`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

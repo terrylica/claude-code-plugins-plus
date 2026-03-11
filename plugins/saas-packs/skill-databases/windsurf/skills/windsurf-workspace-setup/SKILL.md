@@ -10,12 +10,11 @@ license: MIT
 author: "Jeremy Longshore <jeremy@intentsolutions.io>"
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Workspace Setup
 
 ## Overview
 
-This skill enables rapid workspace setup for Windsurf projects. It covers creating .windsurfrules for AI behavior, configuring editor settings, establishing team conventions, and setting up multi-root workspaces. Proper workspace setup ensures consistent AI assistance across all team members and projects.
+This skill enables rapid workspace setup for Windsurf projects. It covers creating .windsurfrules for AI behavior, configuring editor settings, establishing team conventions, and setting up multi-root workspaces.
 
 ## Prerequisites
 
@@ -32,7 +31,6 @@ This skill enables rapid workspace setup for Windsurf projects. It covers creati
 3. **Set Up Extensions**
 4. **Configure Cross-Editor Consistency**
 5. **Establish Team Standards**
-
 
 See `${CLAUDE_SKILL_DIR}/references/implementation.md` for detailed implementation guide.
 

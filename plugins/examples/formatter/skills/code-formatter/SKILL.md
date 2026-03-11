@@ -11,12 +11,11 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Code Formatter
 
 ## Overview
 
-Formats and validates code files using Prettier and related formatting tools. Supports JavaScript, TypeScript, JSON, CSS, Markdown, and many other file types. Handles both one-off formatting runs and project-wide configuration setup including `.prettierrc`, `.prettierignore`, and git hook integration.
+Formats and validates code files using Prettier and related formatting tools. Supports JavaScript, TypeScript, JSON, CSS, Markdown, and many other file types.
 
 ## Prerequisites
 

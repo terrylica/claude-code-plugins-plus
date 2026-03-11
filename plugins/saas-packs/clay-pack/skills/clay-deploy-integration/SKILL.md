@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clay Deploy Integration
 
 ## Overview
@@ -60,16 +59,17 @@ COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
 RUN npm run build
-EXPOSE 3000
+EXPOSE 3000  # 3000: 3 seconds in ms
 CMD ["node", "dist/index.js"]
 ```
 
 ```bash
+set -euo pipefail
 docker build -t clay-integration .
 docker run -d \
   -e CLAY_API_KEY="$CLAY_API_KEY" \
   -e CLAY_WEBHOOK_SECRET="$CLAY_WEBHOOK_SECRET" \
-  -p 3000:3000 clay-integration
+  -p 3000:3000 clay-integration  # 3000: 3 seconds in ms
 ```
 
 ### Step 4: Vercel Deployment
@@ -87,7 +87,7 @@ export async function GET() {
     });
     return Response.json({ status: response.ok ? "healthy" : "degraded" });
   } catch {
-    return Response.json({ status: "unhealthy" }, { status: 503 });
+    return Response.json({ status: "unhealthy" }, { status: 503 });  # HTTP 503 Service Unavailable
   }
 }
 ```
@@ -102,12 +102,10 @@ export async function GET() {
 
 ## Examples
 
-### Deploy Script
-```bash
-#!/bin/bash
-set -e
-npm run build && npm test && vercel --prod
-```
+
+**Basic usage**: Apply clay deploy integration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clay deploy integration for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [Clay API Documentation](https://docs.clay.com/api)
@@ -115,3 +113,9 @@ npm run build && npm test && vercel --prod
 
 ## Next Steps
 For webhook handling, see `clay-webhooks-events`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

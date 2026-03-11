@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Perplexity Events & Async Patterns
 
 ## Overview
-Build event-driven architectures around Perplexity's AI search API. Perplexity provides a chat completions API at `api.perplexity.ai` with real-time web search capabilities. Since Perplexity does not offer native webhooks, this skill covers streaming patterns, async search pipelines, and callback-based workflows for integrating Perplexity's grounded search responses into your systems.
+Build event-driven architectures around Perplexity's AI search API. Perplexity provides a chat completions API at `api.perplexity.ai` with real-time web search capabilities.
 
 ## Prerequisites
 - Perplexity API key stored in `PERPLEXITY_API_KEY` environment variable
@@ -40,7 +39,7 @@ Build event-driven architectures around Perplexity's AI search API. Perplexity p
 app.post("/api/search/stream", async (req, res) => {
   const { query, model } = req.body;
 
-  res.writeHead(200, {
+  res.writeHead(200, {  # HTTP 200 OK
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
   });
@@ -178,6 +177,7 @@ async function monitorTopic(topic: string, webhookUrl: string) {
 
 ### Quick Search with Citations
 ```bash
+set -euo pipefail
 curl -X POST https://api.perplexity.ai/chat/completions \
   -H "Authorization: Bearer $PERPLEXITY_API_KEY" \
   -H "Content-Type: application/json" \
@@ -190,3 +190,9 @@ curl -X POST https://api.perplexity.ai/chat/completions \
 
 ## Next Steps
 For deployment setup, see `perplexity-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

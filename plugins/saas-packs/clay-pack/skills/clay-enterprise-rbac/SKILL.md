@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clay Enterprise RBAC
 
 ## Overview
-Control access to Clay data enrichment tables, credit pools, and integrations at the team level. Clay uses a workspace model where team members are assigned Admin, Member, or Viewer roles. Credits are shared at the workspace level, so RBAC is critical to prevent one team from burning through the enrichment budget that another team depends on.
+Control access to Clay data enrichment tables, credit pools, and integrations at the team level. Clay uses a workspace model where team members are assigned Admin, Member, or Viewer roles.
 
 ## Prerequisites
 - Clay Team or Enterprise plan (credit-based pricing)
@@ -56,6 +55,7 @@ roles:
 
 ### Step 2: Invite Members with Appropriate Roles
 ```bash
+set -euo pipefail
 # Invite via Clay API
 curl -X POST https://api.clay.com/v1/workspace/members \
   -H "Authorization: Bearer $CLAY_API_KEY" \
@@ -69,10 +69,11 @@ curl https://api.clay.com/v1/workspace/members \
 ### Step 3: Set Credit Budgets per Table
 Since Clay charges credits per enrichment (e.g., 1 credit for email lookup, 5 credits for company data), set row limits on tables to cap spending:
 ```bash
+set -euo pipefail
 # Configure a table with a 500-row enrichment cap
 curl -X PATCH https://api.clay.com/v1/tables/tbl_abc123 \
   -H "Authorization: Bearer $CLAY_API_KEY" \
-  -d '{"max_rows": 500, "auto_enrich": false}'
+  -d '{"max_rows": 500, "auto_enrich": false}'  # HTTP 500 Internal Server Error
 ```
 
 ### Step 4: Separate API Keys by Integration
@@ -80,6 +81,7 @@ Create distinct API keys for each downstream integration (CRM sync, outbound too
 
 ### Step 5: Review Credit Usage by Member
 ```bash
+set -euo pipefail
 # Pull credit consumption grouped by user
 curl "https://api.clay.com/v1/workspace/usage?group_by=user&period=last_30d" \
   -H "Authorization: Bearer $CLAY_API_KEY" | \
@@ -95,16 +97,19 @@ curl "https://api.clay.com/v1/workspace/usage?group_by=user&period=last_30d" \
 | Member cannot see table | Table in another workspace | Share table or move to shared workspace |
 
 ## Examples
-```bash
-# Offboard a team member: revoke access and transfer table ownership
-curl -X DELETE "https://api.clay.com/v1/workspace/members/usr_xyz" \
-  -H "Authorization: Bearer $CLAY_API_KEY"
-# Reassign their tables to another member via the Clay UI
-```
 
-```bash
-# Monthly credit audit: find tables consuming the most credits
-curl "https://api.clay.com/v1/workspace/usage?group_by=table&period=last_30d" \
-  -H "Authorization: Bearer $CLAY_API_KEY" | \
-  jq '.usage | sort_by(-.total_credits) | .[0:5]'
-```
+**Basic usage**: Apply clay enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clay enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Clay Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

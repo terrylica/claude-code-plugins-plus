@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Observability
 
 ## Overview
-Monitor Replit deployment health, development environment uptime, and AI feature usage across your team. Key signals include deployment status and latency (Replit Deployments serve live apps), Repl boot time (cold starts for on-demand environments), AI feature adoption (Ghostwriter completions accepted per developer), and resource consumption (CPU, memory, egress) which drive billing on Replit's compute-based pricing.
+Monitor Replit deployment health, development environment uptime, and AI feature usage across your team.
 
 ## Prerequisites
 - Replit Teams for Business or Enterprise plan
@@ -27,6 +26,7 @@ Monitor Replit deployment health, development environment uptime, and AI feature
 
 ### Step 1: Monitor Deployment Health
 ```bash
+set -euo pipefail
 # Check deployment status via Replit API
 curl "https://replit.com/api/v1/teams/TEAM_ID/deployments" \
   -H "Authorization: Bearer $REPLIT_API_KEY" | \
@@ -39,7 +39,7 @@ curl "https://replit.com/api/v1/teams/TEAM_ID/deployments" \
 async function checkDeploymentHealth(deploymentUrl: string) {
   const start = performance.now();
   try {
-    const res = await fetch(`${deploymentUrl}/health`, { signal: AbortSignal.timeout(5000) });
+    const res = await fetch(`${deploymentUrl}/health`, { signal: AbortSignal.timeout(5000) });  # 5000: 5 seconds in ms
     const latency = performance.now() - start;
     emitHistogram('replit_deployment_latency_ms', latency, { url: deploymentUrl });
     emitGauge('replit_deployment_up', res.ok ? 1 : 0, { url: deploymentUrl });
@@ -55,6 +55,7 @@ setInterval(() => deployments.forEach(checkDeploymentHealth), 60_000);
 
 ### Step 3: Track Resource Consumption
 ```bash
+set -euo pipefail
 # Monitor compute usage across team Repls
 curl "https://replit.com/api/v1/teams/TEAM_ID/usage" \
   -H "Authorization: Bearer $REPLIT_API_KEY" | \
@@ -71,7 +72,7 @@ groups:
         for: 5m
         annotations: { summary: "Replit deployment {{ $labels.url }} is down" }
       - alert: ReplitColdStartSlow
-        expr: histogram_quantile(0.95, rate(replit_deployment_latency_ms_bucket[10m])) > 10000
+        expr: histogram_quantile(0.95, rate(replit_deployment_latency_ms_bucket[10m])) > 10000  # 10000: 10 seconds in ms
         annotations: { summary: "Replit deployment cold start P95 exceeds 10 seconds" }
       - alert: ReplitHighComputeCost
         expr: increase(replit_compute_cost_usd[24h]) > 50
@@ -90,7 +91,19 @@ Track: deployment uptime by app, response latency (cold start detection), CPU/me
 | AI features not working | Ghostwriter disabled for team | Enable in Team Settings > AI Features |
 
 ## Examples
-```bash
-# Quick deployment health check
-curl -s -o /dev/null -w "%{http_code} %{time_total}s" https://your-app.repl.co/health
-```
+
+**Basic usage**: Apply replit observability to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize replit observability for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

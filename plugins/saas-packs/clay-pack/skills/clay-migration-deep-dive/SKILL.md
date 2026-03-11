@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clay Migration Deep Dive
 
 ## Overview
@@ -37,7 +36,7 @@ Comprehensive guide for migrating to or from Clay, or major version upgrades usi
 
 ## Instructions
 
-### Step 1: Assess Current State (Week 1-2)
+### Assess current configuration (Week 1-2)
 
 Inventory all files referencing Clay, count integration points, and document dependencies. Build a `MigrationInventory` with data types, record counts, and customizations.
 
@@ -88,3 +87,9 @@ For complete TypeScript implementations, assessment scripts, and validation code
 ## Next Steps
 
 For advanced troubleshooting, see `clay-advanced-troubleshooting`.
+
+## Examples
+
+**Basic usage**: Apply clay migration deep dive to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clay migration deep dive for production environments with multiple constraints and team-specific requirements.

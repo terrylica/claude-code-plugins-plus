@@ -8,12 +8,11 @@ author: Damien Laine <damien.laine@gmail.com>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Sprint Workflow
 
 ## Overview
 
-Sprint Workflow describes the convergent diffusion execution model used by the Sprint plugin. A sprint progresses through six distinct phases -- from loading specifications through architectural planning, parallel implementation, testing, review, and finalization. Each iteration narrows the gap between specs and working code, removing completed items and focusing on remaining issues until convergence. Developers and architects use this skill to understand when and why each phase executes.
+Sprint Workflow describes the convergent diffusion execution model used by the Sprint plugin. A sprint progresses through six distinct phases -- from loading specifications through architectural planning, parallel implementation, testing, review, and finalization.
 
 ## Prerequisites
 

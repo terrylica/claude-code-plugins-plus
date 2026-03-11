@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # TwinMind SDK Patterns
 
 ## Overview
@@ -101,7 +100,7 @@ def batch_store_memories(client: TwinMindClient, memories: list, batch_size: int
                 result = client.store_memory(**memory)
                 results.append({"status": "ok", "id": result["id"]})
             except requests.HTTPError as e:
-                if e.response.status_code == 429:
+                if e.response.status_code == 429:  # HTTP 429 Too Many Requests
                     time.sleep(int(e.response.headers.get("Retry-After", 5)))
                     result = client.store_memory(**memory)
                     results.append({"status": "ok", "id": result["id"]})
@@ -137,3 +136,9 @@ for item in insights.get("action_items", []):
 
 ## Resources
 - [TwinMind API](https://docs.twinmind.com)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

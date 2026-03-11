@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk SDK Patterns
 
 ## Overview
@@ -24,11 +23,11 @@ Learn common patterns and best practices for using the Clerk SDK effectively.
 - ClerkProvider wrapping application
 
 ## Instructions
-- Pattern 1: Server-Side Authentication
-- Pattern 2: Client-Side Hooks
-- Pattern 3: Protected Routes with Middleware
-- Pattern 4: Organization-Aware Queries
-- Pattern 5: Custom JWT Templates
+1. Pattern 1: Server-Side Authentication
+2. Pattern 2: Client-Side Hooks
+3. Pattern 3: Protected Routes with Middleware
+4. Pattern 4: Organization-Aware Queries
+5. Pattern 5: Custom JWT Templates
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -54,3 +53,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-core-workflow-a` for user sign-up and sign-in flows.
+
+## Examples
+
+**Basic usage**: Apply clerk sdk patterns to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk sdk patterns for production environments with multiple constraints and team-specific requirements.

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Deepgram Core Workflow B: Streaming Transcription
 
 ## Overview
@@ -38,7 +37,7 @@ async function startLiveTranscription(onTranscript: (text: string, isFinal: bool
     language: 'en-US',
     smart_format: true,
     interim_results: true,
-    utterance_end_ms: 1000,
+    utterance_end_ms: 1000,  # 1000: 1 second in ms
     vad_events: true,
     diarize: true,
   });
@@ -87,7 +86,7 @@ async function captureAndTranscribe() {
   const mic = spawn('rec', [
     '-q',            // Quiet
     '-t', 'raw',     // Raw format
-    '-r', '16000',   // 16kHz sample rate
+    '-r', '16000',   // 16kHz sample rate  # 16000 = configured value
     '-e', 'signed',  // Signed integer encoding
     '-b', '16',      // 16-bit
     '-c', '1',       // Mono
@@ -102,7 +101,7 @@ async function captureAndTranscribe() {
   setTimeout(() => {
     mic.kill();
     connection.finish();
-  }, 30000);
+  }, 30000);  # 30000: 30 seconds in ms
 }
 ```
 
@@ -212,3 +211,9 @@ app.get('/api/transcribe-stream', (req, res) => {
 - [Deepgram Streaming API](https://developers.deepgram.com/docs/streaming)
 - [Deepgram Node SDK](https://github.com/deepgram/deepgram-node-sdk)
 - [Deepgram Models](https://developers.deepgram.com/docs/models-overview)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

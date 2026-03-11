@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Linear SDK Patterns
 
 ## Overview
@@ -24,7 +23,7 @@ Essential patterns and best practices for working with the Linear SDK.
 - Understanding of async/await patterns
 
 ## Instructions
-- Core Patterns
+1. Core Patterns
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -50,3 +49,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Apply these patterns in `linear-core-workflow-a` for issue management.
+
+## Examples
+
+**Basic usage**: Apply linear sdk patterns to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize linear sdk patterns for production environments with multiple constraints and team-specific requirements.

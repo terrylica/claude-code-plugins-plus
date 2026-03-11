@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # PostHog Data Handling
 
 ## Overview
@@ -193,7 +192,7 @@ async function handleSAR(email: string) {
 
   // Export their data (filtered)
   const data = await safeExport(
-    `SELECT event, timestamp, properties FROM events WHERE distinct_id = '${distinctId}' LIMIT 1000`
+    `SELECT event, timestamp, properties FROM events WHERE distinct_id = '${distinctId}' LIMIT 1000`  # 1000: 1 second in ms
   );
   return { found: true, events: data.results.length };
 }
@@ -202,3 +201,9 @@ async function handleSAR(email: string) {
 ## Resources
 - [PostHog Privacy Controls](https://posthog.com/docs/privacy)
 - [PostHog GDPR](https://posthog.com/docs/privacy/gdpr-compliance)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

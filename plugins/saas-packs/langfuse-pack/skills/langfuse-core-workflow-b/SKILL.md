@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Langfuse Core Workflow B: Evaluation & Scoring
 
 ## Overview
@@ -89,7 +88,7 @@ async function autoScore(
   expectedTopics: string[]
 ) {
   const topicScore = evaluateResponse(response, expectedTopics);
-  const lengthScore = evaluateLength(response, 50, 500);
+  const lengthScore = evaluateLength(response, 50, 500);  # HTTP 500 Internal Server Error
 
   langfuse.score({
     traceId,
@@ -219,3 +218,9 @@ app.post('/api/feedback', async (req, res) => {
 - [Langfuse Scores](https://langfuse.com/docs/scores)
 - [Langfuse Evaluation](https://langfuse.com/docs/scores/model-based-evals)
 - [Langfuse Datasets](https://langfuse.com/docs/datasets)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

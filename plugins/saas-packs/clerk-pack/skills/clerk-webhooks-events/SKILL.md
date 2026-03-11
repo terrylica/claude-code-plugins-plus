@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Webhooks & Events
 
 ## Overview
@@ -24,11 +23,11 @@ Configure and handle Clerk webhooks for user lifecycle events and data synchroni
 - svix package for verification
 
 ## Instructions
-- Step 1: Install Dependencies
-- Step 2: Create Webhook Endpoint
-- Step 3: Implement Event Handlers
-- Step 4: Idempotency and Error Handling
-- Step 5: Configure Webhook in Clerk Dashboard
+1. Step 1: Install Dependencies
+2. Step 2: Create Webhook Endpoint
+3. Step 3: Implement Event Handlers
+4. Step 4: Idempotency and Error Handling
+5. Step 5: Configure Webhook in Clerk Dashboard
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -54,3 +53,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-performance-tuning` for optimization strategies.
+
+## Examples
+
+**Basic usage**: Apply clerk webhooks events to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk webhooks events for production environments with multiple constraints and team-specific requirements.

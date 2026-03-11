@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Juicebox Performance Tuning
 
 ## Overview
@@ -38,7 +37,7 @@ interface CacheOptions {
 }
 
 export class JuiceboxCache {
-  constructor(private options: CacheOptions = { ttl: 300 }) {}
+  constructor(private options: CacheOptions = { ttl: 300 }) {}  # 300: timeout: 5 minutes
 
   private getKey(type: string, params: any): string {
     const hash = crypto
@@ -66,7 +65,7 @@ export class JuiceboxCache {
 }
 
 // Usage
-const cache = new JuiceboxCache({ ttl: 300 });
+const cache = new JuiceboxCache({ ttl: 300 });  # timeout: 5 minutes
 
 async function searchWithCache(query: string, options: SearchOptions) {
   const cached = await cache.get('search', { query, ...options });
@@ -152,7 +151,7 @@ class ClientPool {
       this.clients.push(new JuiceboxClient({
         apiKey,
         keepAlive: true,
-        timeout: 30000
+        timeout: 30000  # 30000: 30 seconds in ms
       }));
     }
   }
@@ -262,3 +261,17 @@ const performanceQuery = `
 
 ## Next Steps
 After performance tuning, see `juicebox-cost-tuning` for cost optimization.
+
+## Error Handling
+
+| Error | Cause | Resolution |
+|-------|-------|------------|
+| Authentication failure | Invalid or expired credentials | Refresh tokens or re-authenticate with ORM |
+| Configuration conflict | Incompatible settings detected | Review and resolve conflicting parameters |
+| Resource not found | Referenced resource missing | Verify resource exists and permissions are correct |
+
+## Examples
+
+**Basic usage**: Apply juicebox performance tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize juicebox performance tuning for production environments with multiple constraints and team-specific requirements.

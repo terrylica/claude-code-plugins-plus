@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Customer.io Core Feature Integration
 
 ## Overview
@@ -31,8 +30,8 @@ Implement Customer.io core features: segments, transactional messaging, data pip
 ### Feature 4: Object Tracking (Companies/Accounts)
 ### Feature 5: Data Pipeline Integration
 
-For detailed implementation code and configurations, load the reference guide:
-`Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
+1. For detailed implementation code and configurations, load the reference guide:
+2. `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
 
 ## Output
 - Transactional email sending capability
@@ -55,3 +54,9 @@ For detailed implementation code and configurations, load the reference guide:
 
 ## Next Steps
 After implementing core features, proceed to `customerio-common-errors` to learn troubleshooting.
+
+## Examples
+
+**Basic usage**: Apply customerio core feature to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize customerio core feature for production environments with multiple constraints and team-specific requirements.

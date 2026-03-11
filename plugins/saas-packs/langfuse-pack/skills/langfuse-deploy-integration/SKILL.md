@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Langfuse Deploy Integration
 
 ## Overview
@@ -81,11 +80,11 @@ services:
   langfuse:
     image: langfuse/langfuse:latest
     ports:
-      - "3001:3000"
+      - "3001:3000"  # 3000: 3001: alternate dev port
     environment:
-      - DATABASE_URL=postgresql://user:pass@postgres:5432/langfuse
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/langfuse  # 5432: PostgreSQL port
       - NEXTAUTH_SECRET=your-secret
-      - NEXTAUTH_URL=http://localhost:3001
+      - NEXTAUTH_URL=http://localhost:3001  # alternate dev port
       - SALT=your-salt
     depends_on:
       - postgres
@@ -124,7 +123,7 @@ export async function GET() {
     await langfuse.flushAsync();
     return Response.json({ status: "healthy", tracing: "enabled" });
   } catch {
-    return Response.json({ status: "degraded", tracing: "disabled" }, { status: 503 });
+    return Response.json({ status: "degraded", tracing: "disabled" }, { status: 503 });  # HTTP 503 Service Unavailable
   }
 }
 ```
@@ -153,3 +152,9 @@ await langfuse.flushAsync();
 
 ## Next Steps
 For webhook handling, see `langfuse-webhooks-events`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

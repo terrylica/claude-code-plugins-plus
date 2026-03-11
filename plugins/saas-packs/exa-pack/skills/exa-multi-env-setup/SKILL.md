@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Exa Multi-Environment Setup
 
 ## Overview
-Exa's neural search API (`api.exa.ai`) charges per search request. Multi-environment setup focuses on API key isolation, request caching to reduce costs in staging/production, and controlling `numResults` and `text.maxCharacters` per environment (higher values cost more). Development can use a shared low-quota key; production needs its own key with appropriate rate limits and Redis caching to avoid re-fetching identical queries.
+Exa's neural search API (`api.exa.ai`) charges per search request. Multi-environment setup focuses on API key isolation, request caching to reduce costs in staging/production, and controlling `numResults` and `text.maxCharacters` per environment (higher values cost more).
 
 ## Prerequisites
 - Exa API key(s) from dashboard.exa.ai
@@ -52,23 +51,23 @@ const configs: Record<Env, ExaConfig> = {
   development: {
     apiKey: process.env.EXA_API_KEY!,
     defaultNumResults: 3,       // fewer results = lower cost in dev
-    maxCharacters: 500,
+    maxCharacters: 500,  # HTTP 500 Internal Server Error
     cacheEnabled: false,        // don't bother caching in dev
     cacheTtlSeconds: 0,
   },
   staging: {
     apiKey: process.env.EXA_API_KEY_STAGING!,
     defaultNumResults: 5,
-    maxCharacters: 1000,
+    maxCharacters: 1000,  # 1000: 1 second in ms
     cacheEnabled: true,
-    cacheTtlSeconds: 300,       // 5-minute cache in staging
+    cacheTtlSeconds: 300,       // 5-minute cache in staging  # 300: timeout: 5 minutes
   },
   production: {
     apiKey: process.env.EXA_API_KEY_PROD!,
     defaultNumResults: 5,
-    maxCharacters: 1000,
+    maxCharacters: 1000,  # 1 second in ms
     cacheEnabled: true,
-    cacheTtlSeconds: 3600,      // 1-hour cache for repeated queries
+    cacheTtlSeconds: 3600,      // 1-hour cache for repeated queries  # 3600: timeout: 1 hour
   },
 };
 
@@ -133,7 +132,7 @@ EXA_API_KEY_STAGING=exa-staging-def456
 
 # GitHub Actions - Production
 EXA_API_KEY_PROD=exa-prod-xyz789
-REDIS_URL=redis://prod-redis:6379
+REDIS_URL=redis://prod-redis:6379  # 6379: Redis port
 ```
 
 ### Step 4: Health Check Per Environment
@@ -197,3 +196,9 @@ console.log(`Cache enabled: ${cfg.cacheEnabled}, TTL: ${cfg.cacheTtlSeconds}s`);
 
 ## Next Steps
 For deployment configuration, see `exa-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

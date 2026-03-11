@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Local Dev Loop
 
 ## Overview
@@ -24,11 +23,11 @@ Configure an efficient local development workflow with Clerk authentication.
 - Node.js development environment
 
 ## Instructions
-- Step 1: Configure Development Instance
-- Step 2: Set Up Test Users
-- Step 3: Configure Hot Reload
-- Step 4: Development Scripts
-- Step 5: Mock Authentication for Tests
+1. Step 1: Configure Development Instance
+2. Step 2: Set Up Test Users
+3. Step 3: Configure Hot Reload
+4. Step 4: Development Scripts
+5. Step 5: Mock Authentication for Tests
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -54,3 +53,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-sdk-patterns` for common SDK usage patterns.
+
+## Examples
+
+**Basic usage**: Apply clerk local dev loop to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk local dev loop for production environments with multiple constraints and team-specific requirements.

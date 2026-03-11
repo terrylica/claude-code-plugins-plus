@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Linear Enterprise RBAC
 
 ## Overview
@@ -24,12 +23,12 @@ Implement enterprise-grade role-based access control for Linear integrations.
 - SSO provider (Okta, Azure AD, Google Workspace)
 
 ## Instructions
-- Step 1: Define Application Roles
-- Step 2: Permission Guard Implementation
-- Step 3: Secure Linear Client Factory
-- Step 4: SSO Integration
-- Step 5: Audit Logging
-- Step 6: API Middleware
+1. Step 1: Define Application Roles
+2. Step 2: Permission Guard Implementation
+3. Step 3: Secure Linear Client Factory
+4. Step 4: SSO Integration
+5. Step 5: Audit Logging
+6. Step 6: API Middleware
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -48,3 +47,17 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Complete your Linear knowledge with `linear-migration-deep-dive`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+See [Linear implementation details](${CLAUDE_SKILL_DIR}/references/implementation.md) for output format specifications.
+
+## Examples
+
+**Basic usage**: Apply linear enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize linear enterprise rbac for production environments with multiple constraints and team-specific requirements.

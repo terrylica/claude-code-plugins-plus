@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Juicebox Migration Deep Dive
 
 ## Overview
@@ -25,12 +24,12 @@ Advanced strategies for migrating data to Juicebox from other recruiting and peo
 - Testing environment
 
 ## Instructions
-- Step 1: Data Assessment
-- Step 2: Schema Mapping
-- Step 3: Data Transformation Pipeline
-- Step 4: Bulk Import with Rate Limiting
-- Step 5: Validation and Reconciliation
-- Step 6: Rollback Strategy
+1. Step 1: Data Assessment
+2. Step 2: Schema Mapping
+3. Step 3: Data Transformation Pipeline
+4. Step 4: Bulk Import with Rate Limiting
+5. Step 5: Validation and Reconciliation
+6. Step 6: Rollback Strategy
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -48,3 +47,17 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 This skill pack completes the enterprise-grade Juicebox integration toolkit.
+
+## Error Handling
+
+| Error | Cause | Resolution |
+|-------|-------|------------|
+| Authentication failure | Invalid or expired credentials | Refresh tokens or re-authenticate with CI/CD |
+| Configuration conflict | Incompatible settings detected | Review and resolve conflicting parameters |
+| Resource not found | Referenced resource missing | Verify resource exists and permissions are correct |
+
+## Examples
+
+**Basic usage**: Apply juicebox migration deep dive to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize juicebox migration deep dive for production environments with multiple constraints and team-specific requirements.

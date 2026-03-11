@@ -4,14 +4,13 @@ description: |
   Optimize Guidewire InsuranceSuite performance including query optimization,
   batch processing, caching, and JVM tuning.
   Trigger with phrases like "guidewire performance", "slow queries",
-  "optimize policycenter", "batch processing", "query tuning".
+  "optimize policycenter", "batch processing", "query tuning". Use when working with guidewire performance tuning.
 allowed-tools: Read, Write, Edit, Bash(curl:*), Grep
 version: 1.0.0
 license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Guidewire Performance Tuning
 
 ## Overview
@@ -50,3 +49,9 @@ For detailed implementation code and configurations, load the reference guide:
 
 ## Next Steps
 For cost optimization, see `guidewire-cost-tuning`.
+
+## Examples
+
+**Basic usage**: Apply guidewire performance tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize guidewire performance tuning for production environments with multiple constraints and team-specific requirements.

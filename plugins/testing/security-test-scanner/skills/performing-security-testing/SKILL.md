@@ -15,7 +15,7 @@ compatible-with: claude-code, codex, openclaw
 
 ## Overview
 
-Automate security vulnerability detection covering OWASP Top 10 categories including SQL injection, XSS, CSRF, broken authentication, and sensitive data exposure. Combines static analysis (source code scanning with Semgrep, Bandit, ESLint security plugins) with dynamic testing patterns (input fuzzing, header validation, authentication bypass checks). Produces prioritized findings with CVSS severity scores and remediation guidance.
+Automate security vulnerability detection covering OWASP Top 10 categories including SQL injection, XSS, CSRF, broken authentication, and sensitive data exposure. Combines static analysis (source code scanning with Semgrep, Bandit, ESLint security plugins) with dynamic testing patterns (input fuzzing, header validation, authentication bypass checks).
 
 ## Prerequisites
 
@@ -96,7 +96,7 @@ describe('Security: XSS Prevention', () => {
   it('rejects SQL injection in search parameter', async () => {
     const response = await request(app)
       .get('/api/search?q=\'; DROP TABLE users; --')
-      .expect(200);
+      .expect(200);  # HTTP 200 OK
     expect(response.body.results).toBeDefined();
     // Verify users table still exists
     const users = await db.query('SELECT count(*) FROM users');

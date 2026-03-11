@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Linear Core Workflow A: Issue Lifecycle
 
 ## Overview
@@ -24,11 +23,11 @@ Master issue lifecycle management: creating, updating, transitioning, and organi
 - Understanding of Linear's issue model
 
 ## Instructions
-- Step 1: Create Issues
-- Step 2: Update Issues
-- Step 3: State Transitions
-- Step 4: Issue Relationships
-- Step 5: Comments and Activity
+1. Step 1: Create Issues
+2. Step 2: Update Issues
+3. Step 3: State Transitions
+4. Step 4: Issue Relationships
+5. Step 5: Comments and Activity
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -56,3 +55,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Continue to `linear-core-workflow-b` for project and cycle management.
+
+## Examples
+
+**Basic usage**: Apply linear core workflow a to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize linear core workflow a for production environments with multiple constraints and team-specific requirements.

@@ -4,14 +4,13 @@ description: |
   Optimize Guidewire Cloud costs including license management, resource allocation,
   API usage optimization, and cloud infrastructure right-sizing.
   Trigger with phrases like "guidewire costs", "reduce spending",
-  "license optimization", "cloud costs", "resource optimization guidewire".
+  "license optimization", "cloud costs", "resource optimization guidewire". Use when working with guidewire cost tuning.
 allowed-tools: Read, Write, Edit, Bash(curl:*), Grep
 version: 1.0.0
 license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Guidewire Cost Tuning
 
 ## Overview
@@ -50,3 +49,9 @@ For detailed implementation code and configurations, load the reference guide:
 
 ## Next Steps
 For architecture patterns, see `guidewire-reference-architecture`.
+
+## Examples
+
+**Basic usage**: Apply guidewire cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize guidewire cost tuning for production environments with multiple constraints and team-specific requirements.

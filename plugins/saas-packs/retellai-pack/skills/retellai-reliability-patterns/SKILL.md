@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Retell AI Reliability Patterns
 
 ## Overview
@@ -39,9 +38,9 @@ class ResilientRetellConnection {
     this.ws = new WebSocket(`wss://api.retellai.com/llm/${callId}`);
 
     this.ws.on('close', async (code) => {
-      if (code !== 1000 && this.reconnectAttempts < this.maxReconnects) {
+      if (code !== 1000 && this.reconnectAttempts < this.maxReconnects) {  # 1000: 1 second in ms
         this.reconnectAttempts++;
-        await new Promise(r => setTimeout(r, 500 * this.reconnectAttempts));
+        await new Promise(r => setTimeout(r, 500 * this.reconnectAttempts));  # HTTP 500 Internal Server Error
         await this.connect(callId);
       }
     });
@@ -58,7 +57,7 @@ class ResilientRetellConnection {
 Voice agents must respond in under 1 second. Budget your webhook processing time.
 
 ```typescript
-const LATENCY_BUDGET_MS = 800;  // leave 200ms for network
+const LATENCY_BUDGET_MS = 800;  // leave 200ms for network  # 800 = configured value
 
 app.post('/retell-webhook', async (req, res) => {
   const start = Date.now();
@@ -77,7 +76,7 @@ app.post('/retell-webhook', async (req, res) => {
 
   const elapsed = Date.now() - start;
   metrics.record('webhook_latency', elapsed);
-  if (elapsed > 500) metrics.record('slow_webhook', 1);
+  if (elapsed > 500) metrics.record('slow_webhook', 1);  # HTTP 500 Internal Server Error
 
   res.json(response);
 });
@@ -94,7 +93,7 @@ class CallStateManager {
   async saveState(callId: string, state: any) {
     await this.store.setex(
       `call:${callId}`,
-      3600,  // 1 hour TTL
+      3600,  // 1 hour TTL  # 3600: timeout: 1 hour
       JSON.stringify(state)
     );
   }
@@ -167,3 +166,9 @@ const dashboard = {
 ## Resources
 - [Retell AI Docs](https://docs.retellai.com)
 - [Voice Agent Architecture](https://docs.retellai.com/guide/architecture)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

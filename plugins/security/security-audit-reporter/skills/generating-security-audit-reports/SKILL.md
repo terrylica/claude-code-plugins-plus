@@ -11,12 +11,11 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Generating Security Audit Reports
 
 ## Overview
 
-Aggregate vulnerability scan results, configuration analyses, and compliance assessments into a structured, auditor-ready security report. Map every finding to a CVSS severity, applicable compliance control (PCI-DSS, HIPAA, SOC 2, GDPR), and a prioritized remediation timeline. Produce output in Markdown, HTML, or JSON for integration with ticketing systems.
+Aggregate vulnerability scan results, configuration analyses, and compliance assessments into a structured, auditor-ready security report. Map every finding to a CVSS severity, applicable compliance control (PCI-DSS, HIPAA, SOC 2, GDPR), and a prioritized remediation timeline.
 
 ## Prerequisites
 

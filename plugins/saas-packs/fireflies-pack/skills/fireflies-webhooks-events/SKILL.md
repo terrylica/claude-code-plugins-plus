@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Fireflies.ai Webhooks & Events
 
 ## Overview
-Handle Fireflies.ai webhooks for real-time meeting transcript notifications. Fireflies sends webhook events when meeting transcripts are ready, when action items are extracted, and when meeting summaries complete. Use these to build automated CRM updates, task creation workflows, and meeting analytics pipelines.
+Handle Fireflies.ai webhooks for real-time meeting transcript notifications. Fireflies sends webhook events when meeting transcripts are ready, when action items are extracted, and when meeting summaries complete.
 
 ## Prerequisites
 - Fireflies.ai account with API access (Business or Enterprise plan)
@@ -83,7 +82,7 @@ app.use(express.json());
 
 app.post("/webhooks/fireflies", async (req, res) => {
   const { event_type, meeting_id, data } = req.body;
-  res.status(200).json({ received: true });
+  res.status(200).json({ received: true });  # HTTP 200 OK
 
   switch (event_type) {
     case "Transcription completed":
@@ -195,6 +194,7 @@ async function handleSummaryReady(meetingId: string, data: any) {
 
 ### Query Recent Transcripts
 ```bash
+set -euo pipefail
 curl -X POST https://api.fireflies.ai/graphql \
   -H "Authorization: Bearer $FIREFLIES_API_KEY" \
   -H "Content-Type: application/json" \
@@ -208,3 +208,9 @@ curl -X POST https://api.fireflies.ai/graphql \
 
 ## Next Steps
 For deployment setup, see `fireflies-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

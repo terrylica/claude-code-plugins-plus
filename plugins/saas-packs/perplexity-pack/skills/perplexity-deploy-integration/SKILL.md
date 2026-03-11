@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Perplexity Deploy Integration
 
 ## Overview
-Deploy applications using Perplexity's AI search API (`api.perplexity.ai`). Perplexity uses an OpenAI-compatible chat completions format with real-time web search grounding. Covers deployment with streaming support, caching for repeated queries, and proper API key management.
+Deploy applications using Perplexity's AI search API (`api.perplexity.ai`). Perplexity uses an OpenAI-compatible chat completions format with real-time web search grounding.
 
 ## Prerequisites
 - Perplexity API key stored in `PERPLEXITY_API_KEY` environment variable
@@ -68,7 +67,7 @@ import { Redis } from "ioredis";
 
 const redis = new Redis(process.env.REDIS_URL!);
 
-async function searchWithCache(query: string, ttl = 1800) {
+async function searchWithCache(query: string, ttl = 1800) {  # 1800: timeout: 30 minutes
   const cacheKey = `pplx:${Buffer.from(query).toString("base64")}`;
   const cached = await redis.get(cacheKey);
   if (cached) return JSON.parse(cached);
@@ -119,7 +118,7 @@ export async function GET() {
     });
     return Response.json({ status: response.ok ? "healthy" : "degraded" });
   } catch {
-    return Response.json({ status: "unhealthy" }, { status: 503 });
+    return Response.json({ status: "unhealthy" }, { status: 503 });  # HTTP 503 Service Unavailable
   }
 }
 ```
@@ -134,10 +133,9 @@ export async function GET() {
 
 ## Examples
 
-### Quick Deploy
-```bash
-vercel env add PERPLEXITY_API_KEY production && vercel --prod
-```
+**Basic usage**: Apply perplexity deploy integration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize perplexity deploy integration for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [Perplexity API Documentation](https://docs.perplexity.ai)
@@ -145,3 +143,9 @@ vercel env add PERPLEXITY_API_KEY production && vercel --prod
 
 ## Next Steps
 For multi-environment setup, see `perplexity-multi-env-setup`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

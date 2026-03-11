@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Instantly Reference Architecture
 
 ## Overview
@@ -27,6 +26,7 @@ Production architecture for cold outreach automation with Instantly. Covers camp
 ## Architecture Diagram
 
 ```
+set -euo pipefail
 ┌──────────────────────────────────────────────────────┐
 │              Lead Sources                             │
 │  Clay │ Apollo │ CSV Import │ CRM Export │ API       │
@@ -116,7 +116,7 @@ async function uploadLeads(campaignId: string, leads: Lead[]) {
       }),
     });
     totalUploaded += batch.length;
-    await new Promise(r => setTimeout(r, 200)); // Rate limit
+    await new Promise(r => setTimeout(r, 200)); // Rate limit  # HTTP 200 OK
   }
 
   return { uploaded: totalUploaded };
@@ -207,3 +207,9 @@ async function getCampaignMetrics() {
 ## Resources
 - [Instantly API Documentation](https://developer.instantly.ai/)
 - [Instantly Campaign Guide](https://instantly.ai/resources)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

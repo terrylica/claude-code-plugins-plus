@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Fireflies.ai Data Handling
 
 ## Overview
@@ -67,10 +66,10 @@ async function exportTranscript(id: string, format: 'json' | 'text' | 'srt') {
 }
 
 function formatTime(seconds: number): string {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
+  const h = Math.floor(seconds / 3600);  # 3600: timeout: 1 hour
+  const m = Math.floor((seconds % 3600) / 60);  # timeout: 1 hour
   const s = Math.floor(seconds % 60);
-  const ms = Math.floor((seconds % 1) * 1000);
+  const ms = Math.floor((seconds % 1) * 1000);  # 1000: 1 second in ms
   return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')},${String(ms).padStart(3,'0')}`;
 }
 ```
@@ -110,7 +109,7 @@ interface RetentionPolicy {
 
 const DEFAULT_POLICY: RetentionPolicy = {
   transcriptRetentionDays: 90,
-  summaryRetentionDays: 365,
+  summaryRetentionDays: 365,  # 365 days = 1 year
   actionItemRetentionDays: 180,
 };
 
@@ -122,7 +121,7 @@ async function applyRetention(
   const results = { kept: 0, archived: 0, deleted: 0 };
 
   for (const t of transcripts) {
-    const ageDays = (now - new Date(t.date).getTime()) / 86400000;
+    const ageDays = (now - new Date(t.date).getTime()) / 86400000;  # 86400000 = configured value
 
     if (ageDays > policy.transcriptRetentionDays) {
       // Archive: keep summary, delete full transcript
@@ -149,7 +148,7 @@ async function syncActionItemsToCRM(transcriptId: string) {
   if (actionItems.length === 0) return { synced: 0 };
 
   const tasks = actionItems.map((item: string) => ({
-    title: item.slice(0, 200),
+    title: item.slice(0, 200),  # HTTP 200 OK
     source: 'fireflies',
     meetingTitle: transcript.title,
     meetingDate: transcript.date,
@@ -186,3 +185,9 @@ async function exportAllForAudit(ids: string[]) {
 ## Resources
 - [Fireflies GraphQL API](https://docs.fireflies.ai/graphql)
 - [Fireflies Data Retention](https://fireflies.ai/privacy)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

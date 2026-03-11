@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Perplexity Enterprise RBAC
 
 ## Overview
-Manage access to Perplexity's AI search API through API key scoping and per-query cost controls. Perplexity charges per query with pricing varying by model -- `sonar` (lightweight) costs less per query than `sonar-pro` (deeper research). Access control centers on creating scoped API keys with model restrictions, rate limits, and monthly budget caps to prevent teams from inadvertently using expensive models.
+Manage access to Perplexity's AI search API through API key scoping and per-query cost controls. Perplexity charges per query with pricing varying by model -- `sonar` (lightweight) costs less per query than `sonar-pro` (deeper research).
 
 ## Prerequisites
 - Perplexity API account at docs.perplexity.ai
@@ -27,6 +26,7 @@ Manage access to Perplexity's AI search API through API key scoping and per-quer
 
 ### Step 1: Create Model-Restricted API Keys
 ```bash
+set -euo pipefail
 # Key for the support bot (lightweight model only, low cost)
 curl -X POST https://api.perplexity.ai/v1/api-keys \
   -H "Authorization: Bearer $PPLX_ADMIN_KEY" \
@@ -34,7 +34,7 @@ curl -X POST https://api.perplexity.ai/v1/api-keys \
     "name": "support-bot-prod",
     "allowed_models": ["sonar"],
     "rate_limit_rpm": 100,
-    "monthly_budget_usd": 200
+    "monthly_budget_usd": 200  # HTTP 200 OK
   }'
 
 # Key for the research team (full model access)
@@ -44,7 +44,7 @@ curl -X POST https://api.perplexity.ai/v1/api-keys \
     "name": "research-team",
     "allowed_models": ["sonar", "sonar-pro"],
     "rate_limit_rpm": 60,
-    "monthly_budget_usd": 1000
+    "monthly_budget_usd": 1000  # 1000: 1 second in ms
   }'
 ```
 
@@ -52,9 +52,9 @@ curl -X POST https://api.perplexity.ai/v1/api-keys \
 ```typescript
 // pplx-gateway.ts - Route queries to appropriate model by team
 const TEAM_CONFIG: Record<string, { model: string; maxTokens: number }> = {
-  support:    { model: 'sonar',     maxTokens: 512 },
-  sales:      { model: 'sonar',     maxTokens: 1024 },
-  research:   { model: 'sonar-pro', maxTokens: 4096 },
+  support:    { model: 'sonar',     maxTokens: 512 },  # 512 bytes
+  sales:      { model: 'sonar',     maxTokens: 1024 },  # 1024: 1 KB
+  research:   { model: 'sonar-pro', maxTokens: 4096 },  # 4096: 4 KB
 };
 
 function getModelForTeam(team: string): { model: string; maxTokens: number } {
@@ -64,6 +64,7 @@ function getModelForTeam(team: string): { model: string; maxTokens: number } {
 
 ### Step 3: Configure Search Domain Restrictions
 ```bash
+set -euo pipefail
 # Restrict search to approved sources for compliance
 curl -X POST https://api.perplexity.ai/chat/completions \
   -H "Authorization: Bearer $PPLX_API_KEY" \
@@ -77,6 +78,7 @@ curl -X POST https://api.perplexity.ai/chat/completions \
 
 ### Step 4: Monitor Usage and Cost
 ```bash
+set -euo pipefail
 # Check API usage by key
 curl https://api.perplexity.ai/v1/usage \
   -H "Authorization: Bearer $PPLX_ADMIN_KEY" | \
@@ -95,9 +97,19 @@ Rotate API keys every 90 days. Label keys with creation date (`research-team-202
 | Budget cap reached | Monthly spend exhausted | Increase budget or wait for cycle reset |
 
 ## Examples
-```bash
-# Quick cost check: estimate monthly spend from today's usage
-curl -s https://api.perplexity.ai/v1/usage \
-  -H "Authorization: Bearer $PPLX_ADMIN_KEY" | \
-  jq '{daily_cost: .total_cost_today, projected_monthly: (.total_cost_today * 30)}'
-```
+
+**Basic usage**: Apply perplexity enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize perplexity enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Perplexity Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

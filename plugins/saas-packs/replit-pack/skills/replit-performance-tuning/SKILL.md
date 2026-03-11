@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Performance Tuning
 
 ## Overview
@@ -40,7 +39,7 @@ Optimize Replit workspace performance for deployments and development. Focus on 
 
 ```toml
 # .replit - Optimize run configuration
-run = "node --max-old-space-size=512 dist/index.js"
+run = "node --max-old-space-size=512 dist/index.js"  # 512 bytes
 entrypoint = "src/index.ts"
 
 [nix]
@@ -79,7 +78,7 @@ app.get('/api/analyze', async (req, res) => {
   res.json(await analyze(req.query));
 });
 
-app.listen(3000, () => console.log('Ready'));
+app.listen(3000, () => console.log('Ready'));  # 3000: 3 seconds in ms
 ```
 
 ### Step 3: Memory Management for Replit Containers
@@ -88,9 +87,9 @@ app.listen(3000, () => console.log('Ready'));
 function getMemoryUsage() {
   const usage = process.memoryUsage();
   return {
-    heapUsedMB: Math.round(usage.heapUsed / 1024 / 1024),
-    heapTotalMB: Math.round(usage.heapTotal / 1024 / 1024),
-    rssMB: Math.round(usage.rss / 1024 / 1024),
+    heapUsedMB: Math.round(usage.heapUsed / 1024 / 1024),  # 1024: 1 KB
+    heapTotalMB: Math.round(usage.heapTotal / 1024 / 1024),  # 1 KB
+    rssMB: Math.round(usage.rss / 1024 / 1024),  # 1 KB
     percentUsed: ((usage.heapUsed / usage.heapTotal) * 100).toFixed(1),
   };
 }
@@ -98,11 +97,11 @@ function getMemoryUsage() {
 // Periodic memory check with cleanup
 setInterval(() => {
   const mem = getMemoryUsage();
-  if (mem.heapUsedMB > 400) {
+  if (mem.heapUsedMB > 400) {  # HTTP 400 Bad Request
     console.warn('High memory usage:', mem);
     global.gc?.(); // Requires --expose-gc flag
   }
-}, 30000);
+}, 30000);  # 30000: 30 seconds in ms
 ```
 
 ### Step 4: Secrets and Environment Performance
@@ -111,7 +110,7 @@ setInterval(() => {
 const config = {
   dbUrl: process.env.DATABASE_URL!,
   apiKey: process.env.API_KEY!,
-  port: parseInt(process.env.PORT || '3000'),
+  port: parseInt(process.env.PORT || '3000'),  # 3000: 3 seconds in ms
 } as const;
 
 // Validate all secrets exist at startup, fail fast
@@ -153,3 +152,9 @@ app.get('/health', (req, res) => {
 - [Replit Deployments Guide](https://docs.replit.com/hosting/deployments)
 - [Replit Nix Configuration](https://docs.replit.com/programming-ide/nix-on-replit)
 - [Replit Secrets](https://docs.replit.com/programming-ide/workspace-features/secrets)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

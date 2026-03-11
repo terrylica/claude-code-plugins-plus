@@ -8,12 +8,11 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Plugin Validator
 
 ## Overview
 
-Validates Claude Code plugin structure, JSON schemas, frontmatter format, security compliance, and marketplace catalog consistency. Runs the same checks as the CI pipeline to catch issues before committing. Targets plugin authors who need pre-commit validation and developers debugging CI failures.
+Validates Claude Code plugin structure, JSON schemas, frontmatter format, security compliance, and marketplace catalog consistency. Runs the same checks as the CI pipeline to catch issues before committing.
 
 ## Prerequisites
 

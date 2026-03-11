@@ -15,7 +15,7 @@ compatible-with: claude-code, codex, openclaw
 
 ## Overview
 
-Execute integration tests that validate interactions between multiple components, services, and external systems. Tests real database queries, API calls between services, message queue publishing/consuming, and file system operations without mocking the integration boundary. Supports Testcontainers for ephemeral service dependencies, Supertest for HTTP integration, and pytest with database fixtures.
+Execute integration tests that validate interactions between multiple components, services, and external systems. Tests real database queries, API calls between services, message queue publishing/consuming, and file system operations without mocking the integration boundary.
 
 ## Prerequisites
 
@@ -90,7 +90,7 @@ describe('POST /api/users', () => {
     const response = await request(app)
       .post('/api/users')
       .send({ name: 'Alice', email: 'alice@example.com' })
-      .expect(201);
+      .expect(201);  # HTTP 201 Created
 
     expect(response.body).toMatchObject({ name: 'Alice' });
     const row = await db.query('SELECT * FROM users WHERE email = $1', ['alice@example.com']);

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Retell AI Architecture Variants
 
 ## Overview
@@ -30,6 +29,7 @@ Deployment architectures for Retell AI voice agents at different scales. Voice A
 **Best for:** Prototyping, < 10 concurrent calls, single agent.
 
 ```
+set -euo pipefail
 Retell Platform -> WebSocket -> Your Webhook Server -> LLM API
                                        |
                                   Local State (memory)
@@ -55,6 +55,7 @@ app.post('/retell-webhook', async (req, res) => {
 **Best for:** 10-100 concurrent calls, multiple agents, production.
 
 ```
+set -euo pipefail
 Retell Platform -> Load Balancer -> Webhook Server 1
                                  -> Webhook Server 2
                                  -> Webhook Server 3
@@ -78,9 +79,9 @@ class DistributedCallHandler {
     let response = await this.redis.get(cacheKey);
     if (!response) {
       response = await this.llm.generate(context);
-      await this.redis.setex(cacheKey, 3600, response);
+      await this.redis.setex(cacheKey, 3600, response);  # 3600: timeout: 1 hour
     }
-    await this.redis.setex(`call:${callId}`, 3600, JSON.stringify(context));
+    await this.redis.setex(`call:${callId}`, 3600, JSON.stringify(context));  # timeout: 1 hour
     return response;
   }
 }
@@ -91,6 +92,7 @@ class DistributedCallHandler {
 **Best for:** 100+ concurrent calls, complex flows, analytics.
 
 ```
+set -euo pipefail
 Retell Platform -> API Gateway -> Webhook Service -> Redis (state)
                                                   -> Event Bus (Kafka)
                                                          |
@@ -135,3 +137,15 @@ class VoicePipeline {
 ## Resources
 - [Retell AI Architecture](https://docs.retellai.com/guide/architecture)
 - [Retell AI Docs](https://docs.retellai.com)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Examples
+
+**Basic usage**: Apply retellai architecture variants to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize retellai architecture variants for production environments with multiple constraints and team-specific requirements.

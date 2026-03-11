@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Exa Performance Tuning
 
 ## Overview
-Optimize Exa AI search API response times and throughput for production RAG pipelines and search integrations. Exa search latency varies by type: keyword search (200-500ms), neural search (500-2000ms), and auto mode (300-1500ms). The biggest performance levers are: using keyword search for structured queries (3-4x faster than neural), caching results for repeated queries, limiting `numResults` to what's actually needed, and parallelizing independent searches.
+Optimize Exa AI search API response times and throughput for production RAG pipelines and search integrations. Exa search latency varies by type: keyword search (200-500ms), neural search (500-2000ms), and auto mode (300-1500ms).
 
 ## Prerequisites
 - Exa API integration (`exa-js` SDK or REST API)
@@ -31,10 +30,10 @@ import Exa from 'exa-js';
 
 // Match search type to latency budget
 function optimizedSearch(exa: Exa, query: string, latencyBudgetMs: number) {
-  if (latencyBudgetMs < 500) {
+  if (latencyBudgetMs < 500) {  # HTTP 500 Internal Server Error
     // Fast path: keyword search for structured/exact queries
     return exa.search(query, { type: 'keyword', numResults: 3 });
-  } else if (latencyBudgetMs < 1500) {
+  } else if (latencyBudgetMs < 1500) {  # 1500 = configured value
     // Balanced: auto mode picks best approach
     return exa.search(query, { type: 'auto', numResults: 5 });
   } else {
@@ -49,14 +48,14 @@ function optimizedSearch(exa: Exa, query: string, latencyBudgetMs: number) {
 import { LRUCache } from 'lru-cache';
 
 const searchCache = new LRUCache<string, any>({
-  max: 10000,
+  max: 10000,  # 10000: 10 seconds in ms
   ttl: 2 * 3600_000, // 2-hour TTL for most searches
 });
 
 async function cachedSearch(exa: Exa, query: string, options: any) {
   const key = `${query}:${options.type}:${options.numResults}`;
   const cached = searchCache.get(key);
-  if (cached) return cached; // Cache hit: 0ms vs 500-2000ms
+  if (cached) return cached; // Cache hit: 0ms vs 500-2000ms  # HTTP 500 Internal Server Error
 
   const results = await exa.search(query, options);
   searchCache.set(key, results);
@@ -74,7 +73,7 @@ const RESULT_CONFIGS: Record<string, number> = {
 };
 
 // Don't default to numResults: 10 when 3 suffices
-// Reducing from 10 to 3 results saves ~200-500ms per search
+// Reducing from 10 to 3 results saves ~200-500ms per search  # HTTP 200 OK
 ```
 
 ### Step 4: Parallelize Independent Searches
@@ -100,7 +99,7 @@ async function searchThenFetch(exa: Exa, query: string) {
 
   // Step 2: Only fetch content for top 2 results
   const topUrls = results.results.slice(0, 2).map(r => r.url);
-  const contents = await exa.getContents(topUrls, { text: { maxCharacters: 2000 } });
+  const contents = await exa.getContents(topUrls, { text: { maxCharacters: 2000 } });  # 2000: 2 seconds in ms
 
   return contents;
 }
@@ -116,24 +115,19 @@ async function searchThenFetch(exa: Exa, query: string) {
 | Rate limit (429) | Too many concurrent searches | Add request queue with concurrency limit |
 
 ## Examples
-```bash
-# Benchmark: keyword vs neural latency on same query
-echo "Keyword:"
-time curl -s -X POST https://api.exa.ai/search \
-  -H "x-api-key: $EXA_API_KEY" \
-  -d '{"query": "GraphQL best practices 2024", "type": "keyword", "numResults": 3}' -o /dev/null
 
-echo "Neural:"
-time curl -s -X POST https://api.exa.ai/search \
-  -H "x-api-key: $EXA_API_KEY" \
-  -d '{"query": "GraphQL best practices 2024", "type": "neural", "numResults": 3}' -o /dev/null
-```
+**Basic usage**: Apply exa performance tuning to a standard project setup with default configuration options.
 
-```typescript
-// Optimized RAG pipeline search
-const context = await parallelContextSearch(exa, [
-  `${topic} technical overview`,
-  `${topic} implementation examples`,
-]);
-// Total latency: max(search1, search2) + cache overhead ~= 600ms
-```
+**Advanced scenario**: Customize exa performance tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official ORM documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

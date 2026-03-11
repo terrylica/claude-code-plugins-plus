@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.17.0] - 2026-03-11
+
+### Added
+- **Intent Solutions skill standard** - Updated all 5 tutorial notebooks to current standard
+- **Verified Plugins Program** - Badges, rubric, and /verification page (#326)
+- **Blog with changelog posts** - Astro content collections at /blog (#324)
+- **Compare Marketplaces page** - SEO landing page at /compare (#323)
+- **Light/dark theme toggle** - Across entire marketplace (#329)
+- **Doctor --fix flag** - Safe auto-remediation for ccpi doctor (#333)
+- **Cross-platform skill headers** - compatible-with field, YAML parser fix (#332)
+- **Automated weekly metrics** - GitHub Actions workflow (#330)
+- **Wondelai skills pack** - 25 agent skills for business, design & marketing (#303)
+- **CONTRIBUTING.md** - Contributor guide with SEO meta tags (#320)
+
+### Fixed
+- **4300+ validator warnings reduced to 258** - 94% reduction (#337)
+- **130 stub SKILL.md files replaced** - Substantive domain-specific content (#335)
+- **Skill counts corrected** - Add windsurf pack, fix cowork claims (#334)
+- **Gemini model ID updated** - gemini-2.0-flash-exp → gemini-2.5-flash (#316)
+- **Wondelai skills frontmatter** - Added required fields to all 25 skills (#317)
+- **SECURITY.md added** - Security policy (#315)
+
+### Changed
+- **Validator compliance** - Community page, PDA skill quality upgrade (#336)
+- **Playbooks converted** - 11 playbooks to Astro content collections (#325)
+- **18 jeremy-owned plugins** - Version bump 1.0.0 → 2.0.0 (#331)
+- **Performance budgets** - Bumped for 340+ plugins and dark mode CSS
+
+### Metrics
+- Commits since v4.16.0: 33
+- Files changed: 2,956 (+272,838 / -215,356 lines)
+- Contributors: intentsolutions.io, Jeremy Longshore, Michal Jaskolski, Eugene Aseev
+
+---
+
 ## [4.16.0] - 2026-03-07
 
 ### Added

@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Fireflies Enterprise RBAC
 
 ## Overview
-Manage who can record, view, and share meeting transcripts in Fireflies.ai. Fireflies uses per-seat licensing with three workspace roles: Admin, Member, and Guest. Admins control recording policies, transcript visibility, and integration settings. Privacy controls determine whether transcripts are visible to the meeting organizer only, all attendees, or the entire workspace.
+Manage who can record, view, and share meeting transcripts in Fireflies.ai. Fireflies uses per-seat licensing with three workspace roles: Admin, Member, and Guest.
 
 ## Prerequisites
 - Fireflies Business or Enterprise plan (per-seat pricing)
@@ -38,6 +37,7 @@ data_retention: "365_days"                # Auto-delete transcripts after 1 year
 
 ### Step 2: Manage Team Members via API
 ```bash
+set -euo pipefail
 # Add a new member
 curl -X POST https://api.fireflies.ai/graphql \
   -H "Authorization: Bearer $FIREFLIES_API_KEY" \
@@ -52,6 +52,7 @@ curl -X POST https://api.fireflies.ai/graphql \
 ### Step 3: Create Channel-Based Access Groups
 Organize transcripts into channels (e.g., Sales, Engineering, Leadership) so team members only see transcripts relevant to their department:
 ```bash
+set -euo pipefail
 # Create a private channel for leadership meetings
 curl -X POST https://api.fireflies.ai/graphql \
   -H "Authorization: Bearer $FIREFLIES_API_KEY" \
@@ -68,6 +69,7 @@ Enable "Enforce SSO" to require SSO for all workspace members.
 
 ### Step 5: Audit Transcript Access
 ```bash
+set -euo pipefail
 # Query who accessed a specific transcript
 curl -X POST https://api.fireflies.ai/graphql \
   -H "Authorization: Bearer $FIREFLIES_API_KEY" \
@@ -83,11 +85,19 @@ curl -X POST https://api.fireflies.ai/graphql \
 | SSO login fails | SAML assertion clock skew | Sync server clocks, allow 5-min skew tolerance |
 
 ## Examples
-```bash
-# Bulk remove inactive members (no activity in 90 days)
-curl -s -X POST https://api.fireflies.ai/graphql \
-  -H "Authorization: Bearer $FIREFLIES_API_KEY" \
-  -d '{"query": "{ teamMembers { id email last_active } }"}' | \
-  jq -r '.data.teamMembers[] | select(.last_active < "2025-12-01") | .id' | \
-  xargs -I{} echo "Remove member {}"
-```
+
+**Basic usage**: Apply fireflies enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize fireflies enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Fireflies Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

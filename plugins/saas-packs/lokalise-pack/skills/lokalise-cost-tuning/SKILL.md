@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Lokalise Cost Tuning
 
 ## Overview
-Optimize Lokalise localization spending across plan costs, contributor seats, and machine translation usage. Lokalise pricing combines per-seat subscription (Team plan: ~$120/user/month) with optional pay-per-use for Translation Memory matches, machine translation, and AI features. The biggest cost levers are: minimizing contributor seats (use groups with shared access), leveraging Translation Memory to avoid re-translating unchanged strings, and choosing human vs machine translation strategically.
+Optimize Lokalise localization spending across plan costs, contributor seats, and machine translation usage. Lokalise pricing combines per-seat subscription (Team plan: ~$120/user/month) with optional pay-per-use for Translation Memory matches, machine translation, and AI features.
 
 ## Prerequisites
 - Lokalise Admin role for billing access
@@ -27,6 +26,7 @@ Optimize Lokalise localization spending across plan costs, contributor seats, an
 
 ### Step 1: Audit Current Spending
 ```bash
+set -euo pipefail
 # Check project stats: keys, words, languages
 curl "https://api.lokalise.com/api2/projects/PROJECT_ID/statistics" \
   -H "X-Api-Token: $LOKALISE_API_TOKEN" | \
@@ -64,6 +64,7 @@ const tmSearch = await lok.translationProviders().list({ project_id: projectId }
 
 ### Step 4: Use Machine Translation Strategically
 ```bash
+set -euo pipefail
 # Pre-translate low-risk content with MT, reserve human for critical strings
 curl -X POST "https://api.lokalise.com/api2/projects/PROJECT_ID/files/download" \
   -H "X-Api-Token: $LOKALISE_API_TOKEN" \
@@ -77,8 +78,9 @@ curl -X POST "https://api.lokalise.com/api2/projects/PROJECT_ID/files/download" 
 
 ### Step 5: Clean Up Unused Keys
 ```bash
+set -euo pipefail
 # Find keys not used in code (phantom keys waste per-word costs)
-curl "https://api.lokalise.com/api2/projects/PROJECT_ID/keys?filter_archived=include&limit=500" \
+curl "https://api.lokalise.com/api2/projects/PROJECT_ID/keys?filter_archived=include&limit=500" \  # HTTP 500 Internal Server Error
   -H "X-Api-Token: $LOKALISE_API_TOKEN" | \
   jq '.keys[] | select(.is_archived == false) | {key_name: .key_name.web, translations_count: (.translations | length), modified: .modified_at}'
 # Cross-reference with source code to find orphaned keys
@@ -94,13 +96,19 @@ curl "https://api.lokalise.com/api2/projects/PROJECT_ID/keys?filter_archived=inc
 | Budget overrun | New languages added without planning | Budget per-language before adding to projects |
 
 ## Examples
-```bash
-# Quick cost projection: words * languages * per-word rate
-curl -s "https://api.lokalise.com/api2/projects/PROJECT_ID/statistics" \
-  -H "X-Api-Token: $LOKALISE_API_TOKEN" | \
-  jq '{
-    untranslated_words: .statistics.words_total - .statistics.words_translated,
-    languages: .statistics.languages_total,
-    estimated_cost_at_0_10_per_word: ((.statistics.words_total - .statistics.words_translated) * .statistics.languages_total * 0.10)
-  }'
-```
+
+**Basic usage**: Apply lokalise cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize lokalise cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

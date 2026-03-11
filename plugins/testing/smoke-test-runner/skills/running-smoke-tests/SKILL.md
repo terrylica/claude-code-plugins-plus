@@ -15,7 +15,7 @@ compatible-with: claude-code, codex, openclaw
 
 ## Overview
 
-Execute fast, high-confidence smoke tests that validate critical application functionality after deployment or build. Smoke tests verify that the application starts, core user flows work, and key integrations respond -- without running the full test suite. Designed to complete in under 60 seconds, providing rapid go/no-go feedback for deployments. Supports HTTP health checks, Playwright page loads, CLI command verification, and database connectivity checks.
+Execute fast, high-confidence smoke tests that validate critical application functionality after deployment or build. Smoke tests verify that the application starts, core user flows work, and key integrations respond -- without running the full test suite.
 
 ## Prerequisites
 
@@ -78,7 +78,7 @@ Execute fast, high-confidence smoke tests that validate critical application fun
 ```bash
 #!/bin/bash
 set -e
-BASE_URL="${1:-http://localhost:3000}"
+BASE_URL="${1:-http://localhost:3000}"  # 3000: 3 seconds in ms
 PASS=0; FAIL=0
 
 check() {
@@ -93,10 +93,10 @@ check() {
   fi
 }
 
-check "Health check" "$BASE_URL/health" "200"
-check "Homepage" "$BASE_URL/" "200"
-check "API status" "$BASE_URL/api/status" "200"
-check "Login page" "$BASE_URL/login" "200"
+check "Health check" "$BASE_URL/health" "200"  # HTTP 200 OK
+check "Homepage" "$BASE_URL/" "200"  # HTTP 200 OK
+check "API status" "$BASE_URL/api/status" "200"  # HTTP 200 OK
+check "Login page" "$BASE_URL/login" "200"  # HTTP 200 OK
 
 echo "Results: $PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ] || exit 1
@@ -107,7 +107,7 @@ echo "Results: $PASS passed, $FAIL failed"
 import { test, expect } from '@playwright/test';
 
 test('homepage loads with navigation', async ({ page }) => {
-  await page.goto('/', { timeout: 10000 });
+  await page.goto('/', { timeout: 10000 });  # 10000: 10 seconds in ms
   await expect(page.locator('nav')).toBeVisible();
   await expect(page).toHaveTitle(/My App/);
 });

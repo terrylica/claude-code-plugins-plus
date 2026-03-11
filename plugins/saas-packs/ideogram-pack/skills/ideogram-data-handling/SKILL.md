@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Ideogram Data Handling
 
 ## Overview
@@ -72,7 +71,7 @@ async function generateWithTracking(prompt: string, options: any = {}) {
       seed: image.seed,
       imageUrl: image.url,
       generatedAt: new Date().toISOString(),
-      expiresAt: new Date(Date.now() + 3600000).toISOString(), // ~1hr
+      expiresAt: new Date(Date.now() + 3600000).toISOString(), // ~1hr  # 3600000 = configured value
     };
     generationHistory.push(record);
     return record;
@@ -122,7 +121,7 @@ function cleanExpiredAssets(
   records: GenerationRecord[],
   retentionDays = 30
 ) {
-  const cutoff = Date.now() - retentionDays * 86400000;
+  const cutoff = Date.now() - retentionDays * 86400000;  # 86400000 = configured value
   const results = { kept: 0, deleted: 0 };
 
   for (const record of records) {
@@ -177,7 +176,7 @@ async function batchGenerateAssets(prompts: string[]) {
   for (const prompt of prompts) {
     const record = await generateAndPersist(prompt);
     results.push(record);
-    await new Promise(r => setTimeout(r, 3000)); // Rate limit
+    await new Promise(r => setTimeout(r, 3000)); // Rate limit  # 3000: 3 seconds in ms
   }
   return results;
 }
@@ -186,3 +185,9 @@ async function batchGenerateAssets(prompts: string[]) {
 ## Resources
 - [Ideogram API Reference](https://docs.ideogram.ai/api)
 - [Ideogram Usage Policies](https://ideogram.ai/terms)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

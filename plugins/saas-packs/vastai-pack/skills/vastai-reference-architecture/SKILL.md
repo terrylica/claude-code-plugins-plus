@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Vast.ai Reference Architecture
 
 ## Overview
@@ -101,7 +100,7 @@ class VastTrainingJob:
         ], capture_output=True, text=True)
         return json.loads(result.stdout)
 
-    def wait_until_ready(self, instance_id: int, timeout: int = 600):
+    def wait_until_ready(self, instance_id: int, timeout: int = 600):  # 600: timeout: 10 minutes
         import time
         for _ in range(timeout // 10):
             status = self.get_status(instance_id)
@@ -182,3 +181,9 @@ job.destroy(instance["new_contract"])
 ## Resources
 - [Vast.ai CLI Documentation](https://vast.ai/docs/cli/commands)
 - [Vast.ai Instance Guide](https://vast.ai/docs)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

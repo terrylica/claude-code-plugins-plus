@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # PostHog Deploy Integration
 
 ## Overview
@@ -83,6 +82,7 @@ module.exports = {
 
 ### Step 4: Self-Hosted Docker Deployment
 ```bash
+set -euo pipefail
 # Deploy PostHog self-hosted
 git clone https://github.com/PostHog/posthog.git
 cd posthog
@@ -109,13 +109,10 @@ vercel --prod
 
 ## Examples
 
-### Health Check
-```typescript
-export async function GET() {
-  const hasKey = !!process.env.POSTHOG_API_KEY;
-  return Response.json({ status: hasKey ? "configured" : "missing_key" });
-}
-```
+
+**Basic usage**: Apply posthog deploy integration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize posthog deploy integration for production environments with multiple constraints and team-specific requirements.
 
 ## Resources
 - [PostHog Documentation](https://posthog.com/docs)
@@ -124,3 +121,9 @@ export async function GET() {
 
 ## Next Steps
 For webhook handling, see `posthog-webhooks-events`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

@@ -10,12 +10,11 @@ license: MIT
 author: "Jeremy Longshore <jeremy@intentsolutions.io>"
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Audit Logging
 
 ## Overview
 
-This skill enables comprehensive audit logging for Windsurf Enterprise deployments. It covers AI interaction logging, file access tracking, authentication events, and configuration changes. Proper audit logging ensures compliance with SOC 2, ISO 27001, HIPAA, and other security frameworks while providing forensic capabilities for security investigations.
+This skill enables comprehensive audit logging for Windsurf Enterprise deployments. It covers AI interaction logging, file access tracking, authentication events, and configuration changes.
 
 ## Prerequisites
 
@@ -32,7 +31,6 @@ This skill enables comprehensive audit logging for Windsurf Enterprise deploymen
 3. **Set Up Integrations**
 4. **Create Reports**
 5. **Monitor and Alert**
-
 
 See `${CLAUDE_SKILL_DIR}/references/implementation.md` for detailed implementation guide.
 

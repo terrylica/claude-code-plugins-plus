@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Juicebox Debug Bundle
 
 ## Overview
@@ -24,10 +23,10 @@ Collect comprehensive diagnostic information for Juicebox support tickets.
 - Terminal access
 
 ## Instructions
-- Step 1: Collect Environment Info
-- Step 2: Test API Connectivity
-- Step 3: Gather Error Logs
-- Step 4: Create Support Bundle
+1. Step 1: Collect Environment Info
+2. Step 2: Test API Connectivity
+3. Step 3: Gather Error Logs
+4. Step 4: Create Support Bundle
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -44,3 +43,17 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 After collecting debug info, check `juicebox-rate-limits` for quota issues.
+
+## Error Handling
+
+| Error | Cause | Resolution |
+|-------|-------|------------|
+| Authentication failure | Invalid or expired credentials | Refresh tokens or re-authenticate with debugging |
+| Configuration conflict | Incompatible settings detected | Review and resolve conflicting parameters |
+| Resource not found | Referenced resource missing | Verify resource exists and permissions are correct |
+
+## Examples
+
+**Basic usage**: Apply juicebox debug bundle to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize juicebox debug bundle for production environments with multiple constraints and team-specific requirements.

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Juicebox SDK Patterns
 
 ## Overview
@@ -24,9 +23,9 @@ Production-ready patterns for robust Juicebox integration including error handli
 - Familiarity with dependency injection
 
 ## Instructions
-- Step 1: Create Client Wrapper
-- Step 2: Implement Retry Logic
-- Step 3: Add Observability
+1. Step 1: Create Client Wrapper
+2. Step 2: Implement Retry Logic
+3. Step 3: Add Observability
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -51,3 +50,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Apply these patterns then explore `juicebox-core-workflow-a` for search workflows.
+
+## Examples
+
+**Basic usage**: Apply juicebox sdk patterns to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize juicebox sdk patterns for production environments with multiple constraints and team-specific requirements.

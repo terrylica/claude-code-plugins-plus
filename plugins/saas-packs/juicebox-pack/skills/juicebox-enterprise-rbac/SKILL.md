@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Juicebox Enterprise RBAC
 
 ## Overview
@@ -24,11 +23,11 @@ Implement enterprise-grade role-based access control for Juicebox integrations.
 - Understanding of access control patterns
 
 ## Instructions
-- Step 1: Define Roles and Permissions
-- Step 2: Implement Permission Checker
-- Step 3: Authorization Middleware
-- Step 4: Team-Based Access Control
-- Step 5: Audit Trail
+1. Step 1: Define Roles and Permissions
+2. Step 2: Implement Permission Checker
+3. Step 3: Authorization Middleware
+4. Step 4: Team-Based Access Control
+5. Step 5: Audit Trail
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -46,3 +45,17 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 After RBAC setup, see `juicebox-migration-deep-dive` for advanced migrations.
+
+## Error Handling
+
+| Error | Cause | Resolution |
+|-------|-------|------------|
+| Authentication failure | Invalid or expired credentials | Refresh tokens or re-authenticate with security |
+| Configuration conflict | Incompatible settings detected | Review and resolve conflicting parameters |
+| Resource not found | Referenced resource missing | Verify resource exists and permissions are correct |
+
+## Examples
+
+**Basic usage**: Apply juicebox enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize juicebox enterprise rbac for production environments with multiple constraints and team-specific requirements.

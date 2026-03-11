@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # CodeRabbit Performance Tuning
 
 ## Overview
-Optimize CodeRabbit review speed, relevance, and developer workflow integration. CodeRabbit reviews typically take 2-10 minutes depending on PR size, with large PRs (1000+ lines) taking up to 15 minutes. The main performance levers are: keeping PRs small (smaller diffs = faster, more relevant reviews), configuring path-specific instructions (reduces noise, increases signal), and using incremental reviews (only review changed files on push, not the full PR again).
+Optimize CodeRabbit review speed, relevance, and developer workflow integration. CodeRabbit reviews typically take 2-10 minutes depending on PR size, with large PRs (1000+ lines) taking up to 15 minutes.
 
 ## Prerequisites
 - CodeRabbit installed on GitHub/GitLab organization
@@ -122,17 +121,19 @@ profiles:
 | Team ignoring reviews | Profile too nitpicky | Switch to `assertive` or `chill` profile |
 
 ## Examples
-```yaml
-# Optimized .coderabbit.yaml for a typical backend service
-reviews:
-  profile: "assertive"
-  auto_review:
-    enabled: true
-    incremental: true
-    drafts: false
-    base_branches: [main]
-    ignore_paths: ["**/*.lock", "**/*.snap", "**/vendor/**", "dist/**"]
-  path_instructions:
-    - path: "src/auth/**"
-      instructions: "Security-critical. Check for auth bypass and injection."
-```
+
+**Basic usage**: Apply coderabbit performance tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize coderabbit performance tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official ORM documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

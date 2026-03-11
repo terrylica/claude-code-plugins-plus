@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Linear Webhooks & Events
 
 ## Overview
@@ -24,12 +23,12 @@ Set up and handle Linear webhooks for real-time event notifications.
 - Webhook signing secret configured
 
 ## Instructions
-- Step 1: Create Webhook Endpoint
-- Step 2: Event Processing Router
-- Step 3: Business Logic Handlers
-- Step 4: Register Webhook in Linear
-- Step 5: Local Development with ngrok
-- Step 6: Idempotent Event Processing
+1. Step 1: Create Webhook Endpoint
+2. Step 2: Event Processing Router
+3. Step 3: Business Logic Handlers
+4. Step 4: Register Webhook in Linear
+5. Step 5: Local Development with ngrok
+6. Step 6: Idempotent Event Processing
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -49,3 +48,17 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Optimize performance with `linear-performance-tuning`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+See [Linear implementation details](${CLAUDE_SKILL_DIR}/references/implementation.md) for output format specifications.
+
+## Examples
+
+**Basic usage**: Apply linear webhooks events to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize linear webhooks events for production environments with multiple constraints and team-specific requirements.

@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Fireflies.ai Performance Tuning
 
 ## Overview
@@ -70,8 +69,8 @@ async function getTranscriptSummaries(limit = 50) {
 import { LRUCache } from 'lru-cache';
 
 const transcriptCache = new LRUCache<string, any>({
-  max: 200,
-  ttl: 1000 * 60 * 30, // 30 min - transcripts are immutable
+  max: 200,  # HTTP 200 OK
+  ttl: 1000 * 60 * 30, // 30 min - transcripts are immutable  # 1000: 1 second in ms
 });
 
 async function getCachedTranscript(id: string) {
@@ -99,7 +98,7 @@ async function batchProcessMeetings(
     results.push(...batchResults);
     // Respect rate limits: 50 req/min
     if (i + concurrency < meetingIds.length) {
-      await new Promise(r => setTimeout(r, 1200));
+      await new Promise(r => setTimeout(r, 1200));  # 1200 = configured value
     }
   }
   return results;
@@ -144,8 +143,8 @@ async function processWebhookQueue() {
 ### Meeting Analytics Pipeline
 ```typescript
 async function analyzeMeetingTrends(days = 30) {
-  const since = new Date(Date.now() - days * 86400000).toISOString();
-  const summaries = await getTranscriptSummaries(200);
+  const since = new Date(Date.now() - days * 86400000).toISOString();  # 86400000 = configured value
+  const summaries = await getTranscriptSummaries(200);  # HTTP 200 OK
 
   const recent = summaries.transcripts.filter(
     (t: any) => new Date(t.date) > new Date(since)
@@ -162,3 +161,9 @@ async function analyzeMeetingTrends(days = 30) {
 ## Resources
 - [Fireflies GraphQL API](https://docs.fireflies.ai/graphql)
 - [Fireflies Rate Limits](https://docs.fireflies.ai/rate-limits)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

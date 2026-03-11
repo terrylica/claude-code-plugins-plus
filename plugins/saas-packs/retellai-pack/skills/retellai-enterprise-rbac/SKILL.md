@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Retell AI Enterprise RBAC
 
 ## Overview
-Control access to Retell AI voice agents, phone numbers, and call recordings through organization-level roles and API key management. Retell uses per-minute pricing for voice calls, so RBAC must govern who can create voice agents, assign phone numbers, access call recordings, and modify agent prompts. Unauthorized prompt changes can directly impact customer-facing voice interactions.
+Control access to Retell AI voice agents, phone numbers, and call recordings through organization-level roles and API key management. Retell uses per-minute pricing for voice calls, so RBAC must govern who can create voice agents, assign phone numbers, access call recordings, and modify agent prompts.
 
 ## Prerequisites
 - Retell AI account with team plan (per-minute call pricing)
@@ -44,6 +43,7 @@ roles:
 
 ### Step 2: Create Scoped API Keys
 ```bash
+set -euo pipefail
 # Key for the voice agent development team
 curl -X POST https://api.retellai.com/v1/api-keys \
   -H "Authorization: Bearer $RETELL_ADMIN_KEY" \
@@ -59,12 +59,13 @@ curl -X POST https://api.retellai.com/v1/api-keys \
   -d '{
     "name": "call-center-prod",
     "scopes": ["call:create", "call:read"],
-    "rate_limit_rpm": 200
+    "rate_limit_rpm": 200  # HTTP 200 OK
   }'
 ```
 
 ### Step 3: Protect Agent Prompt Changes
 ```bash
+set -euo pipefail
 # List all agents and their last-modified timestamps
 curl https://api.retellai.com/v1/agents \
   -H "Authorization: Bearer $RETELL_ADMIN_KEY" | \
@@ -77,6 +78,7 @@ curl https://api.retellai.com/v1/agents \
 ### Step 4: Control Phone Number Assignment
 Only org admins should assign phone numbers to agents, as each number incurs monthly costs and represents the company's voice identity:
 ```bash
+set -euo pipefail
 # Assign a phone number to a specific agent (admin only)
 curl -X POST https://api.retellai.com/v1/phone-numbers/pn_abc123/assign \
   -H "Authorization: Bearer $RETELL_ADMIN_KEY" \
@@ -85,6 +87,7 @@ curl -X POST https://api.retellai.com/v1/phone-numbers/pn_abc123/assign \
 
 ### Step 5: Audit Call Recordings and Transcripts
 ```bash
+set -euo pipefail
 # Review recent calls with cost data
 curl "https://api.retellai.com/v1/calls?limit=20&sort=-created_at" \
   -H "Authorization: Bearer $RETELL_ADMIN_KEY" | \
@@ -100,9 +103,19 @@ curl "https://api.retellai.com/v1/calls?limit=20&sort=-created_at" \
 | Agent prompt regression | Unauthorized edit | Store configs in git, require PR reviews |
 
 ## Examples
-```bash
-# Estimate monthly voice costs from recent usage
-curl -s "https://api.retellai.com/v1/calls?created_after=2026-03-01" \
-  -H "Authorization: Bearer $RETELL_ADMIN_KEY" | \
-  jq '[.[].cost_usd] | add as $total | {total_cost: $total, projected_monthly: ($total * 30 / 10)}'
-```
+
+**Basic usage**: Apply retellai enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize retellai enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Retellai Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

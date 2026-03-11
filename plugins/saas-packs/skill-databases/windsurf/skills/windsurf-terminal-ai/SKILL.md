@@ -10,12 +10,11 @@ license: MIT
 author: "Jeremy Longshore <jeremy@intentsolutions.io>"
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Terminal Ai
 
 ## Overview
 
-This skill enables AI-assisted terminal operations within Windsurf. Cascade can suggest commands, explain error messages, generate complex shell scripts, and help debug terminal output. It understands common CLI tools, build systems, and DevOps commands to provide contextually relevant assistance for command-line workflows.
+This skill enables AI-assisted terminal operations within Windsurf. Cascade can suggest commands, explain error messages, generate complex shell scripts, and help debug terminal output.
 
 ## Prerequisites
 
@@ -32,7 +31,6 @@ This skill enables AI-assisted terminal operations within Windsurf. Cascade can 
 3. **Set Up Error Handling**
 4. **Optimize Workflows**
 5. **Build Team Knowledge**
-
 
 See `${CLAUDE_SKILL_DIR}/references/implementation.md` for detailed implementation guide.
 

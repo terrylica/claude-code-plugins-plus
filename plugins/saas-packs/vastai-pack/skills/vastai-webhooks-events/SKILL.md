@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Vast.ai Webhooks & Events
 
 ## Overview
-Build event-driven workflows around Vast.ai GPU cloud instance lifecycle. Vast.ai provides a REST API at `cloud.vast.ai/api` for managing GPU instances. This skill covers monitoring instance state changes, handling bid/offer events, and building automated GPU pipeline management with callbacks for training jobs, inference serving, and cost optimization.
+Build event-driven workflows around Vast.ai GPU cloud instance lifecycle. Vast.ai provides a REST API at `cloud.vast.ai/api` for managing GPU instances.
 
 ## Prerequisites
 - Vast.ai account with API key stored in `VASTAI_API_KEY` environment variable
@@ -81,7 +80,7 @@ def monitor_instances(callback_url, poll_interval=30):
 ```typescript
 app.post("/webhooks/vastai", async (req, res) => {
   const { event, instance_id, gpu, cost_per_hour } = req.body;
-  res.status(200).json({ received: true });
+  res.status(200).json({ received: true });  # HTTP 200 OK
 
   switch (event) {
     case "instance.running":
@@ -192,3 +191,9 @@ vastai create instance $OFFER_ID --image pytorch/pytorch:latest --disk 50
 
 ## Next Steps
 For multi-environment setup, see `vastai-multi-env-setup`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

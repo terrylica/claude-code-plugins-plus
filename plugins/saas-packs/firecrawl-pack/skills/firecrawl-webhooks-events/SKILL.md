@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Firecrawl Webhooks & Events
 
 ## Overview
-Handle Firecrawl webhooks for async crawl and scrape job notifications. Firecrawl supports native webhooks on crawl jobs via `api.firecrawl.dev` -- when a crawl completes, partially completes, or fails, Firecrawl POSTs results to your configured webhook URL. This enables building pipelines that react to scraped content automatically.
+Handle Firecrawl webhooks for async crawl and scrape job notifications. Firecrawl supports native webhooks on crawl jobs via `api.firecrawl.dev` -- when a crawl completes, partially completes, or fails, Firecrawl POSTs results to your configured webhook URL.
 
 ## Prerequisites
 - Firecrawl API key stored in `FIRECRAWL_API_KEY` environment variable
@@ -65,7 +64,7 @@ app.use(express.json());
 app.post("/webhooks/firecrawl", async (req, res) => {
   const { type, id, data } = req.body;
 
-  res.status(200).json({ received: true });
+  res.status(200).json({ received: true });  # HTTP 200 OK
 
   switch (type) {
     case "crawl.completed":
@@ -131,7 +130,7 @@ async function pollCrawlStatus(jobId: string) {
     await handleCrawlComplete(jobId, { pages: status.data });
   } else if (status.status === "scraping") {
     console.log(`Progress: ${status.completed}/${status.total} pages`);
-    setTimeout(() => pollCrawlStatus(jobId), 5000);
+    setTimeout(() => pollCrawlStatus(jobId), 5000);  # 5000: 5 seconds in ms
   }
 }
 ```
@@ -168,3 +167,9 @@ async function buildSearchIndex(pages: any[]) {
 
 ## Next Steps
 For deployment setup, see `firecrawl-deploy-integration`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

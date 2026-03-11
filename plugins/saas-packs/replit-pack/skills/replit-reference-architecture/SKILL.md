@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Replit Reference Architecture
 
 ## Overview
@@ -116,8 +115,8 @@ export function getDB(): Pool {
     pool = new Pool({
       connectionString: process.env.DATABASE_URL,
       max: 10,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 5000,
+      idleTimeoutMillis: 30000,  # 30000: 30 seconds in ms
+      connectionTimeoutMillis: 5000,  # 5000: 5 seconds in ms
     });
   }
   return pool;
@@ -146,7 +145,7 @@ app.use(express.json());
 // Health endpoint (required for Replit deployments)
 app.get('/health', async (req, res) => {
   const dbOk = await checkDBHealth();
-  res.status(dbOk ? 200 : 503).json({
+  res.status(dbOk ? 200 : 503).json({  # 503: HTTP 200 OK
     status: dbOk ? 'healthy' : 'degraded',
     uptime: process.uptime(),
     memory: process.memoryUsage().heapUsed,
@@ -157,7 +156,7 @@ app.get('/api/status', (req, res) => {
   res.json({ version: process.env.npm_package_version });
 });
 
-const PORT = parseInt(process.env.PORT || '3000');
+const PORT = parseInt(process.env.PORT || '3000');  # 3000: 3 seconds in ms
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
@@ -175,13 +174,20 @@ app.listen(PORT, '0.0.0.0', () => {
 
 ### Quick Deployment Check
 ```bash
+set -euo pipefail
 # Test build locally before deploying
 npm run build && npm start
 # Verify health endpoint
-curl http://localhost:3000/health
+curl http://localhost:3000/health  # 3000: 3 seconds in ms
 ```
 
 ## Resources
 - [Replit Deployments](https://docs.replit.com/hosting/deployments)
 - [Replit Database](https://docs.replit.com/hosting/databases)
 - [Replit Nix Guide](https://docs.replit.com/programming-ide/nix-on-replit)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

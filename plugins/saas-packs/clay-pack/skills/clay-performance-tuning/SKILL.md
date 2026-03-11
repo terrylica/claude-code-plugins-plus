@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clay Performance Tuning
 
 ## Overview
-Optimize Clay data enrichment throughput and reduce table processing times. Clay tables process enrichments row-by-row with each enrichment making external API calls (Clearbit, Apollo, Hunter, etc.). The main performance bottlenecks are: enrichment provider rate limits (each provider has its own rate cap), sequential row processing (Clay processes rows in batches internally), and API response times from third-party enrichment providers (100ms to 5s depending on provider).
+Optimize Clay data enrichment throughput and reduce table processing times. Clay tables process enrichments row-by-row with each enrichment making external API calls (Clearbit, Apollo, Hunter, etc.).
 
 ## Prerequisites
 - Clay account with active tables
@@ -46,6 +45,7 @@ best_practices:
 
 ### Step 2: Use the Map Endpoint for Parallel Lookups
 ```bash
+set -euo pipefail
 # Instead of enriching row-by-row via the UI:
 # Use the API to submit bulk enrichment requests
 curl -X POST "https://api.clay.com/v1/tables/tbl_abc123/enrich-batch" \
@@ -94,6 +94,7 @@ scheduling:
 
 ### Step 5: Monitor Processing Progress
 ```bash
+set -euo pipefail
 # Track table enrichment progress
 curl "https://api.clay.com/v1/tables/tbl_abc123/status" \
   -H "Authorization: Bearer $CLAY_API_KEY" | \
@@ -113,9 +114,19 @@ curl "https://api.clay.com/v1/tables/tbl_abc123/status" \
 | Duplicate results | Same domain enriched multiple times | Deduplicate input data before enrichment |
 
 ## Examples
-```bash
-# Estimate processing time for a new table
-ROWS=5000
-echo "Estimated time at 3s/row average: $(echo "$ROWS * 3 / 60" | bc) minutes"
-echo "With pre-validation (remove ~30%): $(echo "$ROWS * 0.7 * 3 / 60" | bc) minutes"
-```
+
+**Basic usage**: Apply clay performance tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clay performance tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official ORM documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

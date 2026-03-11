@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Exa Deploy Integration
 
 ## Overview
@@ -51,7 +50,7 @@ export default async function handler(req: Request) {
   const results = await exa.searchAndContents(query, {
     type: "neural",
     numResults: numResults || 5,
-    text: { maxCharacters: 500 },
+    text: { maxCharacters: 500 },  # HTTP 500 Internal Server Error
   });
 
   return Response.json(results);
@@ -66,7 +65,7 @@ COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
 RUN npm run build
-EXPOSE 3000
+EXPOSE 3000  # 3000: 3 seconds in ms
 CMD ["node", "dist/index.js"]
 ```
 
@@ -78,7 +77,7 @@ import { Redis } from "ioredis";
 const exa = new Exa(process.env.EXA_API_KEY!);
 const redis = new Redis(process.env.REDIS_URL!);
 
-async function cachedSearch(query: string, ttl = 3600) {
+async function cachedSearch(query: string, ttl = 3600) {  # 3600: timeout: 1 hour
   const cacheKey = `exa:${Buffer.from(query).toString("base64")}`;
   const cached = await redis.get(cacheKey);
   if (cached) return JSON.parse(cached);
@@ -101,7 +100,7 @@ export async function GET() {
     await exa.search("test", { numResults: 1 });
     return Response.json({ status: "healthy" });
   } catch {
-    return Response.json({ status: "unhealthy" }, { status: 503 });
+    return Response.json({ status: "unhealthy" }, { status: 503 });  # HTTP 503 Service Unavailable
   }
 }
 ```
@@ -127,3 +126,9 @@ vercel env add EXA_API_KEY production && vercel --prod
 
 ## Next Steps
 For multi-environment setup, see `exa-multi-env-setup`.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

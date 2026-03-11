@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Enterprise RBAC
 
 ## Overview
@@ -25,13 +24,13 @@ Implement enterprise-grade SSO, role-based access control, and organization mana
 - Organization structure defined
 
 ## Instructions
-- Step 1: Configure SAML SSO
-- Step 2: Define Roles and Permissions
-- Step 3: Permission Checking
-- Step 4: Protected Routes with RBAC
-- Step 5: Organization Management
-- Step 6: React Components with RBAC
-- Step 7: API Route Protection
+1. Step 1: Configure SAML SSO
+2. Step 2: Define Roles and Permissions
+3. Step 3: Permission Checking
+4. Step 4: Protected Routes with RBAC
+5. Step 5: Organization Management
+6. Step 6: React Components with RBAC
+7. Step 7: API Route Protection
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -56,3 +55,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-migration-deep-dive` for auth provider migration.
+
+## Examples
+
+**Basic usage**: Apply clerk enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk enterprise rbac for production environments with multiple constraints and team-specific requirements.

@@ -8,12 +8,11 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Content Consistency Validator
 
 ## Overview
 
-Cross-platform content consistency auditing for organizations maintaining messaging across websites, GitHub repositories, and local documentation. This read-only skill discovers content sources, extracts key messaging elements, and generates severity-graded discrepancy reports -- without modifying any files. Ideal for pre-release audits, rebranding verification, and ongoing documentation hygiene.
+Cross-platform content consistency auditing for organizations maintaining messaging across websites, GitHub repositories, and local documentation. This read-only skill discovers content sources, extracts key messaging elements, and generates severity-graded discrepancy reports -- without modifying any files.
 
 ## Prerequisites
 

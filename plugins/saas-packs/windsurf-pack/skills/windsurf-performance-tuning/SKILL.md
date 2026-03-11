@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Performance Tuning
 
 ## Overview
@@ -41,7 +40,7 @@ Optimize Windsurf (Codeium) AI-assisted development workflows. Focus on Cascade 
     "vendor/**",
     ".next/**"
   ],
-  "codeium.indexing.maxFileSize": 1048576,
+  "codeium.indexing.maxFileSize": 1048576,  # 1048576 = configured value
   "codeium.indexing.enableSemanticIndexing": true
 }
 ```
@@ -52,7 +51,7 @@ Optimize Windsurf (Codeium) AI-assisted development workflows. Focus on Cascade 
 {
   "cascade.contextWindow": {
     "maxFiles": 10,
-    "maxTokensPerFile": 2000,
+    "maxTokensPerFile": 2000,  # 2000: 2 seconds in ms
     "preferOpenFiles": true,
     "includeImports": true
   },
@@ -64,7 +63,7 @@ Optimize Windsurf (Codeium) AI-assisted development workflows. Focus on Cascade 
   },
   "cascade.flows": {
     "preferStreaming": true,
-    "timeoutMs": 30000,
+    "timeoutMs": 30000,  # 30000: 30 seconds in ms
     "retryCount": 2
   }
 }
@@ -151,11 +150,17 @@ When generating code:
 
 ## Conventions
 - Use zod for runtime validation
-- Error responses follow RFC 7807
-- All dates are ISO 8601 UTC
+- Error responses follow RFC 7807  # 7807 = configured value
+- All dates are ISO 8601 UTC  # 8601 = configured value
 ```
 
 ## Resources
 - [Windsurf Documentation](https://docs.windsurf.com)
 - [Cascade AI Guide](https://docs.windsurf.com/cascade)
 - [Codeium Configuration](https://codeium.com/documentation)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

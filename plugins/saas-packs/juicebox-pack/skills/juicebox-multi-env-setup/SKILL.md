@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Juicebox Multi-Environment Setup
 
 ## Overview
@@ -25,11 +24,11 @@ Configure Juicebox across development, staging, and production environments with
 - Environment detection in application
 
 ## Instructions
-- Step 1: Environment Configuration
-- Step 2: Secret Management by Environment
-- Step 3: Environment-Aware Client Factory
-- Step 4: Kubernetes ConfigMaps
-- Step 5: Environment Guards
+1. Step 1: Environment Configuration
+2. Step 2: Secret Management by Environment
+3. Step 3: Environment-Aware Client Factory
+4. Step 4: Kubernetes ConfigMaps
+5. Step 5: Environment Guards
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -46,3 +45,17 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 After environment setup, see `juicebox-observability` for monitoring.
+
+## Error Handling
+
+| Error | Cause | Resolution |
+|-------|-------|------------|
+| Authentication failure | Invalid or expired credentials | Refresh tokens or re-authenticate with Juicebox Multi Env Setup |
+| Configuration conflict | Incompatible settings detected | Review and resolve conflicting parameters |
+| Resource not found | Referenced resource missing | Verify resource exists and permissions are correct |
+
+## Examples
+
+**Basic usage**: Apply juicebox multi env setup to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize juicebox multi env setup for production environments with multiple constraints and team-specific requirements.

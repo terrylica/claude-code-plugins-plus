@@ -10,12 +10,11 @@ license: MIT
 author: "Jeremy Longshore <jeremy@intentsolutions.io>"
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Theme Customization
 
 ## Overview
 
-This skill enables comprehensive theme customization within Windsurf. It covers color schemes, font configurations, UI scaling, and accessibility settings. Proper theme configuration reduces eye strain, improves code readability, and ensures compliance with accessibility standards like WCAG 2.1 for team members with visual impairments.
+This skill enables comprehensive theme customization within Windsurf. It covers color schemes, font configurations, UI scaling, and accessibility settings.
 
 ## Prerequisites
 
@@ -32,7 +31,6 @@ This skill enables comprehensive theme customization within Windsurf. It covers 
 3. **Set Up Fonts**
 4. **Enable Accessibility Features**
 5. **Verify Compliance**
-
 
 See `${CLAUDE_SKILL_DIR}/references/implementation.md` for detailed implementation guide.
 

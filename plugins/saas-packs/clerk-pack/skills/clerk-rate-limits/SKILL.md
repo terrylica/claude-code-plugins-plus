@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Rate Limits
 
 ## Overview
@@ -24,11 +23,11 @@ Understand Clerk's rate limiting system and implement strategies to avoid hittin
 - Monitoring/logging infrastructure
 
 ## Instructions
-- Step 1: Understand Rate Limits
-- Step 2: Implement Rate Limit Handling
-- Step 3: Batch Operations
-- Step 4: Caching Strategy
-- Step 5: Monitor Rate Limit Usage
+1. Step 1: Understand Rate Limits
+2. Step 2: Implement Rate Limit Handling
+3. Step 3: Batch Operations
+4. Step 4: Caching Strategy
+5. Step 5: Monitor Rate Limit Usage
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -53,3 +52,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-security-basics` for security best practices.
+
+## Examples
+
+**Basic usage**: Apply clerk rate limits to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk rate limits for production environments with multiple constraints and team-specific requirements.

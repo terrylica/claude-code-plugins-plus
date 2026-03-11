@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk Cost Tuning
 
 ## Overview
@@ -24,8 +23,8 @@ Understand Clerk pricing and optimize costs for your application.
 - Application usage patterns known
 
 ## Instructions
-- Cost Optimization Strategies
-- Pricing Calculator
+1. Cost Optimization Strategies
+2. Pricing Calculator
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -50,3 +49,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-reference-architecture` for architecture patterns.
+
+## Examples
+
+**Basic usage**: Apply clerk cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk cost tuning for production environments with multiple constraints and team-specific requirements.

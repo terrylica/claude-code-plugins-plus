@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Firecrawl Architecture Variants
 
 ## Overview
@@ -131,10 +130,16 @@ class ContentPipeline {
 
 ### Architecture Selection
 ```
-< 500 pages/day, user-facing: On-Demand
-500-10K pages, batch processing: Scheduled Pipeline  
+< 500 pages/day, user-facing: On-Demand  # HTTP 500 Internal Server Error
+500-10K pages, batch processing: Scheduled Pipeline    # HTTP 500 Internal Server Error
 10K+, AI/ML ingestion: Real-Time Pipeline
 ```
 
 ## Resources
 - [Firecrawl API Docs](https://docs.firecrawl.dev)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

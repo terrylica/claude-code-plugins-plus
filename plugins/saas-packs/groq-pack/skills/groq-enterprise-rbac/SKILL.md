@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Groq Enterprise RBAC
 
 ## Overview
-Manage access to Groq's ultra-fast LPU inference API through API key scoping and organization-level controls. Groq's per-token pricing is extremely low (orders of magnitude cheaper than GPU-based providers), but its speed makes runaway usage easy. Access control centers on API key management with per-key rate limits (requests per minute and tokens per minute), model restrictions, and organization-level spending caps.
+Manage access to Groq's ultra-fast LPU inference API through API key scoping and organization-level controls. Groq's per-token pricing is extremely low (orders of magnitude cheaper than GPU-based providers), but its speed makes runaway usage easy.
 
 ## Prerequisites
 - Groq Cloud account at console.groq.com
@@ -27,14 +26,15 @@ Manage access to Groq's ultra-fast LPU inference API through API key scoping and
 
 ### Step 1: Create Rate-Limited API Keys per Team
 ```bash
+set -euo pipefail
 # Key for the chatbot team (high RPM, small model)
 curl -X POST https://api.groq.com/openai/v1/api-keys \
   -H "Authorization: Bearer $GROQ_ADMIN_KEY" \
   -d '{
     "name": "chatbot-prod",
     "allowed_models": ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"],
-    "requests_per_minute": 500,
-    "tokens_per_minute": 100000
+    "requests_per_minute": 500,  # HTTP 500 Internal Server Error
+    "tokens_per_minute": 100000  # 100000 = configured value
   }'
 
 # Key for batch processing (lower RPM but higher token limit)
@@ -44,7 +44,7 @@ curl -X POST https://api.groq.com/openai/v1/api-keys \
     "name": "batch-processor",
     "allowed_models": ["llama-3.1-8b-instant"],
     "requests_per_minute": 60,
-    "tokens_per_minute": 500000
+    "tokens_per_minute": 500000  # 500000 = configured value
   }'
 ```
 
@@ -54,7 +54,7 @@ curl -X POST https://api.groq.com/openai/v1/api-keys \
 const TEAM_MODEL_ACCESS: Record<string, string[]> = {
   chatbot:    ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'],
   analytics:  ['llama-3.1-8b-instant'],  // Cheapest model only
-  research:   ['llama-3.3-70b-versatile', 'mixtral-8x7b-32768', 'gemma2-9b-it'],
+  research:   ['llama-3.3-70b-versatile', 'mixtral-8x7b-32768', 'gemma2-9b-it'],  # 32768 = configured value
 };
 
 function validateModelAccess(team: string, model: string): boolean {
@@ -70,6 +70,7 @@ In the Groq Console > Organization > Billing:
 
 ### Step 4: Monitor Key Usage
 ```bash
+set -euo pipefail
 # Check usage across all API keys
 curl https://api.groq.com/openai/v1/usage \
   -H "Authorization: Bearer $GROQ_ADMIN_KEY" | \
@@ -78,6 +79,7 @@ curl https://api.groq.com/openai/v1/usage \
 
 ### Step 5: Rotate Keys with Zero Downtime
 ```bash
+set -euo pipefail
 # 1. Create replacement key with same permissions
 # 2. Deploy new key to services
 # 3. Monitor for 24h to confirm no traffic on old key
@@ -95,15 +97,19 @@ curl -X DELETE "https://api.groq.com/openai/v1/api-keys/OLD_KEY_ID" \
 | Spending cap paused API | Monthly budget reached | Increase cap or wait for billing cycle |
 
 ## Examples
-```bash
-# Quick health check: list available models for your key
-curl -s https://api.groq.com/openai/v1/models \
-  -H "Authorization: Bearer $GROQ_API_KEY" | jq '.data[].id'
-```
 
-```bash
-# Estimate monthly cost from current daily usage
-DAILY=$(curl -s https://api.groq.com/openai/v1/usage \
-  -H "Authorization: Bearer $GROQ_ADMIN_KEY" | jq '.total_cost_today')
-echo "Projected monthly cost: \$$(echo "$DAILY * 30" | bc)"
-```
+**Basic usage**: Apply groq enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize groq enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Groq documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

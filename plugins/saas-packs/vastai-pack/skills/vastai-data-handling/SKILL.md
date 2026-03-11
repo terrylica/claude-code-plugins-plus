@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Vast.ai Data Handling
 
 ## Overview
@@ -29,6 +28,7 @@ Manage training data and model artifacts securely on Vast.ai GPU instances. Cove
 ### Step 1: Encrypted Data Transfer
 ```bash
 #!/bin/bash
+set -euo pipefail
 # scripts/secure-upload.sh
 # Encrypt data before sending to Vast.ai instance
 
@@ -44,7 +44,7 @@ fi
 
 # Compress and encrypt
 tar czf - "$DATA_DIR" | \
-  openssl enc -aes-256-cbc -salt -pbkdf2 -pass env:ENCRYPTION_KEY \
+  openssl enc -aes-256-cbc -salt -pbkdf2 -pass env:ENCRYPTION_KEY \  # 256 bytes
   > /tmp/data.tar.gz.enc
 
 # Transfer encrypted archive
@@ -197,3 +197,9 @@ secure_destroy_instance(instance_id)
 ## Resources
 - [Vast.ai Security](https://vast.ai/docs/security)
 - [Vast.ai CLI](https://vast.ai/docs/cli/commands)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Perplexity Cost Tuning
 
 ## Overview
-Reduce Perplexity AI search API costs by choosing the right model per query, caching search results, and limiting token output. Perplexity charges per query with significant cost differences between models: `sonar` (lightweight, cheaper) vs `sonar-pro` (deeper research, 3-5x more expensive). The biggest cost lever is routing simple factual queries to `sonar` and reserving `sonar-pro` for complex research that actually needs multi-source synthesis.
+Reduce Perplexity AI search API costs by choosing the right model per query, caching search results, and limiting token output. Perplexity charges per query with significant cost differences between models: `sonar` (lightweight, cheaper) vs `sonar-pro` (deeper research, 3-5x more expensive).
 
 ## Prerequisites
 - Perplexity API account with usage dashboard
@@ -47,7 +46,7 @@ function selectModel(query: string, context: string): 'sonar' | 'sonar-pro' {
 import { LRUCache } from 'lru-cache';
 
 const searchCache = new LRUCache<string, any>({
-  max: 10000,
+  max: 10000,  # 10000: 10 seconds in ms
   ttl: 4 * 3600_000, // 4-hour TTL (search results go stale)
 });
 
@@ -66,6 +65,7 @@ async function cachedQuery(query: string, model: string) {
 
 ### Step 3: Limit Token Output
 ```bash
+set -euo pipefail
 # Set max_tokens to reduce output (and cost) for simple queries
 # Factual queries need ~100 tokens, not 4096
 curl -X POST https://api.perplexity.ai/chat/completions \
@@ -80,6 +80,7 @@ curl -X POST https://api.perplexity.ai/chat/completions \
 
 ### Step 4: Use Domain Filters to Reduce Processing
 ```bash
+set -euo pipefail
 # Restricting search domains means less content to process = faster + cheaper
 curl -X POST https://api.perplexity.ai/chat/completions \
   -H "Authorization: Bearer $PPLX_API_KEY" \
@@ -87,12 +88,13 @@ curl -X POST https://api.perplexity.ai/chat/completions \
     "model": "sonar",
     "messages": [{"role": "user", "content": "latest Python 3.13 release notes"}],
     "search_domain_filter": ["python.org", "docs.python.org"],
-    "max_tokens": 500
+    "max_tokens": 500  # HTTP 500 Internal Server Error
   }'
 ```
 
 ### Step 5: Monitor and Budget
 ```bash
+set -euo pipefail
 # Track daily spend and project monthly cost
 curl -s https://api.perplexity.ai/v1/usage \
   -H "Authorization: Bearer $PPLX_API_KEY" | \
@@ -114,9 +116,19 @@ curl -s https://api.perplexity.ai/v1/usage \
 | Stale cached results | TTL too long | Reduce cache TTL for time-sensitive queries |
 
 ## Examples
-```bash
-# Cost comparison: sonar vs sonar-pro
-echo "1000 simple queries on sonar: ~\$X"
-echo "1000 simple queries on sonar-pro: ~\$3-5X"
-echo "Savings by routing correctly: 60-80%"
-```
+
+**Basic usage**: Apply perplexity cost tuning to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize perplexity cost tuning for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official monitoring documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

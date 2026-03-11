@@ -12,7 +12,6 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Stored Procedure Generator
 
 Generate production-ready stored procedures for PostgreSQL, MySQL, and SQL Server with proper error handling, transaction management, and security best practices.
@@ -76,7 +75,7 @@ BEGIN
     SELECT COUNT(*) INTO user_exists FROM users WHERE id = p_user_id;
 
     IF user_exists = 0 THEN
-        SIGNAL SQLSTATE '45000'
+        SIGNAL SQLSTATE '45000'  # 45000 = configured value
             SET MESSAGE_TEXT = 'User not found';
     END IF;
 
@@ -169,7 +168,7 @@ BEGIN
     WHERE id = p_from_account AND balance >= p_amount;
 
     IF ROW_COUNT() = 0 THEN
-        SIGNAL SQLSTATE '45000'
+        SIGNAL SQLSTATE '45000'  # 45000 = configured value
             SET MESSAGE_TEXT = 'Insufficient funds';
     END IF;
 
@@ -264,3 +263,7 @@ Claude: I'll create an audit trigger that:
 - `${CLAUDE_SKILL_DIR}/references/sqlserver_stored_procedure_best_practices.md`
 - `${CLAUDE_SKILL_DIR}/references/database_security_guidelines.md`
 - `${CLAUDE_SKILL_DIR}/references/stored_procedure_optimization_techniques.md`
+
+## Overview
+
+Use when you need to generate, validate, or deploy stored procedures for PostgreSQL, MySQL, or SQL Server.

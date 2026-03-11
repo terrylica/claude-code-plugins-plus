@@ -12,11 +12,10 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Windsurf Enterprise RBAC
 
 ## Overview
-Manage team access to Windsurf AI IDE features, workspace settings, and code generation capabilities. Windsurf (by Codeium) uses per-seat licensing with workspace roles that control access to AI features like Cascade (agentic flows), Supercomplete, and Command. Enterprise plans add SSO, admin dashboards, and the ability to set organization-wide AI usage policies including model selection and code context boundaries.
+Manage team access to Windsurf AI IDE features, workspace settings, and code generation capabilities. Windsurf (by Codeium) uses per-seat licensing with workspace roles that control access to AI features like Cascade (agentic flows), Supercomplete, and Command.
 
 ## Prerequisites
 - Windsurf Pro or Enterprise plan (per-seat pricing)
@@ -89,10 +88,19 @@ Monitor the Admin Dashboard for per-user AI usage: completions accepted, Cascade
 | Code context leak concern | No exclusion rules set | Add `.windsurf/settings.json` with exclusions |
 
 ## Examples
-```yaml
-# Offboard a team member: reclaim seat and transfer workspace
-# 1. Remove from organization in Admin Dashboard > Members
-# 2. Transfer shared workspaces to new owner
-# 3. Revoke any personal API tokens
-# 4. Seat becomes available for reallocation
-```
+
+**Basic usage**: Apply windsurf enterprise rbac to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize windsurf enterprise rbac for production environments with multiple constraints and team-specific requirements.
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
+
+## Resources
+
+- Official Windsurf Enterprise Rbac documentation
+- Community best practices and patterns
+- Related skills in this plugin pack

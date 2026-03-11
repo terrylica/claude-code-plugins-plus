@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Clerk CI Integration
 
 ## Overview
@@ -24,12 +23,12 @@ Set up CI/CD pipelines with Clerk authentication testing.
 - npm/pnpm project configured
 
 ## Instructions
-- Step 1: GitHub Actions Workflow
-- Step 2: E2E Testing with Playwright
-- Step 3: Test User Setup
-- Step 4: Playwright Test Configuration
-- Step 5: Authentication Test Helpers
-- Step 6: Sample E2E Tests
+1. Step 1: GitHub Actions Workflow
+2. Step 2: E2E Testing with Playwright
+3. Step 3: Test User Setup
+4. Step 4: Playwright Test Configuration
+5. Step 5: Authentication Test Helpers
+6. Step 6: Sample E2E Tests
 
 For full implementation details and code examples, load:
 `Read(${CLAUDE_SKILL_DIR}/references/implementation-guide.md)`
@@ -55,3 +54,9 @@ For full implementation details and code examples, load:
 
 ## Next Steps
 Proceed to `clerk-deploy-integration` for deployment platform setup.
+
+## Examples
+
+**Basic usage**: Apply clerk ci integration to a standard project setup with default configuration options.
+
+**Advanced scenario**: Customize clerk ci integration for production environments with multiple constraints and team-specific requirements.

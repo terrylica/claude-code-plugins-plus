@@ -8,12 +8,11 @@ author: Jeremy Longshore <jeremy@intentsolutions.io>
 license: MIT
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Plugin Creator
 
 ## Overview
 
-Scaffolds new Claude Code plugins with proper directory structure, required files, marketplace catalog integration, and full validation. Supports all plugin types: command plugins, agent plugins, skill plugins, MCP server plugins, and hybrid combinations. Targets plugin authors who need a correctly structured, CI-ready plugin from the start.
+Scaffolds new Claude Code plugins with proper directory structure, required files, marketplace catalog integration, and full validation. Supports all plugin types: command plugins, agent plugins, skill plugins, MCP server plugins, and hybrid combinations.
 
 ## Prerequisites
 

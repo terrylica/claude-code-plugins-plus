@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # Speak SDK Patterns
 
 ## Overview
@@ -94,7 +93,7 @@ def batch_assess(client: SpeakClient, recordings: list[dict], delay: float = 1.0
             result = client.assess_pronunciation(rec["audio"], rec["text"], rec.get("lang", "en"))
             results.append({"file": rec["audio"], "score": result["score"]})
         except requests.HTTPError as e:
-            if e.response.status_code == 429:
+            if e.response.status_code == 429:  # HTTP 429 Too Many Requests
                 time.sleep(float(e.response.headers.get("Retry-After", 10)))
                 result = client.assess_pronunciation(rec["audio"], rec["text"])
                 results.append({"file": rec["audio"], "score": result["score"]})
@@ -119,10 +118,16 @@ def batch_assess(client: SpeakClient, recordings: list[dict], delay: float = 1.0
 import subprocess
 def convert_to_wav(input_path: str, output_path: str):
     subprocess.run([
-        "ffmpeg", "-i", input_path, "-ar", "16000",
+        "ffmpeg", "-i", input_path, "-ar", "16000",  # 16000 = configured value
         "-ac", "1", "-f", "wav", output_path
     ], check=True)
 ```
 
 ## Resources
 - [Speak API Docs](https://docs.speak.com)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale

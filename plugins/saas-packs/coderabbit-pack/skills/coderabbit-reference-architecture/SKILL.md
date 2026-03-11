@@ -12,7 +12,6 @@ license: MIT
 author: Jeremy Longshore <jeremy@intentsolutions.io>
 compatible-with: claude-code, codex, openclaw
 ---
-
 # CodeRabbit Reference Architecture
 
 ## Overview
@@ -68,7 +67,7 @@ reviews:
         Review for REST API best practices:
         - Validate all inputs with zod schemas
         - Return proper HTTP status codes
-        - Include error response bodies per RFC 7807
+        - Include error response bodies per RFC 7807  # 7807 = configured value
         - Check for SQL injection in query parameters
     - path: "src/components/**"
       instructions: |
@@ -76,7 +75,7 @@ reviews:
         - Proper use of hooks (no conditional hooks)
         - Memoization where appropriate
         - Accessibility (aria labels, keyboard navigation)
-        - Component size (flag if >200 lines)
+        - Component size (flag if >200 lines)  # HTTP 200 OK
     - path: "**/*.test.*"
       instructions: |
         Review tests for:
@@ -216,3 +215,9 @@ reviews:
 - [CodeRabbit Configuration](https://docs.coderabbit.ai/configuration)
 - [CodeRabbit Path Instructions](https://docs.coderabbit.ai/guides/review-instructions)
 - [CodeRabbit Tools](https://docs.coderabbit.ai/tools)
+
+## Output
+
+- Configuration files or code changes applied to the project
+- Validation report confirming correct implementation
+- Summary of changes made and their rationale
