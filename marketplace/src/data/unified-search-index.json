@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "1.0.0",
-    "generated": "2026-03-12T03:55:12.270Z",
+    "generated": "2026-03-12T23:52:32.248Z",
     "generator": "scripts/generate-unified-search.mjs"
   },
   "stats": {
-    "totalPlugins": 341,
-    "totalSkills": 1397,
-    "totalItems": 1738,
+    "totalPlugins": 342,
+    "totalSkills": 1398,
+    "totalItems": 1740,
     "categories": [
       "ai-agency",
       "ai-ml",
@@ -42,6 +42,7 @@
     "skillTools": [
       "\"Read",
       "AskUserQuestion",
+      "AskUserQuestion\"",
       "Bash(analysis:*)\"",
       "Bash(ansible:*)",
       "Bash(api:auth-*)",
@@ -80,7 +81,9 @@
       "Bash(bandit:*)",
       "Bash(brew:*)",
       "Bash(cat:*)",
+      "Bash(chmod:*)",
       "Bash(ci:*)",
+      "Bash(claude:*)",
       "Bash(cmd:*)",
       "Bash(cmd:*)\"",
       "Bash(code-scan:*)",
@@ -307,6 +310,7 @@
       "ansible",
       "answers",
       "anthropic",
+      "anthropic-spec",
       "api",
       "api-gateway",
       "api-integration",
@@ -694,6 +698,7 @@
       "google",
       "google-cloud",
       "gpu-marketplace",
+      "grading",
       "grafana",
       "granola",
       "graphql",
@@ -881,6 +886,7 @@
       "mermaid-diagrams",
       "messaging",
       "meta-plugin",
+      "meta-tooling",
       "metrics",
       "mev",
       "microservices",
@@ -1185,6 +1191,7 @@
       "signifiers",
       "simulation",
       "sinon",
+      "skill-creation",
       "skill-enhancer",
       "skill-extraction",
       "skills",
@@ -1418,7 +1425,7 @@
     "totalHooks": 8,
     "pluginsWithAgents": 38,
     "pluginsWithHooks": 8,
-    "officialPlugins": 273,
+    "officialPlugins": 274,
     "communityPlugins": 68,
     "communityContributors": 20
   },
@@ -12586,6 +12593,35 @@
       ],
       "skillCount": 30,
       "searchText": "windsurf windsurf ai ide skill pack with 30 skills covering code flows, ai workflows, workspace management, and productivity features. saas-packs windsurf ai-ide code-editor cascade ai-coding"
+    },
+    {
+      "type": "plugin",
+      "id": "skill-creator",
+      "slug": "skill-creator",
+      "name": "skill-creator",
+      "displayName": "skill creator",
+      "description": "Create and validate production-grade agent skills with 100-point marketplace grading. Supports creation workflows, eval-driven development, and auto-fix for spec compliance.",
+      "category": "skill-enhancers",
+      "keywords": [
+        "skill-creation",
+        "validation",
+        "meta-tooling",
+        "grading",
+        "anthropic-spec"
+      ],
+      "author": {
+        "name": "Jeremy Longshore",
+        "email": "jeremy@intentsolutions.io"
+      },
+      "authorType": "official",
+      "version": "5.0.0",
+      "isFeatured": true,
+      "isNew": true,
+      "badges": [
+        "new"
+      ],
+      "skillCount": 1,
+      "searchText": "skill creator create and validate production-grade agent skills with 100-point marketplace grading. supports creation workflows, eval-driven development, and auto-fix for spec compliance. skill-enhancers skill-creation validation meta-tooling grading anthropic-spec"
     },
     {
       "type": "skill",
@@ -42859,6 +42895,38 @@
         "category": "examples"
       },
       "searchText": "skill-adapter execute analyzes existing plugins to extract their capabilities, then adapts and applies those skills to the current task. acts as a universal skill chameleon that learns from other plugins. activates when you request \"skill adapter\" functionality. use when appropriate context detected. trigger with relevant phrases based on skill purpose. examples read grep glob bash(cmd:*) claude-code codex openclaw"
+    },
+    {
+      "type": "skill",
+      "id": "skill-creator",
+      "slug": "skill-creator",
+      "name": "skill-creator",
+      "description": "Create production-grade agent skills aligned with the 2026 AgentSkills.io spec and Anthropic best practices. Also validates existing skills against the Intent Solutions 100-point rubric. Use when building, testing, validating, or optimizing Claude Code skills. Trigger with \"/skill-creator\", \"create a skill\", \"validate my skill\", or \"check skill quality\". Make sure to use this skill whenever creating a new skill, slash command, or agent capability.",
+      "category": "skill-enhancers",
+      "allowedTools": [
+        "\"Read",
+        "Write",
+        "Edit",
+        "Glob",
+        "Grep",
+        "Bash(mkdir:*)",
+        "Bash(chmod:*)",
+        "Bash(python:*)",
+        "Bash(claude:*)",
+        "Task",
+        "AskUserQuestion\""
+      ],
+      "compatibleWith": [
+        "claude-code",
+        "codex",
+        "openclaw"
+      ],
+      "version": "5.0.0",
+      "parentPlugin": {
+        "name": "skill-creator",
+        "category": "skill-enhancers"
+      },
+      "searchText": "skill-creator create production-grade agent skills aligned with the 2026 agentskills.io spec and anthropic best practices. also validates existing skills against the intent solutions 100-point rubric. use when building, testing, validating, or optimizing claude code skills. trigger with \"/skill-creator\", \"create a skill\", \"validate my skill\", or \"check skill quality\". make sure to use this skill whenever creating a new skill, slash command, or agent capability. skill-enhancers \"read write edit glob grep bash(mkdir:*) bash(chmod:*) bash(python:*) bash(claude:*) task askuserquestion\" claude-code codex openclaw"
     },
     {
       "type": "skill",
