@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import searchIndex from '../data/unified-search-index.json';
+import spotlightData from '../data/spotlights.json';
+const hallOfFame = spotlightData.hallOfFame || [];
 
 const pageTitle = 'Community Contributors';
 const pageDescription = 'Meet the community contributors who build and share plugins for the Claude Code ecosystem.';
@@ -21,31 +23,21 @@ communityPlugins.forEach(plugin => {
 });
 const contributors = [...contributorMap.values()].sort((a, b) => b.plugins.length - a.plugins.length);
 
-// Deterministic color from name for avatar initials
-function nameToColor(name: string): string {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+function getContributionSummary(plugins: any[]): string {
+  if (plugins.length === 1) {
+    const desc = plugins[0].description || '';
+    const sentence = desc.split('.')[0];
+    return sentence ? `${sentence}.` : 'Contributed a community plugin.';
   }
-  const hue = Math.abs(hash) % 360;
-  return `hsl(${hue}, 45%, 35%)`;
-}
-
-function getInitials(name: string): string {
-  const parts = name.split(' ').filter(Boolean);
-  if (parts.length > 1) {
-    return (parts[0][0] + (parts[1][0] || '')).toUpperCase();
-  }
-  return name.slice(0, 2).toUpperCase();
-}
-
-function getTopPluginSummary(plugins: any[]): string {
-  const names = plugins.slice(0, 3).map(p => p.displayName || p.name);
-  const remaining = plugins.length - 3;
-  if (remaining > 0) {
-    return `${names.join(', ')}, and ${remaining} more`;
-  }
-  return names.join(', ');
+  const catMap = new Map();
+  plugins.forEach(p => {
+    const cat = p.category?.replace(/-/g, ' ') || 'general';
+    catMap.set(cat, (catMap.get(cat) || 0) + 1);
+  });
+  const cats = [...catMap.entries()].sort((a, b) => b[1] - a[1]);
+  const topCats = cats.slice(0, 2).map(([cat, n]: [string, number]) => n > 1 ? `${n} ${cat}` : cat);
+  const suffix = cats.length > 2 ? ' and more' : '';
+  return `Contributed ${plugins.length} plugins: ${topCats.join(' and ')}${suffix}.`;
 }
 ---
 
@@ -53,7 +45,7 @@ function getTopPluginSummary(plugins: any[]): string {
   <style>
     /* ── Hero ── */
     .community-hero {
-      background: linear-gradient(135deg, var(--navy) 0%, #0a1628 100%);
+      background: linear-gradient(135deg, var(--navy) 0%, var(--surface) 100%);
       color: var(--text);
       padding: 3rem 2rem 2rem;
       text-align: center;
@@ -147,22 +139,8 @@ function getTopPluginSummary(plugins: any[]): string {
 
     .contributor-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 0.75rem;
-    }
-
-    .contributor-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.85rem;
-      flex-shrink: 0;
-      letter-spacing: 0.02em;
     }
 
     .contributor-info {
@@ -185,9 +163,6 @@ function getTopPluginSummary(plugins: any[]): string {
       color: var(--text-2);
       line-height: var(--text-line-height, 1.5);
       margin-top: 0.25rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .contributor-count {
@@ -200,7 +175,7 @@ function getTopPluginSummary(plugins: any[]): string {
 
     .toggle-chevron {
       color: var(--text-3);
-      transition: transform 0.2s ease;
+      transition: transform var(--duration-fast) var(--ease-out);
       flex-shrink: 0;
       font-size: 1rem;
     }
@@ -213,7 +188,7 @@ function getTopPluginSummary(plugins: any[]): string {
     .contributor-detail {
       display: grid;
       grid-template-rows: 0fr;
-      transition: grid-template-rows 0.3s ease;
+      transition: grid-template-rows var(--duration-normal) var(--ease-out);
     }
 
     .contributor-card.expanded .contributor-detail {
@@ -236,7 +211,7 @@ function getTopPluginSummary(plugins: any[]): string {
       border-bottom: 1px solid var(--border);
       text-decoration: none;
       color: inherit;
-      transition: background 0.15s ease;
+      transition: background var(--duration-fast) var(--ease-out);
     }
 
     .contributor-plugin-row:last-child {
@@ -374,7 +349,7 @@ function getTopPluginSummary(plugins: any[]): string {
       font-weight: 600;
       font-size: 0.95rem;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all var(--duration-fast) var(--ease-out);
     }
 
     .cta-btn-primary {
@@ -396,6 +371,118 @@ function getTopPluginSummary(plugins: any[]): string {
       border-color: var(--gold);
     }
 
+    /* ── Hall of Fame ── */
+    .hof-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .hof-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hof-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold) 0%, oklch(75% 0.15 85) 100%);
+    }
+
+    .hof-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .hof-top {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hof-grade {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Instrument Sans', system-ui, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 6px;
+    }
+
+    .hof-week {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-3);
+    }
+
+    .hof-category {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-2);
+      background: var(--surface-2);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-left: auto;
+    }
+
+    .hof-headline {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .hof-author {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--text-2);
+    }
+
+    .hof-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+    }
+
+    .hof-skills {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      margin-left: auto;
+    }
+
+    .hof-link {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
     /* ── Responsive ── */
     @media (max-width: 768px) {
       .community-hero { padding: 2.5rem 1rem 1.5rem; }
@@ -404,7 +491,11 @@ function getTopPluginSummary(plugins: any[]): string {
       .hero-stat span { font-size: 1.1rem; }
       .section-container { padding: 2rem 1rem; }
       .contributors-grid { grid-template-columns: 1fr; }
+      .contributor-card { padding: 1rem 1.25rem; }
+      .contributor-name { font-size: 1rem; }
+      .contributor-summary { font-size: 0.8rem; }
       .plugins-grid { grid-template-columns: 1fr; }
+      .hof-grid { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -431,6 +522,31 @@ function getTopPluginSummary(plugins: any[]): string {
     </div>
   </section>
 
+  {hallOfFame.length > 0 && (
+    <div class="section-container" style="padding-bottom: 0;">
+      <h2 class="section-heading">Skills Hall of Fame</h2>
+      <p style="text-align: center; color: var(--text-2); margin: -1rem auto 2rem; max-width: 550px; font-size: 0.95rem;">Past Killer Skill of the Week picks — the best community skills we've spotlighted.</p>
+      <div class="hof-grid">
+        {hallOfFame.map(item => (
+          <a href={item.link} class="hof-card">
+            <div class="hof-top">
+              <span class="hof-grade">{item.grade}</span>
+              <span class="hof-week">{item.week}</span>
+              <span class="hof-category">{item.category}</span>
+            </div>
+            <h3 class="hof-headline">{item.headline}</h3>
+            <div class="hof-author">
+              <img src={`https://github.com/${item.authorGithub}.png?size=48`} alt={item.author} class="hof-avatar" width="24" height="24" loading="lazy" />
+              <span>{item.author}</span>
+              <span class="hof-skills">{item.skillCount} skills</span>
+            </div>
+            <span class="hof-link">View plugin →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
   <!-- Contributors Section -->
   <div class="section-container">
     <h2 class="section-heading">Contributors</h2>
@@ -444,15 +560,9 @@ function getTopPluginSummary(plugins: any[]): string {
           aria-label={`${contrib.name}, ${contrib.plugins.length} plugins`}
         >
           <div class="contributor-header">
-            <div
-              class="contributor-avatar"
-              style={`background: ${nameToColor(contrib.name)}`}
-            >
-              {getInitials(contrib.name)}
-            </div>
             <div class="contributor-info">
               <div class="contributor-name">{contrib.name}</div>
-              <div class="contributor-summary">{getTopPluginSummary(contrib.plugins)}</div>
+              <div class="contributor-summary">{getContributionSummary(contrib.plugins)}</div>
             </div>
             <div class="contributor-count">
               {contrib.plugins.length} plugin{contrib.plugins.length !== 1 ? 's' : ''}
