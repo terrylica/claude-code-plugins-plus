@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.18.0] - 2026-03-16
+
+### Added
+- **navigating-github plugin** - Interactive GitHub setup and learning companion with 6 modes (setup, learn, save, share, understand, fix), adaptive skill assessment, and 9 progressive hands-on lessons
+- **mgonto EA skills** - 5 executive assistant skills: action-items-todoist, email-drafting, executive-digest, meeting-prep, todoist-due-drafts
+- **Enhanced plugin & skill detail pages** - README section extraction, markdown-to-HTML rendering, FAQ accordions, and improved CTAs
+- **Killer Skills spotlight** - Featured hero section on homepage with email signup
+- **/github-learn slash command** - User-invocable entry point for navigating-github plugin
+
+### Changed
+- **Full facelift Phase 2** - Terminal-Bold redesign across all pages with OKLCH color system
+- **Contributor cards redesigned** - Cross-page consistency with new card layout
+- **Performance budget bumped** - 16MB for 343+ plugins
+
+### Fixed
+- **Mobile UX on /explore** - Card overlap, 480px breakpoint, filter bar improvements
+- **Firebase deploy** - Split targets to avoid serviceusage permission error
+- **run_eval.py** - Fixed 0% recall for already-installed plugin skills
+
+### Metrics
+- Commits since v4.17.0: 27
+- Files changed: 41 (+7,331 / -1,665 lines)
+- Contributors: Jeremy Longshore, intentsolutions.io
+
+---
+
 ## [4.17.0] - 2026-03-11
 
 ### Added
